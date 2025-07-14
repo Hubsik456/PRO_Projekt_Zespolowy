@@ -1,0 +1,43 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
+
+{% block Tytuł %}
+    Strona Główna
+{% endblock %}
+
+{% block Treść %}
+    <h1>Debug: {{ Nagłówek }}</h1>
+
+    {% if Reguły %}
+        <div class="mb-2">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">Reguła</th>
+                        <th scope="col">Pełna Nazwa Widoku</th>
+                        <th scope="col">Argumenty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for Reguła, Pełna_Nazwa, Argumenty in Reguły %}
+                        <tr>
+                            <td>
+                                {% if Argumenty == "" %}
+                                    <a href="{{ url_for(Pełna_Nazwa) }}">{{ Reguła }}</a>
+
+                                {% else %}
+                                    {{ Reguła }}
+
+                                {% endif %}
+                            </td>
+                            <td>{{ Pełna_Nazwa }}</td>
+                            <td>{{ Argumenty }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {{ Lorem_Ipsum(10) }}
+{% endblock %}

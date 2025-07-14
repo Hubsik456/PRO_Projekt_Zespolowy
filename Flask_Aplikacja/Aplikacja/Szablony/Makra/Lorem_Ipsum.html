@@ -1,0 +1,5 @@
+{% macro Lorem_Ipsum(Ilość_Akapitów) %}
+    {% for x in range(Ilość_Akapitów) %}
+        <p><span class="text-danger fw-bolder" title="Lorem Ipsum {{ x+1 }}/{{ Ilość_Akapitów }}">{{ x+1 }}</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed dignissim risus. Cras lobortis rutrum justo, eget finibus erat volutpat sit amet. Curabitur pharetra vel ligula sed porttitor. Praesent eros eros, euismod at arcu eget, gravida sodales quam. In suscipit tellus sit amet nunc gravida, at euismod dolor lobortis. Cras in metus dictum, venenatis nisi at, pulvinar orci. In bibendum feugiat mi at sollicitudin. Vestibulum ac eros gravida, dictum neque a, consectetur sapien. Vestibulum scelerisque iaculis ligula, in congue velit interdum ut. Vestibulum suscipit dui ac eros sagittis venenatis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed finibus nulla quis cursus tincidunt. Etiam sed consectetur ligula, a vestibulum sapien.</p>
+    {% endfor %}
+{% endmacro %}

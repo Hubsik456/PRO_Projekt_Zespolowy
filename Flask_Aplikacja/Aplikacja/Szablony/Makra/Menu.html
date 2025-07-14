@@ -1,0 +1,39 @@
+{% set Pozycje_Menu =
+    [
+        ("Konto", "Blueprint_2.Widok_Konto_Index"),
+            ("Logowanie", "Blueprint_2.Widok_Konto_Logowanie"),
+            ("Rejestracja", "Blueprint_2.Widok_Konto_Rejestracja"),
+            ("Zmień Hasło", "Blueprint_2.Widok_Konto_Zmiana_Hasła"),
+            ("Edytuj Konto", "Blueprint_2.Widok_Konto_Edytuj_Konto"),
+            ("Wyloguj", "Blueprint_2.Widok_Konto_Wyloguj"),
+            ("Usuń Konto", "Blueprint_2.Widok_Konto_Usuń_Konto"),
+        ("O Programie", "Blueprint_1.Widok_Main_O_Programie"),
+        ("Polityka Prywatności", "Blueprint_1.Widok_Main_Polityka_Prywatności"),
+    ]
+%}
+
+{% macro Menu() %}
+    <nav class="navbar navbar-expand-lg sticky-top bg-body pb-0">
+        <div class="container border-2 border-bottom border-primary-subtle p-1">
+            <a class="navbar-brand link-primary" href="{{ url_for('Blueprint_1.Widok_Main_Index') }}">
+                <i class="bi bi-house" title="Strona główna"></i>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Menu_Glowne" title="Zwin/Rozwij menu.">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="vr mt-1 mb-1 d-none d-lg-block text-primary"></div>
+
+            <div class="collapse navbar-collapse" id="Menu_Glowne">
+                <ul class="navbar-nav navbar-nav-scroll mb-2 mb-lg-0">
+                    {% for Tekst, URL in Pozycje_Menu %}
+                        <li class="nav-item">
+                            <a class="nav-link fw-normal {% if url_for(URL) == request.path %}active{% endif %}" href="{{ url_for(URL) }}">{{ Tekst }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endmacro %}

@@ -1,0 +1,58 @@
+{% macro Komunikaty(Czy_HTML = False) %}
+    {# v1, Bez kategorii #}
+    {#{% with Komunikaty = get_flashed_messages() %}
+        {% if Komunikaty %}
+            <div class="container">
+                <div class="alert alert-info alert-dismissible fade show m-2" role="alert">
+                    {% for Komunikat in Komunikaty %}
+                        <p>{{ Komunikat }}</p>
+                    {% endfor %}
+                    <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}#}
+
+    {# v2, Z kategoriami #}
+    {% with Komunikaty = get_flashed_messages(with_categories=True) %}
+        {% if Komunikaty %}
+            <div class="container">
+                {% for Kategoria, Komunikat in Komunikaty %}
+                    {% if Kategoria not in ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"] %} {# Sprawdzenie czy podano kategorie odpowiadającą klasom z Bootstrap'a #}
+                        {% set Kategoria = "warning" %}
+                    {% endif %}
+
+                    <div class="alert alert-{{Kategoria}} alert-dismissible fade show m-2 d-flex" role="alert">
+                        {# Ikony #}
+                        {% if Kategoria in ["primary", "secondary", "light", "dark"] %}
+                            <i class="bi bi-chat-right-text-fill me-2"></i>
+
+                        {% elif Kategoria == "success" %}
+                            <i class="bi bi-check-lg me-2"></i>
+
+                        {% elif Kategoria == "danger" %}
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                        {% elif Kategoria == "warning" %}
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                        {% elif Kategoria == "info" %}
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                        {% endif %}
+
+                        {% if not Czy_HTML %} {# Komunikat jako plain text #}
+                            <p>{{Komunikat}}</p>
+
+                        {% else %}
+                            {{ Komunikat | safe }} {# Komunikat jako HTML #}
+
+                        {% endif %}
+
+                        <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endmacro %}

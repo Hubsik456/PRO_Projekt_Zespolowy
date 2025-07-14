@@ -1,0 +1,25 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Formularz_Pole.html" import Formularz_Pole %}
+
+{% block Tytuł %}
+    Konto
+{% endblock %}
+
+{% block Treść %}
+    <h1>Konto</h1>
+
+    {% if current_user.is_authenticated %}
+        <p>Jesteś obecnie zalogowany jako: "{{ current_user.Login }}"</p>
+
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Usuń_Konto') }}" class="btn btn-primary">Usuń Konto</a>
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Edytuj_Konto') }}" class="btn btn-primary">Edytuj Swoje Dane</a>
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Zmiana_Hasła') }}" class="btn btn-primary">Zmień Hasło</a>
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Wyloguj') }}" class="btn btn-primary">Wyloguj</a>
+
+    {% else %}
+        <p>Nie jesteś obecnie zalogowany.</p>
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}" class="btn btn-primary">Logowanie</a>
+        <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}" class="btn btn-primary">Rejestracja</a>
+
+    {% endif %}
+{% endblock %}
