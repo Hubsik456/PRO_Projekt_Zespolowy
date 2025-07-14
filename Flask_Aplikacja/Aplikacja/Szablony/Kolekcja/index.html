@@ -2,12 +2,12 @@
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 
 {% block Tytuł %}
-    Strona Główna
+    Kolekcja
 {% endblock %}
 
 {% block Treść %}
-    <h1>Debug</h1>
+    <h1>Kolekcja</h1>
 
-    <a href="{{ url_for('Blueprint_0.Widok_Debug_Ścieżki') }}" class="btn btn-primary">Ścieżki</a>
+    {{ Lorem_Ipsum(5) }}
 
 {% endblock %}

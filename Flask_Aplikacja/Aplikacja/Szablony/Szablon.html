@@ -2,7 +2,7 @@
 {% from "Makra/Komunikaty.html" import Komunikaty %}
 
 <!DOCTYPE html>
-<html>
+<html lang="{{ Język }}">
     <head>
         {# Ogólne #}
         <title>{% block Tytuł %}{% endblock %} | Kurator Kolekcji</title>
@@ -15,6 +15,10 @@
         <meta name="description" content="Cyfrowy Kurator Kolekcji">
         <meta name="keywords" content="Cyfrowy Kurator Kolekcji">
 
+        {# CDN - Swiper.js #}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
         {# CDN - Google Charts #}
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -24,10 +28,10 @@
         {#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">#}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-        {# JS #}
+        {# JS - Własne #}
         <script src="{{ url_for('static', filename='index.js') }}"></script>
 
-        {# CSS #}
+        {# CSS - Własne #}
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     </head>
 
@@ -55,12 +59,16 @@
                     <i class="bi bi-layout-sidebar"></i>
                 </button>
 
-                <button class="btn" onclick="alert('WIP')" title="Zmniejsz szerokość strony.">
+                {#<button class="btn" onclick="alert('WIP')" title="Zmniejsz szerokość strony.">
                     <i class="bi bi-arrows-angle-contract"></i>
                 </button>
 
                 <button class="btn" onclick="alert('WIP')" title="Zwiększ szerokość strony.">
                     <i class="bi bi-arrows-angle-expand"></i>
+                </button>#}
+
+                <button class="btn" onclick="alert('WIP')" title="Zmień szerokość treści.">
+                    <i class="bi bi-arrows-expand-vertical"></i>
                 </button>
 
                 <div class="vr mt-2 mb-2"></div>
@@ -75,6 +83,10 @@
 
                 <button class="btn" onclick="Podkreślanie_Linków()" title="Włącz/Wyłącz podkreślanie wszystkich linków.">
                     <i class="bi bi-type-underline"></i>
+                </button>
+
+                <button class="btn" onclick="alert('WIP')" title="Wybierz język serwisu.">
+                    <i class="bi bi-translate"></i>
                 </button>
             </div>
 
@@ -114,6 +126,15 @@
                 {% endif %}
             </div>
 
+
+            {# WIP| Debug #}
+            <div class="container">
+                <p>
+                    <b>Motyw</b>: <code>{{ Tryb_Ciemny }}</code><br>
+                    <b>Język</b>: <code>{{ Język }}</code>
+                </p>
+            </div>
+
             {# Strzałka Scroll #}
             <div class="position-relative">
                 <button id="Przycisk_Scroll" class="btn btn-lg btn-primary position-fixed bottom-0 end-0 m-4 z-1" onclick="Strzałka_Scroll()" title="Przewiń do góry strony.">
@@ -122,7 +143,7 @@
             </div>
 
             {# Stopka #}
-            <div class="container-fluid bg-secondary">
+            <div class="container-fluid bg-dark">
                 <div class="container pt-4 pb-4">
                     <p class="text-light">
                         <strong>Autorzy</strong>: <a href="https://github.com/Hubsik456" class="link-light">Hubert Michna</a>, <a href="https://github.com/ppieniazek" class="link-light">Patryk Pieniążek</a>, Maj-Lipiec 2025<br>

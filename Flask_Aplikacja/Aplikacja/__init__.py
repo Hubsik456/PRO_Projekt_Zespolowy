@@ -7,11 +7,8 @@ from flask_login import LoginManager as LOGIN_MANAGER, login_required as LOGIN_R
 
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
-from Aplikacja.Baza_Danych import DB, Babel, get_locale
+from Aplikacja.Rozszerzenia import DB, Babel, get_locale
 from Aplikacja.Modele.Użytkownicy import Użytkownicy
-
-#! Zmienne Globalne
-#Tłumaczenia = BABEL()
 
 #! Funkcje
 def create_app(Ustawienia = Konfiguracja):
@@ -26,6 +23,7 @@ def create_app(Ustawienia = Konfiguracja):
     Login_Manager = LOGIN_MANAGER()
     Login_Manager.login_view = "Blueprint_2.Widok_Konto_Logowanie"
     Login_Manager.login_message = "Ta strona jest dostępna tylko dla zalogowanych użytkowników. Jeśli nie masz konta, musisz się zarejstrować."
+    Login_Manager.login_message_category = "info"
     Login_Manager.init_app(Aplikacja)
 
     @Login_Manager.user_loader
@@ -33,18 +31,7 @@ def create_app(Ustawienia = Konfiguracja):
         return Użytkownicy.query.get(int(user_id))
 
     #! Tłumaczenia
-    # @Tłumaczenia.localeselector
-    # def get_locale():
-        #return REQUEST.accept_languages.best_match(Aplikacja.config["LANGUAGES"])
-        # return "en"
-
-    #Tłumaczenia.init_app(Aplikacja)
-    # Tłumaczenia = BABEL(Aplikacja, locale_selector=get_locale)
-
-
     Babel.init_app(Aplikacja, locale_selector=get_locale)
-
-
 
     #! Blueprint'y
     from Aplikacja.CLI import Blueprint_CLI
@@ -59,6 +46,9 @@ def create_app(Ustawienia = Konfiguracja):
     from Aplikacja.Konto import Blueprint_2 as Blueprint_Konto
     Aplikacja.register_blueprint(Blueprint_Konto)
 
+    from Aplikacja.Kolekcja import Blueprint_3 as Blueprint_Kolekcja
+    Aplikacja.register_blueprint(Blueprint_Kolekcja)
+
     #! Obsługa Błędów
     # TODO: Dodać pozostałe błędy HTTP
     @Aplikacja.errorhandler(401)
@@ -72,6 +62,22 @@ def create_app(Ustawienia = Konfiguracja):
     @Aplikacja.errorhandler(500)
     def Błąd_500(Błąd):
         return RENDER_TEMPLATE("Błędy/500.html"), 500
+
+    #! Jinja2
+    @Aplikacja.context_processor
+    def Jinja2_Zmienne_Globalne():
+        """
+            Dodanie niektórych zmiennych do zmiennych globalnych, tak żeby można je było wykorzystać w szablonach Jinja2.
+        """
+
+        Zmienne_Globalne = {
+            "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),
+            "Język": get_locale(),
+        }
+
+        print(f"{Zmienne_Globalne=}")
+
+        return dict(Zmienne_Globalne)
 
     #! Koniec
     return Aplikacja

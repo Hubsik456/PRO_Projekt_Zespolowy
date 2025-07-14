@@ -1,3 +1,5 @@
+# TODO: Do poprawienia
+
 import os as OS
 from flask import Blueprint as BLUEPRINT
 import click as CLICK

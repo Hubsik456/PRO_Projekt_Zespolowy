@@ -14,8 +14,6 @@ class Konfiguracja():
     SQLALCHEMY_DATABASE_URI = OS.environ.get('DATABASE_URI') or 'sqlite:///' + OS.path.join(Ścieżka_Root, 'Baza_Danych.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = OS.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
 
-
-
     LANGUAGES = ["pl", "en"]
     BABEL_DEFAULT_LOCALE = "pl"
 

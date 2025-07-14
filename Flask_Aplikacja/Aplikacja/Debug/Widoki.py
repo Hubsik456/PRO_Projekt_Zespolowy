@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash as CHECK_PASSWORD_HASH, genera
 from flask_login import login_user as LOGIN_USER, logout_user as LOGOUT_USER, login_required as LOGIN_REQUIRED, fresh_login_required as FRESH_LOGIN_REQUIRED, current_user as CURRENT_USER
 
 #! Lokalne Importy
-from Aplikacja.Baza_Danych import DB
+from Aplikacja.Rozszerzenia import DB
 from Aplikacja.Modele.Użytkownicy import Użytkownicy
 from Aplikacja.Debug import Blueprint_0
 
@@ -17,7 +17,7 @@ def Widok_Debug_Index():
     return RENDER_TEMPLATE("Debug/index.html", Nagłówek = "Index")
 
 @Blueprint_0.route("/sciezki/")
-def Widok_Debug_Reguły():
+def Widok_Debug_Ścieżki():
     Reguły = []
 
     for Reguła in CURRENT_APP.url_map.iter_rules():
@@ -29,7 +29,7 @@ def Widok_Debug_Reguły():
 
             Reguły.append((Reguła.rule, Reguła.endpoint, Argumenty))
 
-    return RENDER_TEMPLATE("Debug/index.html", Nagłówek = "Ścieżki", Reguły = Reguły)
+    return RENDER_TEMPLATE("Debug/Ścieżki.html", Reguły = Reguły)
 
 @Blueprint_0.route("/flash/")
 def Widok_Debug_Flash():
@@ -44,11 +44,11 @@ def Widok_Debug_Flash():
     FLASH("WIP| Dark: Lorem Ipsum", "dark")
     FLASH("WIP| Null: Lorem Ipsum")
 
-    return RENDER_TEMPLATE("Debug/index.html", Nagłówek = "Flash")
+    return RENDER_TEMPLATE("Debug/index.html")
 
-@Blueprint_0.route("/formularz/")
+@Blueprint_0.route("/formularz/") # TODO:
 def Widok_Test_1():
-    return RENDER_TEMPLATE("Debug/index.html", Nagłówek = "Formularz")
+    return RENDER_TEMPLATE("Debug/index.html")
 
 #? Generowanie Błędów
 @Blueprint_0.route("/blad/<int:ID>")
@@ -57,5 +57,5 @@ def Widok_Debug_Generowanie_Błędu(ID):
         FLASH("Podano zły kod błedu HTTP do wygenerowania.\nWygenerowano błąd #500.", "danger")
         return ABORT(500)
 
-    FLASH(f"Wygenerowano Błąd #{ID}.")
+    FLASH(f"Wygenerowano celowo błąd #{ID}.", "warning")
     return ABORT(ID)

@@ -4,9 +4,9 @@ from flask_babel import Babel as BABEL
 
 def get_locale():
     Język = REQUEST.accept_languages.best_match(["pl", "en"])
-    #Język = "en"
+    #Język = "pl"
 
-    print(f"Wybrany język: '{Język}'.")
+    print(f"get_locale() --> {Język=}")
 
     return Język
 

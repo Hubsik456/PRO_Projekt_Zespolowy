@@ -2,21 +2,21 @@
     <div class="row">
         <div class="col-md-3">
             {% if Pole.flags.required %}
-                <span class="text-danger fw-bold">*</span>
+                <span class="text-danger fw-bold" title="To pole jest wymagane. Uzupełnij je aby móc przesłać formularz.">*</span>
             {% endif %}
 
             {% if Pole.type == "BooleanField" %}
-                {{ Pole.label(class="form-check-label") }}
+                <b>{{ Pole.label(class="form-check-label") }}</b>
 
             {% elif Pole.type == "SubmitField" %}
                 {# Żeby nic nie wyświetlało #}
 
             {% else %}
-                {{ Pole.label(class="col-form-label") }}
+                <b>{{ Pole.label(class="col-form-label") }}</b>
 
             {% endif %}
-            <br>
-            <span class="small text-secondary">#{{ Pole.id }} ({{ Pole.type }})<span> {# Do debugowania #}
+
+            {#<br><span class="small text-secondary">#{{ Pole.id }} ({{ Pole.type }})<span>#} {# Do debugowania #}
         </div>
 
         <div class="col-md-9">
@@ -64,14 +64,14 @@
 
             {# Pomocnicze informacje #}
                 {% elif Pole.type in ["MonthField"] %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger d-none">
                         <p><strong>Błąd</strong>: Obsolete/Deprecated/Błędne działanie, pole typu "{{ Pole.type }}".</p>
                     </div>
                     {{ Pole(class="form-control mb-4", **kwargs)|safe }}
 
             {# Komunikat o nieobsługiwanym typu pola formularza #}
                 {% else %}
-                    <div class="alert alert-warning">
+                    <div class="alert alert-warning d-none">
                         <p><strong>Błąd</strong>: Nieobsługiwany typ pola ("{{ Pole.type }}") z formularza.</p>
                     </div>
                     {{ Pole(class="form-control mb-4", **kwargs)|safe }}

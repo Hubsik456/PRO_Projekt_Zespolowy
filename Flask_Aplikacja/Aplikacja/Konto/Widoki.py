@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash as CHECK_PASSWORD_HASH, genera
 from flask_login import login_user as LOGIN_USER, logout_user as LOGOUT_USER, login_required as LOGIN_REQUIRED, fresh_login_required as FRESH_LOGIN_REQUIRED, current_user as CURRENT_USER
 
 #! Lokalne Importy
-from Aplikacja.Baza_Danych import DB
+from Aplikacja.Rozszerzenia import DB
 from Aplikacja.Modele.Użytkownicy import Użytkownicy
 from Aplikacja.Konto import Blueprint_2
 from Aplikacja.Konto.Formularze.Logowanie import Formularz_Logowanie
@@ -42,15 +42,15 @@ def Widok_Konto_Logowanie():
             Użytkownik = Użytkownicy.query.filter_by(Login = Input_Login).first()
 
             if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Hasło):
-                FLASH("Taki użytkownik nie istnieje lub podano niepoprawne hasło.")
+                FLASH("Taki użytkownik nie istnieje lub podano niepoprawne hasło.", "danger")
                 return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz = Formularz)
 
-            FLASH(f"Zalogowano jako: '{Użytkownik.Login}'.")
+            FLASH(f"Zalogowano jako: '{Użytkownik.Login}'.", "success")
             LOGIN_USER(Użytkownik)
 
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
-        FLASH("Podano niepoprawne dane.")
+        FLASH("Podano niepoprawne dane.", "danger")
 
     return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz = Formularz)
 
@@ -73,18 +73,18 @@ def Widok_Konto_Rejestracja():
             Użytkownik = Użytkownicy.query.filter_by(Login = Input_Login).first()
 
             if Użytkownik:
-                FLASH("Takie konto już istnieje.")
+                FLASH("Takie konto już istnieje.", "danger")
                 return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz = Formularz)
 
             Nowy_Użytkownik = Użytkownicy(Login = Input_Login, Hasło = GENERATE_PASSWORD_HASH(Input_Hasło), Email = Input_Email)
             DB.session.add(Nowy_Użytkownik)
             DB.session.commit()
             LOGIN_USER(Nowy_Użytkownik)
-            FLASH("Rejestracja zakońoczna pomyślnie.")
+            FLASH("Rejestracja zakońoczna pomyślnie.", "success")
 
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
-        FLASH("Podano niepoprawne dane.")
+        FLASH("Podano niepoprawne dane.", "danger")
 
     return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz = Formularz)
 
@@ -104,16 +104,16 @@ def Widok_Konto_Zmiana_Hasła():
             Input_Nowe_Hasło = Formularz.Pole_Nowe_Hasło_1.data
 
             if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Stare_Hasło):
-                FLASH("Podano niepoprawne stare hasło.")
+                FLASH("Podano niepoprawne stare hasło.", "danger")
                 return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz = Formularz)
 
             Użytkownik.Hasło = GENERATE_PASSWORD_HASH(Input_Nowe_Hasło)
             DB.session.commit()
 
-            FLASH("Hasło zostało zmienione.")
+            FLASH("Hasło zostało zmienione.", "success")
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
-        FLASH("Podano niepoprawne dane.")
+        FLASH("Podano niepoprawne dane.", "danger")
 
     return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz = Formularz)
 
@@ -136,10 +136,10 @@ def Widok_Konto_Edytuj_Konto():
 
             DB.session.commit()
 
-            FLASH("Zapisano zmiany konta.")
+            FLASH("Zapisano zmiany konta.", "success")
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
-        FLASH("Podano niepoprawne dane.")
+        FLASH("Podano niepoprawne dane.", "danger")
 
     Formularz.Pole_Login.data = Użytkownik.Login
     Formularz.Pole_Email.data = Użytkownik.Email
@@ -162,16 +162,16 @@ def Widok_Konto_Usuń_Konto():
             Input_Hasło = Formularz.Pole_Hasło_1.data
 
             if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Hasło):
-                FLASH("Podano niepoprawne hasło.")
+                FLASH("Podano niepoprawne hasło.", "danger")
                 return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz = Formularz)
 
             Użytkownicy.query.filter_by(ID = CURRENT_USER.get_id()).delete()
             DB.session.commit()
 
-            FLASH("Twoje konto zostało usunięte.")
+            FLASH("Twoje konto zostało usunięte.", "success")
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
-        FLASH("Podano niepoprawne hasło.")
+        FLASH("Podano niepoprawne hasło.", "danger")
 
     return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz = Formularz)
 
@@ -181,7 +181,7 @@ def Widok_Konto_Wyloguj():
     """
         Wylogowanie obecnie zalgowanego użytkownika.
     """
-    FLASH("Wylogowano.")
+    FLASH("Wylogowano.", "info")
     LOGOUT_USER()
 
     return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))

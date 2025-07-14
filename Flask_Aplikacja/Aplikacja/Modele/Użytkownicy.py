@@ -5,7 +5,7 @@ from flask_login import UserMixin as USER_MIXIN
 from sqlalchemy.sql import func as FUNC
 
 #! Lokalne Importy
-from Aplikacja.Baza_Danych import DB
+from Aplikacja.Rozszerzenia import DB
 
 #! Main
 class Użytkownicy(USER_MIXIN, DB.Model):
@@ -20,6 +20,6 @@ class Użytkownicy(USER_MIXIN, DB.Model):
 
     def get_id(self):
         return self.ID
-    
+
     def __repr__(self):
         return f"Użytkownik ---> ID: '{self.ID}'"
