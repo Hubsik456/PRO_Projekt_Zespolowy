@@ -27,3 +27,8 @@ p:empty:not([class]), div:empty:not([class]), span:empty:not([class]) {
 .Podkreślenie_Linku {
     text-decoration: underline !important;
 }
+
+/*! Usuniecie obramowania z .navbar */
+.navbar {
+    border: none;
+}

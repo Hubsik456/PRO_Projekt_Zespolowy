@@ -24,7 +24,13 @@
 
         {# CDN - Bootstrap 5.3.3 #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <link href=" https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/pulse/bootstrap.min.css " rel="stylesheet">
+        {% if Motyw %}
+            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/{{ Motyw }}/bootstrap.min.css" rel="stylesheet">
+
+        {% else %}
+            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/united/bootstrap.min.css" rel="stylesheet">
+
+        {% endif %}
         {#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">#}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -54,6 +60,10 @@
                 <button class="btn" onclick="Bootstrap_Tryb_Ciemny()" title="Włącz/Wyłącz tryb ciemny.">
                     <i class="bi bi-lightbulb-fill"></i>
                 </button>
+
+                <a href="{{ url_for('Blueprint_1.Widok_Main_Motyw' )}}" class="btn" title="Wybierz motyw kolorystyczny.">
+                    <i class="bi bi-palette2"></i>
+                </a>
 
                 <button class="btn" onclick="alert('WIP')" title="Włącz/Wyłącz panel boczny.">
                     <i class="bi bi-layout-sidebar"></i>
@@ -85,9 +95,9 @@
                     <i class="bi bi-type-underline"></i>
                 </button>
 
-                <button class="btn" onclick="alert('WIP')" title="Wybierz język serwisu.">
+                <a href="{{ url_for('Blueprint_1.Widok_Main_Język' )}}" class="btn" title="Wybierz język serwisu.">
                     <i class="bi bi-translate"></i>
-                </button>
+                </a>
             </div>
 
             {# NoScript #}
@@ -130,8 +140,9 @@
             {# WIP| Debug #}
             <div class="container">
                 <p>
-                    <b>Motyw</b>: <code>{{ Tryb_Ciemny }}</code><br>
-                    <b>Język</b>: <code>{{ Język }}</code>
+                    <b>Tryb Ciemny</b>: <code>{{ Tryb_Ciemny }}</code> <br>
+                    <b>Motyw</b>: <code>{{ Motyw }}</code> <br>
+                    <b>Język</b>: <code>{{ Język }}</code> <br>
                 </p>
             </div>
 
@@ -146,8 +157,18 @@
             <div class="container-fluid bg-dark">
                 <div class="container pt-4 pb-4">
                     <p class="text-light">
-                        <strong>Autorzy</strong>: <a href="https://github.com/Hubsik456" class="link-light">Hubert Michna</a>, <a href="https://github.com/ppieniazek" class="link-light">Patryk Pieniążek</a>, Maj-Lipiec 2025<br>
-                        Przedmiot: Projekt Zespołowy
+                        <b>Autorzy</b>:
+                    </p>
+
+                    <ul class="text-light">
+                        <li><b>Hubert Michna</b> (w67259, <a href="https://github.com/Hubsik456" class="text-light">GitHub</a>),</li>
+                        <li><b>Patryk Pieniążek</b> (w67174, <a href="https://github.com/ppieniazek" class="text-light">GitHub</a>)</li>
+                    </ul>
+
+                    <p class="text-light">
+                        <b>Przedmiot</b>: "<i>Projekt Zespołowy</i>"<br><br>Maj-Lipiec 2025,
+                        <br>
+                        6 IIZ, GP02
                     </p>
                 </div>
             </div>

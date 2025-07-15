@@ -6,13 +6,13 @@
             {% endif %}
 
             {% if Pole.type == "BooleanField" %}
-                <b>{{ Pole.label(class="form-check-label") }}</b>
+                <b>{{ Pole.label(class="form-check-label") }}:</b>
 
             {% elif Pole.type == "SubmitField" %}
                 {# Żeby nic nie wyświetlało #}
 
             {% else %}
-                <b>{{ Pole.label(class="col-form-label") }}</b>
+                <b>{{ Pole.label(class="col-form-label") }}:</b>
 
             {% endif %}
 

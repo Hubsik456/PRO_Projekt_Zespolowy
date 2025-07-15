@@ -3,7 +3,6 @@
 #! Zewnętrzne Importy
 from flask import Flask as FLASK, flash as FLASH, render_template as RENDER_TEMPLATE, abort as ABORT, request as REQUEST
 from flask_login import LoginManager as LOGIN_MANAGER, login_required as LOGIN_REQUIRED, fresh_login_required as FRESH_LOGIN_REQUIRED
-# from flask_babel import Babel as BABEL
 
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
@@ -69,9 +68,14 @@ def create_app(Ustawienia = Konfiguracja):
         """
             Dodanie niektórych zmiennych do zmiennych globalnych, tak żeby można je było wykorzystać w szablonach Jinja2.
         """
+        from Aplikacja.Main.Formularze.Wybór_Motywu import Formularz_Wyboru_Motywu
+
+        Dostępne_Motywy = [Wartość for Wartość, Klucz in Formularz_Wyboru_Motywu.Pole_Motyw.kwargs["choices"]]
+        print(f"{Dostępne_Motywy=}")
 
         Zmienne_Globalne = {
             "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),
+            "Motyw": REQUEST.cookies.get("Motyw") if REQUEST.cookies.get("Motyw") in Dostępne_Motywy else None,
             "Język": get_locale(),
         }
 

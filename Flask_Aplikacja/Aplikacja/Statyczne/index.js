@@ -2,7 +2,7 @@
 window.addEventListener("DOMContentLoaded", function()
 {
     console.log("Tryb Ciemny:", Ciasteczko_Czytaj("Tryb_Ciemny"));
-    console.log("Podkreślanie Linków:", Ciasteczko_Czytaj("Podkreślanie_Linków"));
+    console.log("Podkreślanie Linków:", Ciasteczko_Czytaj("Podkreslanie_Linkow"));
 
     Włączenie_Tooltipów_Bootstrap();
     Bootstrap_Tryb_Ciemny_Ciasteczko();
@@ -103,29 +103,29 @@ function Podkreślanie_Linków() // TODO: Do naprawienia
 
     //console.log(Linki);
 
-    if (Ciasteczko_Czytaj("Podkreślanie_Linków") == "1")
+    if (Ciasteczko_Czytaj("Podkreslanie_Linkow") == "1")
     {
         console.log("Wyłączono podkreślanie linków");
 
-        Ciasteczko_Zapisz("Podkreślanie_Linków", 0, 30);
+        Ciasteczko_Zapisz("Podkreslanie_Linkow", 0, 30);
         Linki.forEach(x => x.classList.remove("Podkreślenie_Linku"));
     }
     else
     {
         console.log("Włączenie podkreślanie linków");
 
-        Ciasteczko_Zapisz("Podkreślanie_Linków", 1, 30);
+        Ciasteczko_Zapisz("Podkreslanie_Linkow", 1, 30);
         Linki.forEach(x => x.classList.add("Podkreślenie_Linku"));
     }
 
-    console.log("Ciasteczko:", Ciasteczko_Czytaj("Podkreślanie_Linków"));
+    console.log("Ciasteczko:", Ciasteczko_Czytaj("Podkreslanie_Linkow"));
 }
 
 function Podkreślanie_Linków_Ciasteczko()
 {
     /* Automatyczne podkreślenie linków i przycisków kiedy ciasteczko ma odpowiednią wartość. */
 
-    if (Ciasteczko_Czytaj("Podkreślanie_Linków", 1) == "1")
+    if (Ciasteczko_Czytaj("Podkreslanie_Linkow", 1) == "1")
     {
         Podkreślanie_Linków();
     }
