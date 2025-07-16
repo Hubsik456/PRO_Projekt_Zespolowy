@@ -1,6 +1,8 @@
 # **Polecenia**
 
-Poniżej znajdują się polecenia terminalowe, które pomogą Ci podczas pracy z tym projektem.
+Poniżej znajdują się polecenia terminalowe, które pomogą Ci podczas pracy z tym projektem. Zwróc szczególną uwagę na to w jakich lokalizacjach są wywoływane te polecenia.
+
+Przetestowane w MS Power Shell.
 
 ## **Dokumentacja**
 
@@ -18,17 +20,36 @@ WIP
 
 ## **Baza Danych**
 
-
 WIP
 
 ## **Tłumaczenie**
 
 WIP
 
-`pybabel.exe extract -F Aplikacja/babel.cfg -k _l -o Aplikacja/Tłumaczenia.pot .` - Wygenerowanie pliku  szablonem pod pliki z tłumaczeniami na poszczególne języki. Tutaj się nie dodaje tłumaczeń. Aby zaktualizować listę teskstów do przetłumaczenia trzeba najpierw wywołać to polecenie a potem `pybabel.exe update`.
+v1 - Nie działa
 
-`pybabel.exe init -i Aplikacja/Tłumaczenia.pot -d Aplikacja/Tłumaczenia -l en` - Wygenerowanie **nowego** pliku z tekstami do przetłumaczenia dla danego języka, tutaj "en".
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy\Tłumaczenia> pybabel.exe extract -F .\Babel.cfg -k _l -o Tłumaczenia.pot ..\Flask_Aplikacja\` - Wygenerowanie pliku szablonu tłumaczeń. Ten plik będzie wykorzystywany przez następne polecnie. **Nie edytować tego pliku.**
 
-`pybabel.exe update -i messages.pot -d translations` - Zaktualizowanie pliku z tekstami do przetłumaczenia.
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy\Tłumaczenia> pybabel.exe init -i .\Tłumaczenia.pot -d . -l en` - Wygenerowanie pliku który trzeba ręcznie przetłumaczyć. Wygenerowane na podstawie pliku `Tłumaczenia.pot` z poprzedniego polecenia. **To polecenie służy do generowania tłumaczeń dla danego język, tylko za pierwszym razem.** Do aktualizacji pliku z tłumaczeniami o dodane w międzyczasie `_("...")` i `_l("...")` służy poniższe polecenie.
 
-`pybabel.exe compile -d .\Aplikacja\translations\` - Kompilowanie tłumaczeń.
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy\Tłumaczenia> pybabel.exe update -i .\Tłumaczenia.pot -d .` - Aktualizacja plików z tłumaczeniami. **To polecenie służy do aktualizacji tłumaczeń, kiedy już jakie istnieją**. Wtedy pojawią się w nim dodane w międzyczacie `_("...")` i `_l("...")`.
+
+---
+
+v2 - Też nie działa
+
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy> pybabel.exe extract -F .\Babel.cfg -k _l -o messages.pot .`
+
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy> pybabel.exe init -i .\messages.pot -d translations -l en`
+
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy> pybabel.exe compile -d .\translations\`
+
+---
+
+v3 - Też nie działa
+
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy> pybabel extract -F babel.cfg -k _l -o messages.pot .`
+
+`PS D:\Python - Flask\PRO_Projekt_Zespolowy> pybabel init -i messages.pot -d Flask_Aplikacja/translations -l en`
+
+`pybabel compile -d Flask_Aplikacja/translations`

@@ -1,5 +1,5 @@
 """
-    ;dsjlkdfnmglkfd
+    WIP| Aplikacja.Main.Widoki
 """
 
 # Ogólne URL'e

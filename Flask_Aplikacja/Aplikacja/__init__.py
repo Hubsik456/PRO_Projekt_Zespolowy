@@ -32,6 +32,11 @@ def create_app(Ustawienia = Konfiguracja):
     #! Tłumaczenia
     Babel.init_app(Aplikacja, locale_selector=get_locale)
 
+    print(f"WIP| root_path: {Aplikacja.root_path}")
+    #print(f"WIP| {Aplikacja.config['BABEL_TRANSLATION_DIRECTORIES']}")
+    #print(f"WIP| {Babel.list_translations}")
+    #print(f"WIP| {Babel.translation_directories}")
+
     #! Blueprint'y
     from Aplikacja.CLI import Blueprint_CLI
     Aplikacja.register_blueprint(Blueprint_CLI)
@@ -71,7 +76,7 @@ def create_app(Ustawienia = Konfiguracja):
         from Aplikacja.Main.Formularze.Wybór_Motywu import Formularz_Wyboru_Motywu
 
         Dostępne_Motywy = [Wartość for Wartość, Klucz in Formularz_Wyboru_Motywu.Pole_Motyw.kwargs["choices"]]
-        print(f"{Dostępne_Motywy=}")
+        #print(f"{Dostępne_Motywy=}")
 
         Zmienne_Globalne = {
             "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),

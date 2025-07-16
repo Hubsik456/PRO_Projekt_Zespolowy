@@ -1,14 +1,14 @@
 {% extends "Szablon.html" %}
 
 {% block Tytuł %}
-    Konto
+    {{ _("Konto") }}
 {% endblock %}
 
 {% block Treść %}
-    <h1>Konto</h1>
+    <h1>{{ _("Konto") }}</h1>
 
     {% if current_user.is_authenticated %}
-        <p>Jesteś obecnie zalogowany jako: "{{ current_user.Login }}"</p>
+        <p>{{ _("Jesteś obecnie zalogowany jako: %(Użytkownik)s.", Użytkownik=current_user.Login) }}</p>
 
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Usuń_Konto') }}" class="btn btn-primary">Usuń Konto</a>
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Edytuj_Konto') }}" class="btn btn-primary">Edytuj Swoje Dane</a>
@@ -16,7 +16,7 @@
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Wyloguj') }}" class="btn btn-primary">Wyloguj</a>
 
     {% else %}
-        <p>Nie jesteś obecnie zalogowany.</p>
+        <p>{{ _("Nie jesteś obecnie zalogowany.") }}</p>
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}" class="btn btn-primary">Logowanie</a>
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}" class="btn btn-primary">Rejestracja</a>
 

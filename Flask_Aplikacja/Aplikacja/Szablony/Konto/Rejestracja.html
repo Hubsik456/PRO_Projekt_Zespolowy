@@ -2,11 +2,11 @@
 {% from "Makra/Formularz_Pole.html" import Formularz_Pole %}
 
 {% block Tytuł %}
-    Rejestracja
+    {{ _("Rejestracja") }}
 {% endblock %}
 
 {% block Treść %}
-    <h1>Rejestracja</h1>
+    <h1>{{ _("Rejestracja") }}</h1>
 
     <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
         <form method="POST" novalidate class="{% if request.method == 'POST'%}was-validated{% endif %}">

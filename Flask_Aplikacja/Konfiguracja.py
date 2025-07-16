@@ -17,5 +17,8 @@ class Konfiguracja():
     LANGUAGES = ["pl", "en"]
     BABEL_DEFAULT_LOCALE = "pl"
 
-    BABEL_TRANSLATION_DIRECTORIES = "D:\\Python - Flask\\PRO_Projekt_Zespołowy_v2\\translations"
+    #BABEL_TRANSLATION_DIRECTORIES = "D:\\Python - Flask\\PRO_Projekt_Zespołowy\\Tłumaczenia"
+    #BABEL_TRANSLATION_DIRECTORIES = "D:\\Python - Flask\\PRO_Projekt_Zespołowy_v2\\translations"
     #BABEL_TRANSLATION_DIRECTORIES = OS.path.join(OS.path.abspath(OS.path.dirname(__file__)), "Aplikacja/Tłumaczenia/en")
+
+    ##BABEL_TRANSLATION_DIRECTORIES = OS.path.join(Ścieżka_Root, "translations")

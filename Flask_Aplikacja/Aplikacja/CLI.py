@@ -1,4 +1,4 @@
-# TODO: Do poprawienia
+# TODO: Do poprawienia lub usunięcia
 
 import os as OS
 from flask import Blueprint as BLUEPRINT
