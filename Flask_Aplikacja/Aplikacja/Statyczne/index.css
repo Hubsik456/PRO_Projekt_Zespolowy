@@ -28,7 +28,15 @@ p:empty:not([class]), div:empty:not([class]), span:empty:not([class]) {
     text-decoration: underline !important;
 }
 
-/*! Usuniecie obramowania z .navbar */
+/*! Modyfikacje motywów z bootswatch.com */
+/*? Wspólne */
 .navbar {
     border: none;
+}
+
+/*? Motyw: "Brite" */
+body[data-theme="brite"] .vr {
+    background-color: currentColor !important;
+    margin-left: 5px;
+    margin-right: 5px;
 }

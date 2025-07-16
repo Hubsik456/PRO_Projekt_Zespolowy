@@ -6,13 +6,18 @@ Poniżej znajdują się polecenia terminalowe, które pomogą Ci podczas pracy z
 
 Wygenerowanie dokumentacji:
 
-`PS PRO_Projekt_Zespołowy_v2> .\Dokumentacja\make.bat html`, Do wyboru są też możliwe inne formaty.
+`PS PRO_Projekt_Zespołowy_v2> .\Dokumentacja\make.bat html` - Generuje dokumentację w formie osobnych plików .html.
+
+`PS PRO_Projekt_Zespołowy_v2> .\Dokumentacja\make.bat singlehtml` - Generuje dokumentację w formie jednego pliku .html.
+
+Wygenerowana dokumentacja bedzie się znajdowała w `Dokumentacja\build\...`, gdzie `...` to typ dokumentacji jaki został wygenerowany.
 
 ## **Uruchamianie Projektu**
 
 WIP
 
 ## **Baza Danych**
+
 
 WIP
 

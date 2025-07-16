@@ -75,7 +75,7 @@ def create_app(Ustawienia = Konfiguracja):
 
         Zmienne_Globalne = {
             "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),
-            "Motyw": REQUEST.cookies.get("Motyw") if REQUEST.cookies.get("Motyw") in Dostępne_Motywy else None,
+            "Motyw": REQUEST.cookies.get("Motyw") if REQUEST.cookies.get("Motyw") in Dostępne_Motywy else "united",
             "Język": get_locale(),
         }
 
