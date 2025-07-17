@@ -1,5 +1,7 @@
-Konto
-=====
+WIP
+===
+
+TODO: Usunąć cały ten plik
 
 Fugiat veniam ad consequat ea aliquip velit labore. Deserunt in nulla ipsum consectetur dolor aute cillum consectetur exercitation. Aliquip incididunt mollit duis id.
 
@@ -7,10 +9,20 @@ Dolor in ipsum ipsum aliquip non esse est sint consequat. Cillum labore anim qui
 
 Laboris tempor duis nostrud ea aliquip deserunt culpa eu sint excepteur sunt sit. Aliquip sint tempor mollit et sint. Anim culpa tempor deserunt duis sit commodo adipisicing officia cupidatat et tempor eu. Officia dolore veniam excepteur nulla proident cillum commodo in.
 
-Funkcje
--------
+Autofunction
+------------
 
-Funkcje znajdujące się w folderze `Flask_Aplikacja/Konto/Widoki.py`:
+Do usunięcia:
+
+`.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Index`
+
+`.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Logowanie`
+
+`.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja`
+
+
+Automodule
+----------
 
 .. automodule:: Flask_Aplikacja.Aplikacja.Konto.Widoki
     :members:
@@ -18,27 +30,4 @@ Funkcje znajdujące się w folderze `Flask_Aplikacja/Konto/Widoki.py`:
 Formularze
 ----------
 
-Klasy z formularzami znajdujące się w folderze `Flask_Aplikacja/Konto/Formularze/*`:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto
-    :members:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie
-    :members:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja
-    :members:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Konto.Formularze.Usuń_Konto
-    :members:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasła
-    :members:
-
-Modele
-------
-
-Klasy z formularzami znajdujace się w folderze `Flask_Aplikacja/Konto/Modele/*`:
-
-.. automodule:: Flask_Aplikacja.Aplikacja.Modele.Użytkownicy
-    :members:
+WIP

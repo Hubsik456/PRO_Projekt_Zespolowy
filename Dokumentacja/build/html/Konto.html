@@ -54,16 +54,10 @@
 <p>Fugiat veniam ad consequat ea aliquip velit labore. Deserunt in nulla ipsum consectetur dolor aute cillum consectetur exercitation. Aliquip incididunt mollit duis id.</p>
 <p>Dolor in ipsum ipsum aliquip non esse est sint consequat. Cillum labore anim quis amet aliqua. Ex qui proident aliquip elit ex commodo. Excepteur excepteur labore ea dolor culpa ullamco labore fugiat aliquip elit do ipsum culpa Lorem. Dolore amet nulla commodo proident ipsum duis ea elit fugiat consequat aute. Nulla dolor pariatur pariatur deserunt ipsum in enim. Reprehenderit pariatur laboris dolore magna laboris qui sunt id tempor excepteur adipisicing ut aute nisi.</p>
 <p>Laboris tempor duis nostrud ea aliquip deserunt culpa eu sint excepteur sunt sit. Aliquip sint tempor mollit et sint. Anim culpa tempor deserunt duis sit commodo adipisicing officia cupidatat et tempor eu. Officia dolore veniam excepteur nulla proident cillum commodo in.</p>
-<section id="autofunction">
-<h2>Autofunction<a class="headerlink" href="#autofunction" title="Link to this heading">¶</a></h2>
-<p>Do usunięcia:</p>
-<p><cite>.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Index</cite></p>
-<p><cite>.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Logowanie</cite></p>
-<p><cite>.. autofunction:: Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja</cite></p>
-</section>
-<section id="module-Flask_Aplikacja.Aplikacja.Konto.Widoki">
-<span id="automodule"></span><h2>Automodule<a class="headerlink" href="#module-Flask_Aplikacja.Aplikacja.Konto.Widoki" title="Link to this heading">¶</a></h2>
-<dl class="py function">
+<section id="funkcje">
+<h2>Funkcje<a class="headerlink" href="#funkcje" title="Link to this heading">¶</a></h2>
+<p>Funkcje znajdujące się w folderze <cite>Flask_Aplikacja/Konto/Widoki.py</cite>:</p>
+<dl class="py function" id="module-Flask_Aplikacja.Aplikacja.Konto.Widoki">
 <dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto">
 <span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Edytuj_Konto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto" title="Link to this definition">¶</a></dt>
 <dd><p>Strona z formularzem edycji konta obecnie zalogowanego użytkownika.</p>
@@ -108,7 +102,54 @@
 </section>
 <section id="formularze">
 <h2>Formularze<a class="headerlink" href="#formularze" title="Link to this heading">¶</a></h2>
-<p>WIP</p>
+<p>Klasy z formularzami znajdujące się w folderze <cite>Flask_Aplikacja/Konto/Formularze/*</cite>:</p>
+<p id="module-Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto">Formularz edycji konta.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto.</span></span><span class="sig-name descname"><span class="pre">Formularz_Edytuj_Konto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto" title="Link to this definition">¶</a></dt>
+<dd><p>Klasa reprezentująca formularz Flask-WTF do edycji własnego konta przez użytkownika. Posiada następujące pola:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Login</strong> (<em>wtforms.fields.StringField</em>) – Pole tekstowe do wprowadzenia loginu. Wymagane, długość od 5 do 100 znaków.</p></li>
+<li><p><strong>Pole_Email</strong> (<em>wtforms.fields.EmailField</em>) – Pole e-mail do wprowadzenia adresu e-mail. Wymagane, długość od 5 do 100 znaków.</p></li>
+<li><p><strong>Pole_Opis</strong> (<em>wtforms.fields.TextAreaField</em>) – Pole tekstowe (obszar) na opcjonalny opis użytkownika.</p></li>
+<li><p><strong>Pole_Submit</strong> (<em>wtforms.fields.SubmitFieldt</em>) – Przycisk do wysłania formularza.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie">Formularz logowania.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie.</span></span><span class="sig-name descname"><span class="pre">Formularz_Logowanie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class" id="module-Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja.</span></span><span class="sig-name descname"><span class="pre">Formularz_Rejestracja</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class" id="module-Flask_Aplikacja.Aplikacja.Konto.Formularze.Usun_Konto">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Formularze.Usuń_Konto.</span></span><span class="sig-name descname"><span class="pre">Formularz_Usuń_Konto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class" id="module-Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasla">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasła.</span></span><span class="sig-name descname"><span class="pre">Formularz_Zmiana_Hasła</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="modele">
+<h2>Modele<a class="headerlink" href="#modele" title="Link to this heading">¶</a></h2>
+<p>Klasy z formularzami znajdujace się w folderze <cite>Flask_Aplikacja/Konto/Modele/*</cite>:</p>
+<dl class="py class" id="module-Flask_Aplikacja.Aplikacja.Modele.Uzytkownicy">
+<dt class="sig sig-object py" id="Flask_Aplikacja.Aplikacja.Modele.Uzytkownicy.Uzytkownicy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Flask_Aplikacja.Aplikacja.Modele.Użytkownicy.</span></span><span class="sig-name descname"><span class="pre">Użytkownicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Flask_Aplikacja.Aplikacja.Modele.Uzytkownicy.Uzytkownicy" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </section>
 </section>
 
@@ -123,8 +164,7 @@
     <h3><a href="index.html">Spis treści</a></h3>
     <ul>
 <li><a class="reference internal" href="#">Konto</a><ul>
-<li><a class="reference internal" href="#autofunction">Autofunction</a></li>
-<li><a class="reference internal" href="#module-Flask_Aplikacja.Aplikacja.Konto.Widoki">Automodule</a><ul>
+<li><a class="reference internal" href="#funkcje">Funkcje</a><ul>
 <li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Edytuj_Konto()</span></code></a></li>
 <li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Index()</span></code></a></li>
 <li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Logowanie"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Logowanie()</span></code></a></li>
@@ -134,7 +174,18 @@
 <li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Widoki.Widok_Konto_Zmiana_Hasla"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Zmiana_Hasła()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#formularze">Formularze</a></li>
+<li><a class="reference internal" href="#formularze">Formularze</a><ul>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto"><code class="docutils literal notranslate"><span class="pre">Formularz_Edytuj_Konto</span></code></a></li>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie"><code class="docutils literal notranslate"><span class="pre">Formularz_Logowanie</span></code></a></li>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja"><code class="docutils literal notranslate"><span class="pre">Formularz_Rejestracja</span></code></a></li>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto"><code class="docutils literal notranslate"><span class="pre">Formularz_Usuń_Konto</span></code></a></li>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla"><code class="docutils literal notranslate"><span class="pre">Formularz_Zmiana_Hasła</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modele">Modele</a><ul>
+<li><a class="reference internal" href="#Flask_Aplikacja.Aplikacja.Modele.Uzytkownicy.Uzytkownicy"><code class="docutils literal notranslate"><span class="pre">Użytkownicy</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

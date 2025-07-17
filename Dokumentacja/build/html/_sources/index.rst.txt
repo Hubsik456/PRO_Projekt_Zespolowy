@@ -1,6 +1,8 @@
 Kurator Kolekcji
 ================
 
+WIP
+
 Qui Lorem anim veniam labore id velit irure aliquip magna nulla laboris amet non aute. Do fugiat aute excepteur velit minim ad nostrud nisi ut. Nulla proident nulla ullamco labore culpa consequat laboris qui. Ad enim consequat nostrud magna est tempor est ipsum nostrud aute sit culpa.
 
 Officia est tempor velit proident velit ea officia. Non exercitation deserunt sit magna sint. Ut irure quis ut Lorem minim labore non laborum incididunt cupidatat quis. Veniam non aute occaecat officia in minim eiusmod Lorem ipsum aliqua deserunt magna do. Consectetur voluptate fugiat laboris esse nostrud id aliquip. Occaecat Lorem tempor sit reprehenderit amet excepteur. Ea enim ad esse exercitation et culpa fugiat enim cillum cupidatat.

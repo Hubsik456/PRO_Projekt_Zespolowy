@@ -10,5 +10,5 @@ Laboris tempor duis nostrud ea aliquip deserunt culpa eu sint excepteur sunt sit
 Funkcje
 -------
 
-.. automodule:: Flask_Aplikacja.Aplikacja.Main.Widoki
+`.. automodule:: Flask_Aplikacja.Aplikacja.Main.Widoki`
     :members:

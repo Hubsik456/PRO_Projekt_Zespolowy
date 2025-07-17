@@ -1,4 +1,6 @@
-# Formularz logowania
+"""
+    Formularz logowania.
+"""
 
 #! Zewnętrzne Importy
 from flask_wtf import FlaskForm as FLASK_FORM
