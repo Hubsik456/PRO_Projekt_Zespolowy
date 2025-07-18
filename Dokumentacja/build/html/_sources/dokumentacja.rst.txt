@@ -1,7 +1,7 @@
 .. _dokumentacja:
 
 ==================
-Dokumentacja API
+Dokumentacja
 ==================
 
 Ta część dokumentacji została wygenerowana automatycznie na podstawie
