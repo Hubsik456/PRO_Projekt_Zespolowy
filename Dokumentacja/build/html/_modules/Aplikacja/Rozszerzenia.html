@@ -1,0 +1,148 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pl" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikacja.Rozszerzenia &mdash; Kurator Kolekcji 1.0 - dokumentacja</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=331e28ce"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/translations.js?v=2827c288"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Indeks" href="../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Kurator Kolekcji
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Szukaj" aria-label="Szukaj" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Spis Treści:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dokumentacja.html">Dokumentacja API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Podzia%C5%82_Zada%C5%84.html">Podział Zadań</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Wymagania_Funkcjonalne.html">Wymaganie Funkcjonalne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Wymagania_Niefunkcjonalne.html">Wymaganie Niefunkcjonalne</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Kurator Kolekcji</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Kod modułu</a></li>
+          <li class="breadcrumb-item"><a href="../Aplikacja.html">Aplikacja</a></li>
+      <li class="breadcrumb-item active">Aplikacja.Rozszerzenia</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Kod źródłowy modułu Aplikacja.Rozszerzenia</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Moduł inicjalizujący rozszerzenia Flask.</span>
+
+<span class="sd">Centralne miejsce do tworzenia instancji rozszerzeń, które są</span>
+<span class="sd">następnie importowane i inicjalizowane w głównym pliku aplikacji.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Importy Zewnętrzne</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_app</span> <span class="k">as</span> <span class="n">CURRENT_APP</span><span class="p">,</span> <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_babel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Babel</span> <span class="k">as</span> <span class="n">BABEL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SQLAlchemy</span> <span class="k">as</span> <span class="n">SQL_ALCHEMY</span>
+
+<span class="c1">#! Tłumaczenia</span>
+<span class="n">Babel</span> <span class="o">=</span> <span class="n">BABEL</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="get_locale">
+<a class="viewcode-back" href="../../dokumentacja.html#Aplikacja.Rozszerzenia.get_locale">[dokumentacja]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_locale</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Określa język interfejsu dla żądania.</span>
+
+<span class="sd">    Sprawdza kolejno:</span>
+<span class="sd">    1. Ciasteczko &#39;Jezyk&#39; ustawione przez użytkownika.</span>
+<span class="sd">    2. Nagłówek &#39;Accept-Language&#39; przeglądarki.</span>
+<span class="sd">    3. Domyślną konfigurację aplikacji.</span>
+
+<span class="sd">    :return: Kod języka do użycia (np. &#39;pl&#39;, &#39;en&#39;).</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 1. Ciasteczko</span>
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Jezyk&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;LANGUAGES&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Jezyk&quot;</span><span class="p">)</span>
+    <span class="c1"># 2. Preferowany język</span>
+    <span class="n">Język</span> <span class="o">=</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">accept_languages</span><span class="o">.</span><span class="n">best_match</span><span class="p">(</span><span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;LANGUAGES&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">Język</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Język</span>
+    <span class="c1"># 3. Domyślny</span>
+    <span class="k">return</span> <span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BABEL_DEFAULT_LOCALE&quot;</span><span class="p">,</span> <span class="s2">&quot;pl&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1">#! Baza Danych</span>
+<span class="n">DB</span> <span class="o">=</span> <span class="n">SQL_ALCHEMY</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Prawa zastrzeżone 2025, Hubert Michna, Patryk Pieniążek.</p>
+  </div>
+
+  Zbudowano w <a href="https://www.sphinx-doc.org/">Sphinx</a> używając
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    dostarczone przez <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
