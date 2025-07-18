@@ -46,12 +46,13 @@
               <p class="caption" role="heading"><span class="caption-text">Spis Treści:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Dokumentacja</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja">Główna Aplikacja</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Konfiguracja">Konfiguracja i uruchomienie</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Konfiguracja.Konfiguracja"><code class="docutils literal notranslate"><span class="pre">Konfiguracja</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Aplikacja.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Rozszerzenia.get_locale"><code class="docutils literal notranslate"><span class="pre">get_locale()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#modul-main-glowne-widoki">Moduł „Main” (Główne widoki)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Main">Moduł „Main” (Główne widoki)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-Aplikacja.Main.Widoki">Widoki</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Main_Index()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_O_Programie"><code class="docutils literal notranslate"><span class="pre">Widok_Main_O_Programie()</span></code></a></li>
@@ -67,7 +68,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#modul-konto-zarzadzanie-uzytkownikiem">Moduł „Konto” (Zarządzanie użytkownikiem)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Konto">Moduł „Konto” (Zarządzanie użytkownikiem)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Widoki</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Index()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Logowanie"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Logowanie()</span></code></a></li>
@@ -88,16 +89,23 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Kolekcja.Widoki">Moduł „Kolekcja”</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Index()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Kolekcja">Moduł „Kolekcja”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Widoki</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Index()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Debug.Widoki">Moduł „Debug”</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Sciezki"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Ścieżki()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Flash"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Flash()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Test_1"><code class="docutils literal notranslate"><span class="pre">Widok_Test_1()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Bledu"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Generowanie_Błędu()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Debug">Moduł „Debug”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Widoki</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Index()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Sciezki"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Ścieżki()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Flash"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Flash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Test_1"><code class="docutils literal notranslate"><span class="pre">Widok_Test_1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Bledu"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Generowanie_Błędu()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Formularze</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-Aplikacja.Modele.Uzytkownicy">Modele Bazy Danych</a><ul>
@@ -143,9 +151,32 @@
 <span id="id1"></span><h1>Dokumentacja<a class="headerlink" href="#dokumentacja" title="Link to this heading"></a></h1>
 <p>Ta część dokumentacji została wygenerowana automatycznie na podstawie
 docstringów w kodzie źródłowym aplikacji.</p>
-<section id="module-Aplikacja">
-<span id="glowna-aplikacja"></span><h2>Główna Aplikacja<a class="headerlink" href="#module-Aplikacja" title="Link to this heading"></a></h2>
-<p>Główny plik inicjalizacyjny aplikacji (Application Factory).</p>
+<section id="module-Konfiguracja">
+<span id="konfiguracja-i-uruchomienie"></span><h2>Konfiguracja i uruchomienie<a class="headerlink" href="#module-Konfiguracja" title="Link to this heading"></a></h2>
+<p>Główny plik konfiguracyjny aplikacji.</p>
+<p>Ten moduł ładuje zmienne środowiskowe z pliku .env i definiuje
+klasę konfiguracyjną <cite>Konfiguracja</cite>, która przechowuje wszystkie
+ustawienia aplikacji Flask.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Konfiguracja.Konfiguracja">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Konfiguracja.</span></span><span class="sig-name descname"><span class="pre">Konfiguracja</span></span><a class="reference internal" href="_modules/Konfiguracja.html#Konfiguracja"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Konfiguracja.Konfiguracja" title="Link to this definition"></a></dt>
+<dd><p>Klasa przechowująca konfigurację aplikacji Flask.</p>
+<p>Zmienne są wczytywane ze zmiennych środowiskowych (plik .env)
+lub ustawiane na wartości domyślne.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SECRET_KEY</strong> (<em>str</em>) – Tajny klucz używany przez Flask do celów kryptograficznych.</p></li>
+<li><p><strong>SQLALCHEMY_DATABASE_URI</strong> (<em>str</em>) – Ścieżka do bazy danych SQLAlchemy.</p></li>
+<li><p><strong>SQLALCHEMY_TRACK_MODIFICATIONS</strong> (<em>bool</em>) – Wyłącza śledzenie modyfikacji obiektów SQLAlchemy.</p></li>
+<li><p><strong>LANGUAGES</strong> (<em>list</em>) – Lista obsługiwanych języków dla tłumaczeń.</p></li>
+<li><p><strong>BABEL_DEFAULT_LOCALE</strong> (<em>str</em>) – Domyślny język aplikacji.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja">Główny plik inicjalizacyjny aplikacji (Application Factory).</p>
 <p>Ten moduł zawiera funkcję <cite>create_app</cite>, która jest odpowiedzialna za
 tworzenie i konfigurowanie instancji aplikacji Flask.</p>
 <dl class="py function">
@@ -193,8 +224,11 @@ następnie importowane i inicjalizowane w głównym pliku aplikacji.</p>
 <p>Ten moduł wykorzystuje <cite>Click</cite> do tworzenia niestandardowych komend
 terminalowych, głównie do zarządzania tłumaczeniami za pomocą <cite>pybabel</cite>.</p>
 </section>
-<section id="modul-main-glowne-widoki">
-<h2>Moduł „Main” (Główne widoki)<a class="headerlink" href="#modul-main-glowne-widoki" title="Link to this heading"></a></h2>
+<section id="module-Aplikacja.Main">
+<span id="modul-main-glowne-widoki"></span><h2>Moduł „Main” (Główne widoki)<a class="headerlink" href="#module-Aplikacja.Main" title="Link to this heading"></a></h2>
+<p>Inicjalizacja Blueprintu #1 - Main.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+głównego Blueprintu aplikacji, obsługującego ogólne widoki.</p>
 <section id="module-Aplikacja.Main.Widoki">
 <span id="widoki"></span><h3>Widoki<a class="headerlink" href="#module-Aplikacja.Main.Widoki" title="Link to this heading"></a></h3>
 <p>Główne widoki (routes) dla Blueprintu #1 - Main.</p>
@@ -315,8 +349,11 @@ motyw w ciasteczku i przekierowuje na stronę główną.</p>
 
 </section>
 </section>
-<section id="modul-konto-zarzadzanie-uzytkownikiem">
-<h2>Moduł „Konto” (Zarządzanie użytkownikiem)<a class="headerlink" href="#modul-konto-zarzadzanie-uzytkownikiem" title="Link to this heading"></a></h2>
+<section id="module-Aplikacja.Konto">
+<span id="modul-konto-zarzadzanie-uzytkownikiem"></span><h2>Moduł „Konto” (Zarządzanie użytkownikiem)<a class="headerlink" href="#module-Aplikacja.Konto" title="Link to this heading"></a></h2>
+<p>Inicjalizacja Blueprintu #2 - Konta.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z kontami użytkowników.</p>
 <section id="id2">
 <h3>Widoki<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <p id="module-Aplikacja.Konto.Widoki">Widoki (routes) dla Blueprintu #2 - Konta.</p>
@@ -528,9 +565,14 @@ sprawdza hasło i usuwa konto z bazy danych.</p>
 
 </section>
 </section>
-<section id="module-Aplikacja.Kolekcja.Widoki">
-<span id="modul-kolekcja"></span><h2>Moduł „Kolekcja”<a class="headerlink" href="#module-Aplikacja.Kolekcja.Widoki" title="Link to this heading"></a></h2>
-<p>Widoki (routes) dla Blueprintu #3 - Kolekcja.</p>
+<section id="module-Aplikacja.Kolekcja">
+<span id="modul-kolekcja"></span><h2>Moduł „Kolekcja”<a class="headerlink" href="#module-Aplikacja.Kolekcja" title="Link to this heading"></a></h2>
+<p>Inicjalizacja Blueprintu #3 - Kolekcja.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z kolekcjami użytkownika.</p>
+<section id="id4">
+<h3>Widoki<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p id="module-Aplikacja.Kolekcja.Widoki">Widoki (routes) dla Blueprintu #3 - Kolekcja.</p>
 <p>Ten moduł zawiera logikę i definicje URL dla wszystkich stron
 związanych z zarządzaniem kolekcjami użytkowników.</p>
 <dl class="py function">
@@ -548,9 +590,15 @@ związanych z zarządzaniem kolekcjami użytkowników.</p>
 </dd></dl>
 
 </section>
-<section id="module-Aplikacja.Debug.Widoki">
-<span id="modul-debug"></span><h2>Moduł „Debug”<a class="headerlink" href="#module-Aplikacja.Debug.Widoki" title="Link to this heading"></a></h2>
-<p>Widoki (routes) dla Blueprintu #0 - Debug.</p>
+</section>
+<section id="module-Aplikacja.Debug">
+<span id="modul-debug"></span><h2>Moduł „Debug”<a class="headerlink" href="#module-Aplikacja.Debug" title="Link to this heading"></a></h2>
+<p>Inicjalizacja Blueprintu #0 - Debug.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z debugowaniem i testowaniem aplikacji.</p>
+<section id="id5">
+<h3>Widoki<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p id="module-Aplikacja.Debug.Widoki">Widoki (routes) dla Blueprintu #0 - Debug.</p>
 <p>Moduł zawiera widoki i logikę przydatną podczas tworzenia
 i testowania aplikacji.</p>
 <dl class="py function">
@@ -627,6 +675,11 @@ zdefiniowanych regułach routingu.</p>
 </dl>
 </dd></dl>
 
+</section>
+<section id="id6">
+<h3>Formularze<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p id="module-Aplikacja.Debug.Formularze.Formularz_1">Moduł na formularze do debugowania i testowania.</p>
+</section>
 </section>
 <section id="module-Aplikacja.Modele.Uzytkownicy">
 <span id="modele-bazy-danych"></span><h2>Modele Bazy Danych<a class="headerlink" href="#module-Aplikacja.Modele.Uzytkownicy" title="Link to this heading"></a></h2>

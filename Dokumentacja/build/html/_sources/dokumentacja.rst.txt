@@ -7,8 +7,11 @@ Dokumentacja
 Ta część dokumentacji została wygenerowana automatycznie na podstawie
 docstringów w kodzie źródłowym aplikacji.
 
-Główna Aplikacja
-================
+Konfiguracja i uruchomienie
+===========================
+
+.. automodule:: Konfiguracja
+   :members:
 
 .. automodule:: Aplikacja
    :members: create_app
@@ -21,6 +24,9 @@ Główna Aplikacja
 
 Moduł "Main" (Główne widoki)
 ============================
+
+.. automodule:: Aplikacja.Main
+   :members:
 
 Widoki
 ------
@@ -36,6 +42,9 @@ Formularze
 
 Moduł "Konto" (Zarządzanie użytkownikiem)
 =========================================
+
+.. automodule:: Aplikacja.Konto
+   :members:
 
 Widoki
 ------
@@ -58,13 +67,28 @@ Formularze
 Moduł "Kolekcja"
 ================
 
+.. automodule:: Aplikacja.Kolekcja
+   :members:
+
+Widoki
+------
 .. automodule:: Aplikacja.Kolekcja.Widoki
    :members:
 
 Moduł "Debug"
 =============
 
+.. automodule:: Aplikacja.Debug
+   :members:
+
+Widoki
+------
 .. automodule:: Aplikacja.Debug.Widoki
+   :members:
+
+Formularze
+----------
+.. automodule:: Aplikacja.Debug.Formularze.Formularz_1
    :members:
 
 Modele Bazy Danych

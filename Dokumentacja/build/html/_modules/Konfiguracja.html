@@ -1,0 +1,152 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pl" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konfiguracja &mdash; Kurator Kolekcji 1.0 - dokumentacja</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=331e28ce"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=2827c288"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Kurator Kolekcji
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Szukaj" aria-label="Szukaj" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Spis Treści:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dokumentacja.html">Dokumentacja API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Podzia%C5%82_Zada%C5%84.html">Podział Zadań</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wymagania_Funkcjonalne.html">Wymaganie Funkcjonalne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wymagania_Niefunkcjonalne.html">Wymaganie Niefunkcjonalne</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Kurator Kolekcji</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kod modułu</a></li>
+      <li class="breadcrumb-item active">Konfiguracja</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Kod źródłowy modułu Konfiguracja</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Główny plik konfiguracyjny aplikacji.</span>
+
+<span class="sd">Ten moduł ładuje zmienne środowiskowe z pliku .env i definiuje</span>
+<span class="sd">klasę konfiguracyjną `Konfiguracja`, która przechowuje wszystkie</span>
+<span class="sd">ustawienia aplikacji Flask.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">OS</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span> <span class="k">as</span> <span class="n">LOAD_DOTENV</span>
+
+<span class="c1">#! Main</span>
+<span class="n">LOAD_DOTENV</span><span class="p">()</span>
+
+<span class="n">Ścieżka_Root</span> <span class="o">=</span> <span class="n">OS</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Konfiguracja">
+<a class="viewcode-back" href="../dokumentacja.html#Konfiguracja.Konfiguracja">[dokumentacja]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Konfiguracja</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Klasa przechowująca konfigurację aplikacji Flask.</span>
+
+<span class="sd">    Zmienne są wczytywane ze zmiennych środowiskowych (plik .env)</span>
+<span class="sd">    lub ustawiane na wartości domyślne.</span>
+
+<span class="sd">    :cvar SECRET_KEY: Tajny klucz używany przez Flask do celów kryptograficznych.</span>
+<span class="sd">    :vartype SECRET_KEY: str</span>
+<span class="sd">    :cvar SQLALCHEMY_DATABASE_URI: Ścieżka do bazy danych SQLAlchemy.</span>
+<span class="sd">    :vartype SQLALCHEMY_DATABASE_URI: str</span>
+<span class="sd">    :cvar SQLALCHEMY_TRACK_MODIFICATIONS: Wyłącza śledzenie modyfikacji obiektów SQLAlchemy.</span>
+<span class="sd">    :vartype SQLALCHEMY_TRACK_MODIFICATIONS: bool</span>
+<span class="sd">    :cvar LANGUAGES: Lista obsługiwanych języków dla tłumaczeń.</span>
+<span class="sd">    :vartype LANGUAGES: list</span>
+<span class="sd">    :cvar BABEL_DEFAULT_LOCALE: Domyślny język aplikacji.</span>
+<span class="sd">    :vartype BABEL_DEFAULT_LOCALE: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">OS</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">)</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">OS</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;DATABASE_URI&quot;</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;sqlite:///&quot;</span> <span class="o">+</span> <span class="n">OS</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Ścieżka_Root</span><span class="p">,</span> <span class="s2">&quot;Baza_Danych.db&quot;</span><span class="p">)</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="n">OS</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SQLALCHEMY_TRACK_MODIFICATIONS&quot;</span><span class="p">)</span>
+
+    <span class="n">LANGUAGES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pl&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">]</span>
+    <span class="n">BABEL_DEFAULT_LOCALE</span> <span class="o">=</span> <span class="s2">&quot;pl&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Prawa zastrzeżone 2025, Hubert Michna, Patryk Pieniążek.</p>
+  </div>
+
+  Zbudowano w <a href="https://www.sphinx-doc.org/">Sphinx</a> używając
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    dostarczone przez <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
