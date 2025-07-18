@@ -1,33 +1,45 @@
 # Ogólne URL'e i logika związana z kontami użytkowników
 
 #! Zewnętrzne Importy
-from flask import render_template as RENDER_TEMPLATE, flash as FLASH, redirect as REDIRECT, url_for as URL_FOR, request as REQUEST
-from werkzeug.security import check_password_hash as CHECK_PASSWORD_HASH, generate_password_hash as GENERATE_PASSWORD_HASH
-from flask_login import login_user as LOGIN_USER, logout_user as LOGOUT_USER, login_required as LOGIN_REQUIRED, fresh_login_required as FRESH_LOGIN_REQUIRED, current_user as CURRENT_USER
+from flask import flash as FLASH
+from flask import redirect as REDIRECT
+from flask import render_template as RENDER_TEMPLATE
+from flask import request as REQUEST
+from flask import url_for as URL_FOR
+from flask_login import current_user as CURRENT_USER
+from flask_login import fresh_login_required as FRESH_LOGIN_REQUIRED
+from flask_login import login_required as LOGIN_REQUIRED
+from flask_login import login_user as LOGIN_USER
+from flask_login import logout_user as LOGOUT_USER
+from werkzeug.security import check_password_hash as CHECK_PASSWORD_HASH
+from werkzeug.security import generate_password_hash as GENERATE_PASSWORD_HASH
+
+from Aplikacja.Konto import Blueprint_2
+from Aplikacja.Konto.Formularze.Edytuj_Konto import Formularz_Edytuj_Konto
+from Aplikacja.Konto.Formularze.Logowanie import Formularz_Logowanie
+from Aplikacja.Konto.Formularze.Rejestracja import Formularz_Rejestracja
+from Aplikacja.Konto.Formularze.Usuń_Konto import Formularz_Usuń_Konto
+from Aplikacja.Konto.Formularze.Zmiana_Hasła import Formularz_Zmiana_Hasła
+from Aplikacja.Modele.Użytkownicy import Użytkownicy
 
 #! Lokalne Importy
 from Aplikacja.Rozszerzenia import DB
-from Aplikacja.Modele.Użytkownicy import Użytkownicy
-from Aplikacja.Konto import Blueprint_2
-from Aplikacja.Konto.Formularze.Logowanie import Formularz_Logowanie
-from Aplikacja.Konto.Formularze.Rejestracja import Formularz_Rejestracja
-from Aplikacja.Konto.Formularze.Zmiana_Hasła import Formularz_Zmiana_Hasła
-from Aplikacja.Konto.Formularze.Edytuj_Konto import Formularz_Edytuj_Konto
-from Aplikacja.Konto.Formularze.Usuń_Konto import Formularz_Usuń_Konto
+
 
 #! Main
 @Blueprint_2.route("/")
 def Widok_Konto_Index():
     """
-        Strona główna z kontami użytkowników.
+    Strona główna z kontami użytkowników.
     """
 
     return RENDER_TEMPLATE("Konto/index.html")
 
+
 @Blueprint_2.route("/logowanie/", methods=["POST", "GET"])
 def Widok_Konto_Logowanie():
     """
-        Strona z logowaniem dla zarejestrowanych użytkowników.
+    Strona z logowaniem dla zarejestrowanych użytkowników.
     """
 
     # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
@@ -39,11 +51,14 @@ def Widok_Konto_Logowanie():
             Input_Login = Formularz.Pole_Login.data
             Input_Hasło = Formularz.Pole_Hasło.data
 
-            Użytkownik = Użytkownicy.query.filter_by(Login = Input_Login).first()
+            Użytkownik = Użytkownicy.query.filter_by(Login=Input_Login).first()
 
             if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Hasło):
-                FLASH("Taki użytkownik nie istnieje lub podano niepoprawne hasło.", "danger")
-                return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz = Formularz)
+                FLASH(
+                    "Taki użytkownik nie istnieje lub podano niepoprawne hasło.",
+                    "danger",
+                )
+                return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz=Formularz)
 
             FLASH(f"Zalogowano jako: '{Użytkownik.Login}'.", "success")
             LOGIN_USER(Użytkownik)
@@ -52,12 +67,13 @@ def Widok_Konto_Logowanie():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz = Formularz)
+    return RENDER_TEMPLATE("Konto/Logowanie.html", Formularz=Formularz)
+
 
 @Blueprint_2.route("/rejestracja/", methods=["POST", "GET"])
 def Widok_Konto_Rejestracja():
     """
-        Strona z rejestracją dla nowych użytkowników.
+    Strona z rejestracją dla nowych użytkowników.
     """
 
     # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
@@ -70,13 +86,17 @@ def Widok_Konto_Rejestracja():
             Input_Hasło = Formularz.Pole_Hasło_1.data
             Input_Email = Formularz.Pole_Email.data
 
-            Użytkownik = Użytkownicy.query.filter_by(Login = Input_Login).first()
+            Użytkownik = Użytkownicy.query.filter_by(Login=Input_Login).first()
 
             if Użytkownik:
                 FLASH("Takie konto już istnieje.", "danger")
-                return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz = Formularz)
+                return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz=Formularz)
 
-            Nowy_Użytkownik = Użytkownicy(Login = Input_Login, Hasło = GENERATE_PASSWORD_HASH(Input_Hasło), Email = Input_Email)
+            Nowy_Użytkownik = Użytkownicy(
+                Login=Input_Login,
+                Hasło=GENERATE_PASSWORD_HASH(Input_Hasło),
+                Email=Input_Email,
+            )
             DB.session.add(Nowy_Użytkownik)
             DB.session.commit()
             LOGIN_USER(Nowy_Użytkownik)
@@ -86,26 +106,29 @@ def Widok_Konto_Rejestracja():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz = Formularz)
+    return RENDER_TEMPLATE("Konto/Rejestracja.html", Formularz=Formularz)
+
 
 @Blueprint_2.route("/zmiana-hasla/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Zmiana_Hasła():
     """
-        Strona z formularzem zmiany hasła obecnie zalogowanego użytkownika.
+    Strona z formularzem zmiany hasła obecnie zalogowanego użytkownika.
     """
 
     Formularz = Formularz_Zmiana_Hasła()
 
     if REQUEST.method == "POST":
         if Formularz.validate_on_submit():
-            Użytkownik = Użytkownicy.query.filter_by(ID = CURRENT_USER.get_id()).first()
+            Użytkownik = Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).first()
             Input_Stare_Hasło = Formularz.Pole_Stare_Hasło.data
             Input_Nowe_Hasło = Formularz.Pole_Nowe_Hasło_1.data
 
-            if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Stare_Hasło):
+            if not Użytkownik or not CHECK_PASSWORD_HASH(
+                Użytkownik.Hasło, Input_Stare_Hasło
+            ):
                 FLASH("Podano niepoprawne stare hasło.", "danger")
-                return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz = Formularz)
+                return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz=Formularz)
 
             Użytkownik.Hasło = GENERATE_PASSWORD_HASH(Input_Nowe_Hasło)
             DB.session.commit()
@@ -115,18 +138,19 @@ def Widok_Konto_Zmiana_Hasła():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz = Formularz)
+    return RENDER_TEMPLATE("Konto/Zmiana_Hasła.html", Formularz=Formularz)
+
 
 @Blueprint_2.route("/edytuj-konto/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Edytuj_Konto():
     """
-        Strona z formularzem edycji konta obecnie zalogowanego użytkownika.
+    Strona z formularzem edycji konta obecnie zalogowanego użytkownika.
     """
 
     Formularz = Formularz_Edytuj_Konto()
 
-    Użytkownik = Użytkownicy.query.filter_by(ID = CURRENT_USER.get_id()).first()
+    Użytkownik = Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).first()
 
     if REQUEST.method == "POST":
         if Formularz.validate_on_submit():
@@ -145,27 +169,28 @@ def Widok_Konto_Edytuj_Konto():
     Formularz.Pole_Email.data = Użytkownik.Email
     Formularz.Pole_Opis.data = Użytkownik.Opis
 
-    return RENDER_TEMPLATE("Konto/Edytuj_Konto.html", Formularz = Formularz)
+    return RENDER_TEMPLATE("Konto/Edytuj_Konto.html", Formularz=Formularz)
+
 
 @Blueprint_2.route("/usun-konto/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Usuń_Konto():
     """
-        Strona z formularzem usuwania konta obecnie zalogowanego użytkownika.
+    Strona z formularzem usuwania konta obecnie zalogowanego użytkownika.
     """
 
     Formularz = Formularz_Usuń_Konto()
 
     if REQUEST.method == "POST":
         if Formularz.validate_on_submit():
-            Użytkownik = Użytkownicy.query.filter_by(ID = CURRENT_USER.get_id()).first()
+            Użytkownik = Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).first()
             Input_Hasło = Formularz.Pole_Hasło_1.data
 
             if not Użytkownik or not CHECK_PASSWORD_HASH(Użytkownik.Hasło, Input_Hasło):
                 FLASH("Podano niepoprawne hasło.", "danger")
-                return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz = Formularz)
+                return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz=Formularz)
 
-            Użytkownicy.query.filter_by(ID = CURRENT_USER.get_id()).delete()
+            Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).delete()
             DB.session.commit()
 
             FLASH("Twoje konto zostało usunięte.", "success")
@@ -173,13 +198,14 @@ def Widok_Konto_Usuń_Konto():
 
         FLASH("Podano niepoprawne hasło.", "danger")
 
-    return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz = Formularz)
+    return RENDER_TEMPLATE("Konto/Usuń_Konto.html", Formularz=Formularz)
+
 
 @Blueprint_2.route("/wyloguj/")
 @LOGIN_REQUIRED
 def Widok_Konto_Wyloguj():
     """
-        Wylogowanie obecnie zalgowanego użytkownika.
+    Wylogowanie obecnie zalgowanego użytkownika.
     """
     FLASH("Wylogowano.", "info")
     LOGOUT_USER()

@@ -1,16 +1,24 @@
 # "Application Factory"
 
 #! Zewnętrzne Importy
-from flask import Flask as FLASK, flash as FLASH, render_template as RENDER_TEMPLATE, abort as ABORT, request as REQUEST
-from flask_login import LoginManager as LOGIN_MANAGER, login_required as LOGIN_REQUIRED, fresh_login_required as FRESH_LOGIN_REQUIRED
+from flask import Flask as FLASK
+from flask import abort as ABORT
+from flask import flash as FLASH
+from flask import render_template as RENDER_TEMPLATE
+from flask import request as REQUEST
+from flask_login import LoginManager as LOGIN_MANAGER
+from flask_login import fresh_login_required as FRESH_LOGIN_REQUIRED
+from flask_login import login_required as LOGIN_REQUIRED
 
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
-from Aplikacja.Rozszerzenia import DB, Babel, get_locale
+
 from Aplikacja.Modele.Użytkownicy import Użytkownicy
+from Aplikacja.Rozszerzenia import DB, Babel, get_locale
+
 
 #! Funkcje
-def create_app(Ustawienia = Konfiguracja):
+def create_app(Ustawienia=Konfiguracja):
     Aplikacja = FLASK(__name__, template_folder="Szablony", static_folder="Statyczne")
     Aplikacja.config.from_object(Ustawienia)
 
@@ -33,24 +41,29 @@ def create_app(Ustawienia = Konfiguracja):
     Babel.init_app(Aplikacja, locale_selector=get_locale)
 
     print(f"WIP| root_path: {Aplikacja.root_path}")
-    #print(f"WIP| {Aplikacja.config['BABEL_TRANSLATION_DIRECTORIES']}")
-    #print(f"WIP| {Babel.list_translations}")
-    #print(f"WIP| {Babel.translation_directories}")
+    # print(f"WIP| {Aplikacja.config['BABEL_TRANSLATION_DIRECTORIES']}")
+    # print(f"WIP| {Babel.list_translations}")
+    # print(f"WIP| {Babel.translation_directories}")
 
     #! Blueprint'y
     from Aplikacja.CLI import Blueprint_CLI
+
     Aplikacja.register_blueprint(Blueprint_CLI)
 
     from Aplikacja.Debug import Blueprint_0 as Blueprint_Debug
+
     Aplikacja.register_blueprint(Blueprint_Debug)
 
     from Aplikacja.Main import Blueprint_1 as Blueprint_Main
+
     Aplikacja.register_blueprint(Blueprint_Main)
 
     from Aplikacja.Konto import Blueprint_2 as Blueprint_Konto
+
     Aplikacja.register_blueprint(Blueprint_Konto)
 
     from Aplikacja.Kolekcja import Blueprint_3 as Blueprint_Kolekcja
+
     Aplikacja.register_blueprint(Blueprint_Kolekcja)
 
     #! Obsługa Błędów
@@ -71,16 +84,21 @@ def create_app(Ustawienia = Konfiguracja):
     @Aplikacja.context_processor
     def Jinja2_Zmienne_Globalne():
         """
-            Dodanie niektórych zmiennych do zmiennych globalnych, tak żeby można je było wykorzystać w szablonach Jinja2.
+        Dodanie niektórych zmiennych do zmiennych globalnych, tak żeby można je było wykorzystać w szablonach Jinja2.
         """
         from Aplikacja.Main.Formularze.Wybór_Motywu import Formularz_Wyboru_Motywu
 
-        Dostępne_Motywy = [Wartość for Wartość, Klucz in Formularz_Wyboru_Motywu.Pole_Motyw.kwargs["choices"]]
-        #print(f"{Dostępne_Motywy=}")
+        Dostępne_Motywy = [
+            Wartość
+            for Wartość, Klucz in Formularz_Wyboru_Motywu.Pole_Motyw.kwargs["choices"]
+        ]
+        # print(f"{Dostępne_Motywy=}")
 
         Zmienne_Globalne = {
             "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),
-            "Motyw": REQUEST.cookies.get("Motyw") if REQUEST.cookies.get("Motyw") in Dostępne_Motywy else "united",
+            "Motyw": REQUEST.cookies.get("Motyw")
+            if REQUEST.cookies.get("Motyw") in Dostępne_Motywy
+            else "united",
             "Język": get_locale(),
         }
 
