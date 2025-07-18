@@ -1,14 +1,22 @@
-# "Application Factory"
+"""Główny plik inicjalizacyjny aplikacji (Application Factory).
+
+Ten moduł zawiera funkcję `create_app`, która jest odpowiedzialna za
+tworzenie i konfigurowanie instancji aplikacji Flask.
+"""
 
 #! Zewnętrzne Importy
-from flask import Flask as FLASK
-from flask import abort as ABORT
-from flask import flash as FLASH
-from flask import render_template as RENDER_TEMPLATE
-from flask import request as REQUEST
-from flask_login import LoginManager as LOGIN_MANAGER
-from flask_login import fresh_login_required as FRESH_LOGIN_REQUIRED
-from flask_login import login_required as LOGIN_REQUIRED
+from flask import (
+    Flask as FLASK,
+    abort as ABORT,
+    flash as FLASH,
+    render_template as RENDER_TEMPLATE,
+    request as REQUEST,
+)
+from flask_login import (
+    LoginManager as LOGIN_MANAGER,
+    fresh_login_required as FRESH_LOGIN_REQUIRED,
+    login_required as LOGIN_REQUIRED,
+)
 
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
@@ -19,6 +27,17 @@ from Aplikacja.Rozszerzenia import DB, Babel, get_locale
 
 #! Funkcje
 def create_app(Ustawienia=Konfiguracja):
+    """Tworzy i konfiguruje instancję aplikacji Flask.
+
+    Wzorzec "Application Factory" pozwala na tworzenie wielu instancji
+    aplikacji z różnymi konfiguracjami, co jest przydatne m.in. do testowania.
+
+    :param Ustawienia: Obiekt konfiguracyjny do użycia.
+        Domyślnie `Konfiguracja` z pliku `Konfiguracja.py`.
+    :type Ustawienia: object
+    :return: Skonfigurowana instancja aplikacji Flask.
+    :rtype: flask.Flask
+    """
     Aplikacja = FLASK(__name__, template_folder="Szablony", static_folder="Statyczne")
     Aplikacja.config.from_object(Ustawienia)
 
@@ -26,7 +45,6 @@ def create_app(Ustawienia=Konfiguracja):
     DB.init_app(Aplikacja)
 
     #! Konta Użytkowników
-    # TODO:
     Login_Manager = LOGIN_MANAGER()
     Login_Manager.login_view = "Blueprint_2.Widok_Konto_Logowanie"
     Login_Manager.login_message = "Ta strona jest dostępna tylko dla zalogowanych użytkowników. Jeśli nie masz konta, musisz się zarejstrować."
@@ -35,15 +53,17 @@ def create_app(Ustawienia=Konfiguracja):
 
     @Login_Manager.user_loader
     def load_user(user_id):
+        """Wczytuje użytkownika na podstawie jego ID, wymagane przez Flask-Login.
+
+        :param user_id: ID użytkownika do wczytania.
+        :type user_id: str
+        :return: Obiekt użytkownika lub None, jeśli nie znaleziono.
+        :rtype: Użytkownicy or None
+        """
         return Użytkownicy.query.get(int(user_id))
 
     #! Tłumaczenia
     Babel.init_app(Aplikacja, locale_selector=get_locale)
-
-    print(f"WIP| root_path: {Aplikacja.root_path}")
-    # print(f"WIP| {Aplikacja.config['BABEL_TRANSLATION_DIRECTORIES']}")
-    # print(f"WIP| {Babel.list_translations}")
-    # print(f"WIP| {Babel.translation_directories}")
 
     #! Blueprint'y
     from Aplikacja.CLI import Blueprint_CLI
@@ -67,24 +87,46 @@ def create_app(Ustawienia=Konfiguracja):
     Aplikacja.register_blueprint(Blueprint_Kolekcja)
 
     #! Obsługa Błędów
-    # TODO: Dodać pozostałe błędy HTTP
     @Aplikacja.errorhandler(401)
     def Błąd_401(Błąd):
+        """Obsługuje błąd 401 (Unauthorized).
+
+        :param Błąd: Obiekt błędu.
+        :return: Wyrenderowany szablon błędu 401.
+        :rtype: tuple
+        """
         return RENDER_TEMPLATE("Błędy/401.html"), 401
 
     @Aplikacja.errorhandler(404)
     def Błąd_404(Błąd):
+        """Obsługuje błąd 404 (Not Found).
+
+        :param Błąd: Obiekt błędu.
+        :return: Wyrenderowany szablon błędu 404.
+        :rtype: tuple
+        """
         return RENDER_TEMPLATE("Błędy/404.html"), 404
 
     @Aplikacja.errorhandler(500)
     def Błąd_500(Błąd):
+        """Obsługuje błąd 500 (Internal Server Error).
+
+        :param Błąd: Obiekt błędu.
+        :return: Wyrenderowany szablon błędu 500.
+        :rtype: tuple
+        """
         return RENDER_TEMPLATE("Błędy/500.html"), 500
 
     #! Jinja2
     @Aplikacja.context_processor
     def Jinja2_Zmienne_Globalne():
-        """
-        Dodanie niektórych zmiennych do zmiennych globalnych, tak żeby można je było wykorzystać w szablonach Jinja2.
+        """Dodaje zmienne globalne do kontekstu szablonów Jinja2.
+
+        Udostępnia w szablonach informacje o aktualnym motywie,
+        trybie ciemnym i języku na podstawie ciasteczek.
+
+        :return: Słownik ze zmiennymi globalnymi.
+        :rtype: dict
         """
         from Aplikacja.Main.Formularze.Wybór_Motywu import Formularz_Wyboru_Motywu
 
@@ -92,7 +134,6 @@ def create_app(Ustawienia=Konfiguracja):
             Wartość
             for Wartość, Klucz in Formularz_Wyboru_Motywu.Pole_Motyw.kwargs["choices"]
         ]
-        # print(f"{Dostępne_Motywy=}")
 
         Zmienne_Globalne = {
             "Tryb_Ciemny": REQUEST.cookies.get("Tryb_Ciemny"),
@@ -101,10 +142,6 @@ def create_app(Ustawienia=Konfiguracja):
             else "united",
             "Język": get_locale(),
         }
-
-        print(f"{Zmienne_Globalne=}")
-
         return dict(Zmienne_Globalne)
 
-    #! Koniec
     return Aplikacja

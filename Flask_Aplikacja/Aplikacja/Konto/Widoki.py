@@ -1,18 +1,31 @@
-# Ogólne URL'e i logika związana z kontami użytkowników
+"""Widoki (routes) dla Blueprintu #2 - Konta.
+
+Ten moduł zawiera całą logikę i definicje URL dla stron związanych
+z zarządzaniem kontem użytkownika, w tym:
+- Strona główna konta
+- Logowanie, wylogowywanie, rejestracja
+- Edycja profilu, zmiana hasła, usunięcie konta
+"""
 
 #! Zewnętrzne Importy
-from flask import flash as FLASH
-from flask import redirect as REDIRECT
-from flask import render_template as RENDER_TEMPLATE
-from flask import request as REQUEST
-from flask import url_for as URL_FOR
-from flask_login import current_user as CURRENT_USER
-from flask_login import fresh_login_required as FRESH_LOGIN_REQUIRED
-from flask_login import login_required as LOGIN_REQUIRED
-from flask_login import login_user as LOGIN_USER
-from flask_login import logout_user as LOGOUT_USER
-from werkzeug.security import check_password_hash as CHECK_PASSWORD_HASH
-from werkzeug.security import generate_password_hash as GENERATE_PASSWORD_HASH
+from flask import (
+    flash as FLASH,
+    redirect as REDIRECT,
+    render_template as RENDER_TEMPLATE,
+    request as REQUEST,
+    url_for as URL_FOR,
+)
+from flask_login import (
+    current_user as CURRENT_USER,
+    fresh_login_required as FRESH_LOGIN_REQUIRED,
+    login_required as LOGIN_REQUIRED,
+    login_user as LOGIN_USER,
+    logout_user as LOGOUT_USER,
+)
+from werkzeug.security import (
+    check_password_hash as CHECK_PASSWORD_HASH,
+    generate_password_hash as GENERATE_PASSWORD_HASH,
+)
 
 from Aplikacja.Konto import Blueprint_2
 from Aplikacja.Konto.Formularze.Edytuj_Konto import Formularz_Edytuj_Konto
@@ -29,21 +42,25 @@ from Aplikacja.Rozszerzenia import DB
 #! Main
 @Blueprint_2.route("/")
 def Widok_Konto_Index():
-    """
-    Strona główna z kontami użytkowników.
-    """
+    """Renderuje stronę główną panelu konta użytkownika.
 
+    :return: Wyrenderowany szablon HTML strony głównej konta.
+    :rtype: str
+    """
     return RENDER_TEMPLATE("Konto/index.html")
 
 
 @Blueprint_2.route("/logowanie/", methods=["POST", "GET"])
 def Widok_Konto_Logowanie():
-    """
-    Strona z logowaniem dla zarejestrowanych użytkowników.
-    """
+    """Renderuje stronę logowania i obsługuje proces logowania użytkownika.
 
-    # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
+    Przy żądaniu GET wyświetla formularz logowania.
+    Przy żądaniu POST waliduje formularz, sprawdza dane logowania
+    i w przypadku powodzenia loguje użytkownika.
 
+    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+    :rtype: str or werkzeug.wrappers.response.Response
+    """
     Formularz = Formularz_Logowanie()
 
     if REQUEST.method == "POST":
@@ -72,12 +89,15 @@ def Widok_Konto_Logowanie():
 
 @Blueprint_2.route("/rejestracja/", methods=["POST", "GET"])
 def Widok_Konto_Rejestracja():
-    """
-    Strona z rejestracją dla nowych użytkowników.
-    """
+    """Renderuje stronę rejestracji i obsługuje proces tworzenia nowego konta.
 
-    # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
+    Przy żądaniu GET wyświetla formularz rejestracji.
+    Przy żądaniu POST waliduje formularz, sprawdza czy użytkownik
+    o podanym loginie już nie istnieje, a następnie tworzy nowe konto.
 
+    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+    :rtype: str or werkzeug.wrappers.response.Response
+    """
     Formularz = Formularz_Rejestracja()
 
     if REQUEST.method == "POST":
@@ -112,10 +132,15 @@ def Widok_Konto_Rejestracja():
 @Blueprint_2.route("/zmiana-hasla/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Zmiana_Hasła():
-    """
-    Strona z formularzem zmiany hasła obecnie zalogowanego użytkownika.
-    """
+    """Renderuje stronę zmiany hasła i obsługuje ten proces.
 
+    Wymaga "świeżego" zalogowania. Przy żądaniu GET wyświetla formularz.
+    Przy żądaniu POST waliduje go, sprawdza poprawność starego hasła
+    i aktualizuje je w bazie danych.
+
+    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+    :rtype: str or werkzeug.wrappers.response.Response
+    """
     Formularz = Formularz_Zmiana_Hasła()
 
     if REQUEST.method == "POST":
@@ -144,12 +169,16 @@ def Widok_Konto_Zmiana_Hasła():
 @Blueprint_2.route("/edytuj-konto/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Edytuj_Konto():
-    """
-    Strona z formularzem edycji konta obecnie zalogowanego użytkownika.
-    """
+    """Renderuje stronę edycji profilu użytkownika i obsługuje ten proces.
 
+    Wymaga "świeżego" zalogowania. Przy żądaniu GET wyświetla formularz
+    wypełniony aktualnymi danymi użytkownika. Przy żądaniu POST
+    waliduje go i zapisuje zmiany w bazie danych.
+
+    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+    :rtype: str or werkzeug.wrappers.response.Response
+    """
     Formularz = Formularz_Edytuj_Konto()
-
     Użytkownik = Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).first()
 
     if REQUEST.method == "POST":
@@ -157,12 +186,9 @@ def Widok_Konto_Edytuj_Konto():
             Użytkownik.Login = Formularz.Pole_Login.data
             Użytkownik.Email = Formularz.Pole_Email.data
             Użytkownik.Opis = Formularz.Pole_Opis.data
-
             DB.session.commit()
-
             FLASH("Zapisano zmiany konta.", "success")
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
-
         FLASH("Podano niepoprawne dane.", "danger")
 
     Formularz.Pole_Login.data = Użytkownik.Login
@@ -175,10 +201,15 @@ def Widok_Konto_Edytuj_Konto():
 @Blueprint_2.route("/usun-konto/", methods=["POST", "GET"])
 @FRESH_LOGIN_REQUIRED
 def Widok_Konto_Usuń_Konto():
-    """
-    Strona z formularzem usuwania konta obecnie zalogowanego użytkownika.
-    """
+    """Renderuje stronę usuwania konta i obsługuje ten proces.
 
+    Wymaga "świeżego" zalogowania. Przy żądaniu GET wyświetla formularz
+    wymagający potwierdzenia hasłem. Przy żądaniu POST waliduje go,
+    sprawdza hasło i usuwa konto z bazy danych.
+
+    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+    :rtype: str or werkzeug.wrappers.response.Response
+    """
     Formularz = Formularz_Usuń_Konto()
 
     if REQUEST.method == "POST":
@@ -192,7 +223,6 @@ def Widok_Konto_Usuń_Konto():
 
             Użytkownicy.query.filter_by(ID=CURRENT_USER.get_id()).delete()
             DB.session.commit()
-
             FLASH("Twoje konto zostało usunięte.", "success")
             return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
 
@@ -204,8 +234,10 @@ def Widok_Konto_Usuń_Konto():
 @Blueprint_2.route("/wyloguj/")
 @LOGIN_REQUIRED
 def Widok_Konto_Wyloguj():
-    """
-    Wylogowanie obecnie zalgowanego użytkownika.
+    """Obsługuje wylogowanie aktualnie zalogowanego użytkownika.
+
+    :return: Odpowiedź przekierowująca na stronę główną konta.
+    :rtype: werkzeug.wrappers.response.Response
     """
     FLASH("Wylogowano.", "info")
     LOGOUT_USER()

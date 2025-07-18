@@ -1,29 +1,28 @@
-"""
-Formularz edycji konta.
-"""
+"""Moduł formularza edycji konta."""
 
 #! Zewnętrzne Importy
 from flask_wtf import FlaskForm as FLASK_FORM
-from wtforms import EmailField as EMAIL_FIELD
-from wtforms import StringField as STRING_FIELD
-from wtforms import SubmitField as SUBMIT_FIELD
-from wtforms import TextAreaField as TEXTAREA_FIELD
-from wtforms import validators as VALIDATORS
+from wtforms import (
+    EmailField as EMAIL_FIELD,
+    StringField as STRING_FIELD,
+    SubmitField as SUBMIT_FIELD,
+    TextAreaField as TEXTAREA_FIELD,
+    validators as VALIDATORS,
+)
 
 
 #! Main
 class Formularz_Edytuj_Konto(FLASK_FORM):
-    """
-    Klasa reprezentująca formularz Flask-WTF do edycji własnego konta przez użytkownika. Posiada następujące pola:
+    """Formularz do edycji danych konta użytkownika.
 
-    :ivar Pole_Login: Pole tekstowe do wprowadzenia loginu. Wymagane, długość od 5 do 100 znaków.
-    :vartype Pole_Login: wtforms.fields.StringField
-    :ivar Pole_Email: Pole e-mail do wprowadzenia adresu e-mail. Wymagane, długość od 5 do 100 znaków.
-    :vartype Pole_Email: wtforms.fields.EmailField
-    :ivar Pole_Opis: Pole tekstowe (obszar) na opcjonalny opis użytkownika.
-    :vartype Pole_Opis: wtforms.fields.TextAreaField
-    :ivar Pole_Submit: Przycisk do wysłania formularza.
-    :vartype Pole_Submit: wtforms.fields.SubmitFieldt
+    :param Pole_Login: Pole na nowy login użytkownika.
+    :type Pole_Login: wtforms.fields.StringField
+    :param Pole_Email: Pole na nowy adres email użytkownika.
+    :type Pole_Email: wtforms.fields.EmailField
+    :param Pole_Opis: Pole na opcjonalny opis użytkownika.
+    :type Pole_Opis: wtforms.fields.TextAreaField
+    :param Pole_Submit: Przycisk wysyłający formularz.
+    :type Pole_Submit: wtforms.fields.SubmitField
     """
 
     Pole_Login = STRING_FIELD(

@@ -1,8 +1,11 @@
-# Rozszerzenia aplikacji
+"""Moduł inicjalizujący rozszerzenia Flask.
+
+Centralne miejsce do tworzenia instancji rozszerzeń, które są
+następnie importowane i inicjalizowane w głównym pliku aplikacji.
+"""
 
 #! Importy Zewnętrzne
-from flask import current_app as CURRENT_APP
-from flask import request as REQUEST
+from flask import current_app as CURRENT_APP, request as REQUEST
 from flask_babel import Babel as BABEL
 from flask_sqlalchemy import SQLAlchemy as SQL_ALCHEMY
 
@@ -11,32 +14,25 @@ Babel = BABEL()
 
 
 def get_locale():
-    """
-    Ustawia język, sprawdzając kolejno:
-        1) Wartość ciasteczka `Jezyk`.
-        2) Preferowany język przglądarki użytkownika.
-        3) Domyślny język
-    """
+    """Określa język interfejsu dla żądania.
 
+    Sprawdza kolejno:
+    1. Ciasteczko 'Jezyk' ustawione przez użytkownika.
+    2. Nagłówek 'Accept-Language' przeglądarki.
+    3. Domyślną konfigurację aplikacji.
+
+    :return: Kod języka do użycia (np. 'pl', 'en').
+    :rtype: str
+    """
+    # 1. Ciasteczko
     if REQUEST.cookies.get("Jezyk") in CURRENT_APP.config["LANGUAGES"]:
-        Język = REQUEST.cookies.get("Jezyk")
-
-        print("Język: Ciasteczko")
-        print(f"get_locale() --> {Język=}")
-
+        return REQUEST.cookies.get("Jezyk")
+    # 2. Preferowany język
+    Język = REQUEST.accept_languages.best_match(CURRENT_APP.config["LANGUAGES"])
+    if Język:
         return Język
-
-    else:
-        Język = REQUEST.accept_languages.best_match(CURRENT_APP.config["LANGUAGES"])
-
-        print("Język: Preferowany Język")
-        print(f"get_locale() --> {Język=}")
-
-        if Język:
-            return Język
-
-    Domyślny_Język = CURRENT_APP.config.get("BABEL_DEFAULT_LOCALE", "pl")
-    return Domyślny_Język
+    # 3. Domyślny
+    return CURRENT_APP.config.get("BABEL_DEFAULT_LOCALE", "pl")
 
 
 #! Baza Danych
