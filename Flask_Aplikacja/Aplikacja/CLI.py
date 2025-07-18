@@ -3,6 +3,7 @@
 Ten moduł wykorzystuje `Click` do tworzenia niestandardowych komend
 terminalowych, głównie do zarządzania tłumaczeniami za pomocą `pybabel`.
 """
+# TODO: Do poprawienia lub usunięcia
 
 import os as OS
 

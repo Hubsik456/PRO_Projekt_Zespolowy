@@ -61,6 +61,7 @@ def Widok_Konto_Logowanie():
     :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
     :rtype: str or werkzeug.wrappers.response.Response
     """
+    # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
     Formularz = Formularz_Logowanie()
 
     if REQUEST.method == "POST":
@@ -98,6 +99,7 @@ def Widok_Konto_Rejestracja():
     :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
     :rtype: str or werkzeug.wrappers.response.Response
     """
+    # TODO: Zrobić redirect jeśli ktoś jest już zalogowany
     Formularz = Formularz_Rejestracja()
 
     if REQUEST.method == "POST":

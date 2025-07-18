@@ -45,6 +45,7 @@ def create_app(Ustawienia=Konfiguracja):
     DB.init_app(Aplikacja)
 
     #! Konta Użytkowników
+    # TODO:
     Login_Manager = LOGIN_MANAGER()
     Login_Manager.login_view = "Blueprint_2.Widok_Konto_Logowanie"
     Login_Manager.login_message = "Ta strona jest dostępna tylko dla zalogowanych użytkowników. Jeśli nie masz konta, musisz się zarejstrować."
@@ -87,6 +88,7 @@ def create_app(Ustawienia=Konfiguracja):
     Aplikacja.register_blueprint(Blueprint_Kolekcja)
 
     #! Obsługa Błędów
+    # TODO: Dodać pozostałe błędy HTTP
     @Aplikacja.errorhandler(401)
     def Błąd_401(Błąd):
         """Obsługuje błąd 401 (Unauthorized).
