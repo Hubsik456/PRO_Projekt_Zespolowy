@@ -1,4 +1,8 @@
-# Blueprint #0 - Debug'owanie/Testowanie
+"""Inicjalizacja Blueprintu #0 - Debug.
+
+Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z debugowaniem i testowaniem aplikacji.
+"""
 
 #! Zewnętrzne Importy
 from flask import Blueprint as BLUEPRINT

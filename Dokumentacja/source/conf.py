@@ -1,48 +1,37 @@
-# Do automatycznego generowania dokumentacji
-import sys as SYS
-from pathlib import Path as PATH
+# Dokumentacja/source/conf.py
+
 import os
-SYS.path.insert(0, str(PATH(__file__).resolve().parents[2]))
-SYS.path.insert(0, str(PATH(__file__).resolve().parents[2] / "Flask_Aplikacja"))
+import sys
 
-print("---")
-print(SYS.path)
-print("---")
+# Wskazanie Sphinxowi, gdzie znajduje się kod aplikacji
+# Wychodzimy dwa katalogi w górę (do PRO_Projekt_Zespolowy-main), a potem wchodzimy do Flask_Aplikacja
+sys.path.insert(0, os.path.abspath("../../Flask_Aplikacja"))
 
 
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+# -- Informacje o projekcie ---------------------------------------------------
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+project = "Kurator Kolekcji"
+copyright = "2025, Hubert Michna, Patryk Pieniążek"
+author = "Hubert Michna, Patryk Pieniążek"
+release = "1.0"
 
-project = 'Kurator Kolekcji'
-copyright = '2025, Hubert Michna, Patryk Pieniążek'
-author = 'Hubert Michna, Patryk Pieniążek'
-release = '1'
-
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+# -- Konfiguracja ogólna -----------------------------------------------------
 
 extensions = [
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
+    "sphinx.ext.autodoc",  # Automatyczne generowanie z docstringów
+    "sphinx.ext.viewcode",  # Dodaje linki do kodu źródłowego
+    "sphinx.ext.napoleon",  # Obsługa docstringów w stylu Google
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
+language = "pl"
 
-language = 'pl'
+# -- Opcje dla wyjścia HTML --------------------------------------------------
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+# Używamy popularnego motywu "Read the Docs"
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
 
-html_theme = 'bizstyle'
-html_static_path = ['_static']
-
-# Dopisane
-autodoc_mock_imports = ['Aplikacja']
+# Opcje dla autodoc
+autodoc_member_order = "bysource"  # Sortuj elementy wg kolejności w kodzie

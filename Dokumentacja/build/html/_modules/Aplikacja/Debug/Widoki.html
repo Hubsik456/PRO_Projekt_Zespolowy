@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="pl" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikacja.Debug.Widoki &mdash; Kurator Kolekcji 1.0 - dokumentacja</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=331e28ce"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Indeks" href="../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Kurator Kolekcji
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Szukaj" aria-label="Szukaj" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Spis Treści:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dokumentacja.html">Dokumentacja API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Podzia%C5%82_Zada%C5%84.html">Podział Zadań</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Wymagania_Funkcjonalne.html">Wymaganie Funkcjonalne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Wymagania_Niefunkcjonalne.html">Wymaganie Niefunkcjonalne</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Kurator Kolekcji</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Kod modułu</a></li>
+          <li class="breadcrumb-item"><a href="../../Aplikacja.html">Aplikacja</a></li>
+      <li class="breadcrumb-item active">Aplikacja.Debug.Widoki</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Kod źródłowy modułu Aplikacja.Debug.Widoki</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Widoki (routes) dla Blueprintu #0 - Debug.</span>
+
+<span class="sd">Moduł zawiera widoki i logikę przydatną podczas tworzenia</span>
+<span class="sd">i testowania aplikacji.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">abort</span> <span class="k">as</span> <span class="n">ABORT</span><span class="p">,</span>
+    <span class="n">current_app</span> <span class="k">as</span> <span class="n">CURRENT_APP</span><span class="p">,</span>
+    <span class="n">flash</span> <span class="k">as</span> <span class="n">FLASH</span><span class="p">,</span>
+    <span class="n">render_template</span> <span class="k">as</span> <span class="n">RENDER_TEMPLATE</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#! Lokalne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Debug</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_0</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Widok_Debug_Index">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Debug.Widoki.Widok_Debug_Index">[dokumentacja]</a>
+<span class="nd">@Blueprint_0</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Debug_Index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę główną panelu debugowania.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony głównej panelu debugowania.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Debug/index.html&quot;</span><span class="p">,</span> <span class="n">Nagłówek</span><span class="o">=</span><span class="s2">&quot;Index&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Debug_Ścieżki">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Debug.Widoki.Widok_Debug_Ścieżki">[dokumentacja]</a>
+<span class="nd">@Blueprint_0</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/sciezki/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Debug_Ścieżki</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wyświetla listę wszystkich dostępnych ścieżek URL w aplikacji.</span>
+
+<span class="sd">    Iteruje po `current_app.url_map`, aby zebrać informacje o wszystkich</span>
+<span class="sd">    zdefiniowanych regułach routingu.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML z tabelą zawierającą ścieżki.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Reguły</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">Reguła</span> <span class="ow">in</span> <span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">url_map</span><span class="o">.</span><span class="n">iter_rules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">Reguła</span><span class="o">.</span><span class="n">endpoint</span> <span class="o">!=</span> <span class="s2">&quot;static&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Reguła</span><span class="o">.</span><span class="n">arguments</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">():</span>
+                <span class="n">Argumenty</span> <span class="o">=</span> <span class="n">Reguła</span><span class="o">.</span><span class="n">arguments</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">Argumenty</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="n">Reguły</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Reguła</span><span class="o">.</span><span class="n">rule</span><span class="p">,</span> <span class="n">Reguła</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">Argumenty</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Debug/Ścieżki.html&quot;</span><span class="p">,</span> <span class="n">Reguły</span><span class="o">=</span><span class="n">Reguły</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Debug_Flash">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Debug.Widoki.Widok_Debug_Flash">[dokumentacja]</a>
+<span class="nd">@Blueprint_0</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/flash/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Debug_Flash</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Testuje wyświetlanie komunikatów flash.</span>
+
+<span class="sd">    Generuje komunikaty flash dla wszystkich dostępnych kategorii Bootstrapa.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;&lt;h1 class=&#39;text-primary&#39;&gt;WIP| Lorem Ipsum&lt;/h1&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Primary: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;primary&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Secondary:  Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;secondary&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Success: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Danger: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Warning: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Info: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Light: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;light&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Dark: Lorem Ipsum&quot;</span><span class="p">,</span> <span class="s2">&quot;dark&quot;</span><span class="p">)</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;WIP| Null: Lorem Ipsum&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Debug/index.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Test_1">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Debug.Widoki.Widok_Test_1">[dokumentacja]</a>
+<span class="nd">@Blueprint_0</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/formularz/&quot;</span><span class="p">)</span>  <span class="c1"># TODO:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Test_1</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Widok testowy dla formularzy.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Debug/index.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Debug_Generowanie_Błędu">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Błędu">[dokumentacja]</a>
+<span class="nd">@Blueprint_0</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/blad/&lt;int:ID&gt;&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Debug_Generowanie_Błędu</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Celowo generuje błąd HTTP o podanym kodzie.</span>
+
+<span class="sd">    Funkcja służy do testowania stron błędów.</span>
+
+<span class="sd">    :param int ID: Kod błędu HTTP do wygenerowania.</span>
+<span class="sd">    :raises werkzeug.exceptions.HTTPException: Przerywa żądanie z podanym kodem błędu.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ID</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="mi">400</span><span class="p">,</span>
+        <span class="mi">401</span><span class="p">,</span>
+        <span class="mi">402</span><span class="p">,</span>
+        <span class="mi">403</span><span class="p">,</span>
+        <span class="mi">404</span><span class="p">,</span>
+        <span class="mi">405</span><span class="p">,</span>
+        <span class="mi">407</span><span class="p">,</span>
+        <span class="mi">408</span><span class="p">,</span>
+        <span class="mi">409</span><span class="p">,</span>
+        <span class="mi">410</span><span class="p">,</span>
+        <span class="mi">411</span><span class="p">,</span>
+        <span class="mi">412</span><span class="p">,</span>
+        <span class="mi">413</span><span class="p">,</span>
+        <span class="mi">414</span><span class="p">,</span>
+        <span class="mi">415</span><span class="p">,</span>
+        <span class="mi">416</span><span class="p">,</span>
+        <span class="mi">417</span><span class="p">,</span>
+        <span class="mi">418</span><span class="p">,</span>
+        <span class="mi">421</span><span class="p">,</span>
+        <span class="mi">422</span><span class="p">,</span>
+        <span class="mi">423</span><span class="p">,</span>
+        <span class="mi">424</span><span class="p">,</span>
+        <span class="mi">425</span><span class="p">,</span>
+        <span class="mi">426</span><span class="p">,</span>
+        <span class="mi">428</span><span class="p">,</span>
+        <span class="mi">429</span><span class="p">,</span>
+        <span class="mi">431</span><span class="p">,</span>
+        <span class="mi">451</span><span class="p">,</span>
+        <span class="mi">500</span><span class="p">,</span>
+        <span class="mi">501</span><span class="p">,</span>
+        <span class="mi">502</span><span class="p">,</span>
+        <span class="mi">503</span><span class="p">,</span>
+        <span class="mi">504</span><span class="p">,</span>
+        <span class="mi">505</span><span class="p">,</span>
+        <span class="mi">506</span><span class="p">,</span>
+        <span class="mi">507</span><span class="p">,</span>
+        <span class="mi">508</span><span class="p">,</span>
+        <span class="mi">510</span><span class="p">,</span>
+        <span class="mi">511</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Podano zły kod błedu HTTP do wygenerowania.</span><span class="se">\n</span><span class="s2">Wygenerowano błąd #500.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ABORT</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+
+    <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wygenerowano celowo błąd #</span><span class="si">{</span><span class="n">ID</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ABORT</span><span class="p">(</span><span class="n">ID</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Prawa zastrzeżone 2025, Hubert Michna, Patryk Pieniążek.</p>
+  </div>
+
+  Zbudowano w <a href="https://www.sphinx-doc.org/">Sphinx</a> używając
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    dostarczone przez <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

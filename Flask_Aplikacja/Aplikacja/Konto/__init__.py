@@ -1,4 +1,8 @@
-# Blueprint #2 - Konta
+"""Inicjalizacja Blueprintu #2 - Konta.
+
+Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z kontami użytkowników.
+"""
 
 #! Zewnętrzne Importy
 from flask import Blueprint as BLUEPRINT
