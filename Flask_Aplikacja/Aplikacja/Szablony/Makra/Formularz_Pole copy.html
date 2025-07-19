@@ -1,0 +1,118 @@
+{% macro Formularz_Pole(Pole) %}
+    <div class="row">
+        {% if Pole.type != "FormField" %}
+        <div class="col-md-3">
+            {% if Pole.flags.required %}
+                <span class="text-danger fw-bold" title="To pole jest wymagane. Uzupełnij je aby móc przesłać formularz.">*</span>
+            {% endif %}
+
+            {% if Pole.type == "BooleanField" %}
+                <b>{{ Pole.label(class="form-check-label") }}:</b>
+
+            {% elif Pole.type in ["SubmitField"] %}
+                {# Żeby nic nie wyświetlało #}
+
+            {% else %}
+                <b>{{ Pole.label(class="col-form-label") }}:</b>
+
+            {% endif %}
+
+            <br><span class="small text-secondary">#{{ Pole.id }} ({{ Pole.type }})<span> {# Do debugowania #}
+        </div>
+        {% endif %}
+
+        {% if Pole.type != "FormField" %}
+            <div class="col-md-9">
+        {% else %}
+            <div class="col-md-12">
+
+        {% endif %}
+
+            {# Standardowe Pola Formularzy #}
+                {% if Pole.type in ["StringField", "EmailField", "FileField", "MultipleFileField", "DecimalField", "FloatField", "IntegerField"] %}
+                    {{ Pole(class="form-control mb-4", **kwargs)|safe }}
+
+                {% elif Pole.type in ["PasswordField"] %}
+                    <div class="input-group mb-4">
+                        {{ Pole(class="form-control", **kwargs)|safe }}
+                        <button class="btn btn-outline-secondary Przycisk_Wyświetlanie_Hasła" type="button" data-bs-toggle="button" onclick="Formularz_Wyświetlanie_Hasła('#{{Pole.id}}')" title="Wyświetl/Ukryj hasło"></button>
+                    </div>
+
+                {% elif Pole.type in ["BooleanField"] %}
+                    {{ Pole(class="form-check-input mb-4", **kwargs)|safe }}
+
+                {% elif Pole.type in ["DateField", "DateTimeField", "DateTimeLocalField"] %}
+                    {{ Pole(class="form-control mb-4", **kwargs)|safe }}
+
+                {% elif Pole.type in ["DecimalRangeField", "IntegerRangeField"] %}
+                    {{ Pole(class="form-range", **kwargs)|safe }}
+                    <p class="form-text mb-4" aria-describedby="{{ Pole.id }}">Wartość: <span id="Wartość_Range_{{ Pole.id }}">{{ Pole.value }}</span></p>
+
+                {% elif Pole.type in ["RadioField"] %}
+                    {% for Odpowiedź in Pole %}
+                        <div class="form-check">
+                            {{ Odpowiedź(class="form-check-input", **kwargs)|safe }}
+                            {{ Odpowiedź.label(class="form-check-label") }}
+                        </div>
+                    {% endfor %}
+
+                {% elif Pole.type in ["ColorField"] %}
+                    {{ Pole(class="form-control form-control-color mb-4", **kwargs)|safe }}
+
+            {# Do wyświetlanie powtarzalnych pól #}
+                {% elif Pole.type == "FieldList" %}
+                    <div class="field-list-container mb-4">
+                        {% for Dodatkowe_Pole in Pole %}
+                            {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
+
+                        {% endfor %}
+                    </div>
+
+                {% elif Pole.type == "FormField" %}
+                    {{ Pole(class="form-control mb-4", **kwargs)|safe }}
+
+            {# Wysyłanie formularza #}
+                {% elif Pole.type == "SubmitField" %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="reset" value="Resetuj" class="btn btn-danger mb-4 w-100">
+                        </div>
+                        <div class="col-sm-6">
+                            {{ Pole(class="btn btn-primary mb-4 w-100", **kwargs)|safe }}
+                        </div>
+                    </div>
+
+            {# Pomocnicze informacje #}
+                {% elif Pole.type in ["MonthField"] %}
+                    <div class="alert alert-danger">
+                        <p><strong>Błąd</strong>: Obsolete/Deprecated/Błędne działanie, pole typu "{{ Pole.type }}".</p>
+                    </div>
+                    {{ Pole(class="form-control mb-4", **kwargs)|safe }}
+
+            {# Komunikat o nieobsługiwanym typu pola formularza #}
+                {% else %}
+                    <div class="alert alert-warning">
+                        <p><strong>Błąd</strong>: Nieobsługiwany typ pola ("{{ Pole.type }}") z formularza.</p>
+                    </div>
+                    {{ Pole(class="form-control mb-4", **kwargs)|safe }}
+
+                {% endif %}
+
+            {# Komunikaty o błędach walidacji formularza #}
+                {% if Pole.errors %}
+                    <div class="alert alert-danger mb-4">
+                        {% for Błąd in Pole.errors %}
+                            <p>{{ Błąd }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            {# Komunikaty z opisami pól formularza #}
+                {% if Pole.description %}
+                    <div class="form-text mb-4">
+                        {{ Pole.description }}
+                    </div>
+                {% endif %}
+        </div>
+    </div>
+{% endmacro %}

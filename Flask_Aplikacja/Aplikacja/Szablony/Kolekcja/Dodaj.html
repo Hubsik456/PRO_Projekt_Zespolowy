@@ -1,0 +1,34 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Formularz_Pole.html" import Formularz_Pole %}
+
+{% block Tytuł %}
+    {{ _("Dodaj Przedmiot") }}
+{% endblock %}
+
+{% block Treść %}
+    <h1>{{ _("Dodaj Przedmiot") }}</h1>
+
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        <form method="POST" novalidate class="{% if request.method == 'POST'%}was-validated{% endif %}">
+            {#{{ Formularz.csrf_token }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Nazwa) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Opis) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Cena_Zakupu) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Wartość_Rynkowa) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Kategoria) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Czy_Prywatne) }}#}
+            {#{{ Formularz_Pole(Formularz.Pole_Submit) }}#}
+
+
+            {{ Formularz.csrf_token }}
+
+            {% for field in Formularz %}
+                {% if field.type not in ["CSRFTokenField", "SubmitField"] %}
+                    {{ Formularz_Pole(field) }}
+                {% endif %}
+            {% endfor %}
+
+            {{ Formularz_Pole(Formularz.Pole_Submit) }}
+        </form>
+    </div>
+{% endblock %}

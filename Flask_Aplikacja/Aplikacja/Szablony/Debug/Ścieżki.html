@@ -10,7 +10,7 @@
 
     {% if Reguły %}
         <div class="mb-2">
-            <table class="table table-bordered table-striped">
+            <table id="Tabela_Sciezki" class="table table-bordered table-striped">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">Reguła</th>
@@ -37,5 +37,16 @@
                 </tbody>
             </table>
         </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(){
+                new DataTable("#Tabela_Sciezki", {
+                    lengthMenu: [-1, 10],
+                    language: { // https://datatables.net/plug-ins/i18n/
+                        //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json",
+                    }
+                });
+            });
+        </script>
     {% endif %}
 {% endblock %}

@@ -1,6 +1,5 @@
 """Moduł z modelem bazy danych dla tabeli Użytkownicy."""
 
-#! Zewnętrzne Importy
 #! Lokalne Importy
 from Aplikacja.Rozszerzenia import DB
 from flask_login import UserMixin as USER_MIXIN
@@ -32,8 +31,8 @@ class Użytkownicy(USER_MIXIN, DB.Model):
     ID = DB.Column(DB.Integer, primary_key=True)
     Login = DB.Column(DB.String(100), unique=True, nullable=False)
     Hasło = DB.Column(
-        DB.String(100), nullable=False
-    )  # TODO: Czy tu na pewno ma być String(100)
+        DB.Text, nullable=False
+    )
     Email = DB.Column(DB.String(100), nullable=False, unique=False)
     Dodano = DB.Column(
         DB.DateTime(timezone=True), server_default=FUNC.now(), nullable=False

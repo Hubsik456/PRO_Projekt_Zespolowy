@@ -1,0 +1,13 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
+
+{% block Tytuł %}
+    Podsumowanie
+{% endblock %}
+
+{% block Treść %}
+    <h1>Podsumowanie</h1>
+
+    {{ Lorem_Ipsum(5) }}
+
+{% endblock %}

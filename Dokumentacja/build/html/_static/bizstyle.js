@@ -17,7 +17,7 @@ const initialiseBizStyle = () => {
 }
 
 window.addEventListener("resize",
-  () => (document.querySelector("li.nav-item-0 a").innerText = (window.innerWidth <= 776) ? "Top" : "Kurator Kolekcji 1 - dokumentacja")
+  () => (document.querySelector("li.nav-item-0 a").innerText = (window.innerWidth <= 776) ? "Top" : "Kurator Kolekcji 1.0 - dokumentacja")
 )
 
 if (document.readyState !== "loading") initialiseBizStyle()

@@ -1,6 +1,6 @@
 {% macro Formularz_Pole(Pole) %}
     <div class="row">
-        {# Kolumna z label #}
+        {# Nie wyświetlanie dodatkowej kolumny dla pól powtarzalnych #}
         {% if Pole.type != "FormField" %}
         <div class="col-md-3">
             {% if Pole.flags.required %}
@@ -18,22 +18,20 @@
 
             {% endif %}
 
-            {# Do debugowania #}
-            {#<br><span class="small text-secondary">#{{ Pole.id }} ({{ Pole.type }})<span>#}
+            <br><span class="small text-secondary">#{{ Pole.id }} ({{ Pole.type }})<span> {# Do debugowania #}
         </div>
         {% endif %}
 
-        {# Kolumna z polami #}
-        {% if Pole.type != "FormField" %}
+        {% if Pole.type != "FormField" %} {# Nie wyświetlanie dodatkowej kolumny dla pól powtarzalnych #}
             <div class="col-md-9">
 
-        {% else %}
-            <div class="col-md-12">
+        {% else %} {# Jeśli to FormField, zajmuje całą szerokość kolumny, bo etykieta jest w środku #}
 
+            <div class="col-md-12">
         {% endif %}
 
             {# Standardowe Pola Formularzy #}
-            {% if Pole.type in ["StringField", "TextAreaField", "EmailField", "FileField", "MultipleFileField", "DecimalField", "FloatField", "IntegerField"] %}
+            {% if Pole.type in ["StringField", "EmailField", "FileField", "MultipleFileField", "DecimalField", "FloatField", "IntegerField"] %}
                 {{ Pole(class="form-control mb-4", **kwargs)|safe }}
 
             {% elif Pole.type in ["PasswordField"] %}
@@ -41,9 +39,6 @@
                     {{ Pole(class="form-control", **kwargs)|safe }}
                     <button class="btn btn-outline-secondary Przycisk_Wyświetlanie_Hasła" type="button" data-bs-toggle="button" onclick="Formularz_Wyświetlanie_Hasła('#{{Pole.id}}')" title="Wyświetl/Ukryj hasło"></button>
                 </div>
-
-            {% elif Pole.type in ["SelectField"] %}
-                {{ Pole(class="form-select mb-4", **kwargs)|safe }}
 
             {% elif Pole.type in ["BooleanField"] %}
                 {{ Pole(class="form-check-input mb-4", **kwargs)|safe }}
@@ -68,60 +63,34 @@
 
             {# --- Zmodyfikowany blok dla FieldList i FormField --- #}
             {% elif Pole.type == "FieldList" %}
-                <div class="field-list-container mb-4">
+                {% if Pole.label %} {# Etykieta dla całej listy pól, jeśli chcesz #}
+                    {#<h4 class="mb-3">{{ Pole.label }}</h4>#}
+                {% endif %}
+
+                <div class="field-list-container mb-4"> {# Dodane style dla kontenera listy #}
                     {% for Dodatkowe_Pole in Pole %}
-                        <div class="field-list-item mb-3 p-2">
-                            {# Przycisk usuwania dla elementu listy #}
-                            {#{% if delete_button %}
-                                <button type="button" class="btn btn-danger btn-sm float-end" onclick="removeField(this)">Usuń</button>
-                            {% endif %}#}
-
+                        {# Rekurencyjne wywołanie makra dla każdego elementu FieldList (który będzie typu FormField) #}
+                        {# Możesz dodać przycisk usuwania dla każdego elementu listy #}
+                        <div class="field-list-item mb-4 p-2 border rounded "> {# Kontener dla pojedynczego elementu listy #}
+                            {# Opcjonalny przycisk usuwania, jeśli masz go w JS #}
+                            {# <button type="button" class="btn btn-danger btn-sm float-end" onclick="removeField(this)">Usuń</button> #}
                             {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
-
-                            {# Błędy i opisy dla pojedynczego elementu listy (FormField) #}
-                            {#{% if Dodatkowe_Pole.errors %}
-                                <div class="alert alert-danger mt-2">
-                                    {% for Błąd in Dodatkowe_Pole.errors %}
-                                        <p>{{ Błąd }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}#}
-
-                            {% if Dodatkowe_Pole.description %}
-                                <div class="form-text mt-2">
-                                    {{ Dodatkowe_Pole.description }}
-                                </div>
-                            {% endif %}
                         </div>
                     {% endfor %}
-
-                    {# Przycisk dodawania nowego elementu do listy #}
-                    {#}
-                    {% if add_button %}
-                        <button type="button" class="btn btn-success mt-2" onclick="addField()">Dodaj nowe</button>
-                    {% endif %}
-                    #}
+                    {# Opcjonalny przycisk dodawania, jeśli masz go w JS #}
+                    {# <button type="button" class="btn btn-success mt-2" onclick="addField()">Dodaj nowe</button> #}
                 </div>
 
             {% elif Pole.type == "FormField" %}
-                <div class="form-field-container mb-4 pt-3 ps-3 pe-3 border rounded">
-                    {% for Dodatkowe_Pole in Pole %}
-                        {% if Dodatkowe_Pole.type != 'CSRFTokenField' %}
-                            {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
+                {# FormField jest jak sub-formularz, więc iterujemy po jego polach #}
+                {% if Pole.label %}
+                    {#<h5 class="mb-3">{{ Pole.label }}</h5>#} {# Etykieta dla grupy pól FormField #}
+                {% endif %}
 
-                            {#{% if sub_field_in_formfield.errors %}
-                                <div class="alert alert-danger mt-2">
-                                    {% for Błąd in sub_field_in_formfield.errors %}
-                                        <p>{{ Błąd }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}#}
-
-                            {% if Dodatkowe_Pole.description %}
-                                <div class="form-text mt-2">
-                                    {{ Dodatkowe_Pole.description }}
-                                </div>
-                            {% endif %}
+                <div class="form-field-container mb-4"> {# Dodane style dla kontenera FormField #}
+                    {% for Podpole in Pole %}
+                        {% if Podpole.type != 'CSRFTokenField' %}
+                            {{ Formularz_Pole(Podpole, **kwargs) }}
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -148,14 +117,14 @@
             {# Komunikat o nieobsługiwanym typu pola formularza #}
             {% else %}
                 <div class="alert alert-warning">
-                    <p><strong>Błąd</strong>: Sprawdzić klasy z Bootstrapa dla typu pola ("{{ Pole.type }}") z formularza i dodać odpowenie if'y.</p>
+                    <p><strong>Błąd</strong>: Sprawdzić klasy z Bootstrapa dla typu pola ("{{ Pole.type }}") z formularza.</p>
                 </div>
                 {{ Pole(class="form-control mb-4", **kwargs)|safe }}
 
             {% endif %}
 
             {# Komunikaty o błędach walidacji formularza #}
-            {% if Pole.errors and Pole.type not in ["FieldList", "FormField"] %}
+            {% if Pole.errors %}
                 <div class="alert alert-danger mb-4">
                     {% for Błąd in Pole.errors %}
                         <p>{{ Błąd }}</p>
