@@ -21,7 +21,15 @@ from flask_login import (
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
 
-from Aplikacja.Modele.Użytkownicy import Użytkownicy
+from Aplikacja.Modele.Użytkownicy import Uzytkownik
+from Aplikacja.Modele.Kolekcja_Przedmioty import Przedmiot
+from Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje import PoleWlasneRodzaj
+from Aplikacja.Modele.Kolekcja_Pola_Własne import PoleWlasne
+from Aplikacja.Modele.Kolekcja_Waluty import Waluta
+from Aplikacja.Modele.Kolekcja_Kategorie import Kategoria
+from Aplikacja.Modele.Kolekcja_Notatki import Notatka
+from Aplikacja.Modele.Kolekcja_Zdjęcia import Zdjecie
+
 from Aplikacja.Rozszerzenia import DB, Babel, get_locale
 
 
@@ -61,7 +69,7 @@ def create_app(Ustawienia=Konfiguracja):
         :return: Obiekt użytkownika lub None, jeśli nie znaleziono.
         :rtype: Użytkownicy or None
         """
-        return Użytkownicy.query.get(int(user_id))
+        return Uzytkownik.query.get(int(user_id))
 
     #! Tłumaczenia
     Babel.init_app(Aplikacja, locale_selector=get_locale)

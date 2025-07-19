@@ -1,43 +1,50 @@
 """Moduł z modelem bazy danych dla tabeli Użytkownicy."""
 
+#! Zewnętrzne Importy
+from sqlalchemy.sql import func as FUNC
+from flask_login import UserMixin as USER_MIXIN
+
 #! Lokalne Importy
 from Aplikacja.Rozszerzenia import DB
-from flask_login import UserMixin as USER_MIXIN
-from sqlalchemy.sql import func as FUNC
-
 
 #! Main
-class Użytkownicy(USER_MIXIN, DB.Model):
-    """Model tabeli 'Użytkownicy' w bazie danych.
+class Uzytkownik(USER_MIXIN, DB.Model):
+    """Model tabeli 'Uzytkownicy' w bazie danych.
 
     Reprezentuje użytkownika aplikacji i przechowuje jego dane,
     takie jak login, hasło, email i inne.
 
-    :param str Login: Login użytkownika. Musi być unikalny.
-    :param str Hasło: Zahaszowane hasło użytkownika.
-    :param str Email: Adres email użytkownika.
-    :param str Opis: Opcjonalny opis użytkownika.
+    :param str login: Login użytkownika. Musi być unikalny.
+    :param str haslo: Zahaszowane hasło użytkownika.
+    :param str email: Adres email użytkownika.
+    :param str opis: Opcjonalny opis użytkownika.
 
-    :ivar int ID: Unikalny identyfikator użytkownika (klucz główny).
-    :ivar str Login: Login użytkownika.
-    :ivar str Hasło: Zahaszowane hasło.
-    :ivar str Email: Adres email.
-    :ivar datetime Dodano: Data i czas dodania użytkownika.
-    :ivar str Opis: Opcjonalny opis profilu.
+    :ivar int id: Unikalny identyfikator użytkownika (klucz główny).
+    :ivar str login: Login użytkownika.
+    :ivar str haslo: Zahaszowane hasło.
+    :ivar str email: Adres email.
+    :ivar datetime dodano: Data i czas dodania użytkownika.
+    :ivar str opis: Opcjonalny opis profilu.
     """
 
     __tablename__ = "Użytkownicy"
 
-    ID = DB.Column(DB.Integer, primary_key=True)
-    Login = DB.Column(DB.String(100), unique=True, nullable=False)
-    Hasło = DB.Column(
+    id = DB.Column(DB.Integer, primary_key=True)
+    login = DB.Column(DB.String(100), unique=True, nullable=False)
+    haslo = DB.Column(
         DB.Text, nullable=False
     )
-    Email = DB.Column(DB.String(100), nullable=False, unique=False)
-    Dodano = DB.Column(
+    email = DB.Column(DB.String(100), unique=True, nullable=False)
+    dodano = DB.Column(
         DB.DateTime(timezone=True), server_default=FUNC.now(), nullable=False
     )
-    Opis = DB.Column(DB.Text)
+    opis = DB.Column(DB.Text)
+
+    przedmioty_uzytkownika = DB.relationship(
+        "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot", # Pełna ścieżka do klasy Przedmiot
+        back_populates="wlasciciel", # Nazwa atrybutu relacji w klasie Przedmiot
+        lazy=True
+    )
 
     def get_id(self):
         """Zwraca ID użytkownika, wymagane przez Flask-Login.
@@ -45,12 +52,12 @@ class Użytkownicy(USER_MIXIN, DB.Model):
         :return: ID użytkownika.
         :rtype: int
         """
-        return self.ID
+        return f"{self.id}"
 
     def __repr__(self):
-        """Reprezentacja tekstowa obiektu Użytkownicy.
+        """Reprezentacja tekstowa obiektu Uzytkownik.
 
         :return: Tekstowa reprezentacja obiektu.
         :rtype: str
         """
-        return f"Użytkownik ---> ID: '{self.ID}'"
+        return f"Użytkownik ---> ID: '{self.id}'"

@@ -11,8 +11,8 @@
     <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
         <form method="POST" novalidate class="{% if request.method == 'POST'%}was-validated{% endif %}">
             {{ Formularz.csrf_token }}
-            {{ Formularz_Pole(Formularz.Pole_Login, placeholder="Login_X") }}
-            {{ Formularz_Pole(Formularz.Pole_Hasło, placeholder="Hasło#123") }}
+            {{ Formularz_Pole(Formularz.Pole_Login) }}
+            {{ Formularz_Pole(Formularz.Pole_Hasło) }}
             {{ Formularz_Pole(Formularz.Pole_Submit) }}
         </form>
     </div>

@@ -48,11 +48,14 @@ def Widok_Kolekcja_Dodaj():
             Nazwa = Formularz.Pole_Nazwa.data
             Opis = Formularz.Pole_Opis.data
             Cena_Zakupu = Formularz.Pole_Cena_Zakupu.data
+            Cena_Zakupu_Waluta = Formularz.Pole_Cena_Zakupu_Waluta.data
             Wartość_Rynkowa = Formularz.Pole_Wartość_Rynkowa.data
+            Wartość_Rynkowa_Waluta = Formularz.Pole_Wartość_Rynkowa_Waluta.data
             Kategoria = Formularz.Pole_Kategoria.data
             Czy_Prywatne = Formularz.Pole_Czy_Prywatne.data
+            Pola_Własne = Formularz.Pola_Własne.data
 
-            TEMP = [Nazwa, Opis, Cena_Zakupu, Wartość_Rynkowa, Kategoria, Czy_Prywatne]
+            TEMP = [Nazwa, Opis, Cena_Zakupu, Cena_Zakupu_Waluta, Wartość_Rynkowa, Wartość_Rynkowa_Waluta, Kategoria, Czy_Prywatne, Pola_Własne]
 
             FLASH(f"Dodano nowy przedmiot do Twojej kolekcji.---{TEMP}", "success")
             return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Moja_Kolekcja"))

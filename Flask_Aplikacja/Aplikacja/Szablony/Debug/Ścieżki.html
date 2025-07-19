@@ -13,6 +13,7 @@
             <table id="Tabela_Sciezki" class="table table-bordered table-striped">
                 <thead>
                     <tr class="table-primary">
+                        <th scope="col">#</th>
                         <th scope="col">Reguła</th>
                         <th scope="col">Pełna Nazwa Widoku</th>
                         <th scope="col">Argumenty</th>
@@ -21,6 +22,7 @@
                 <tbody>
                     {% for Reguła, Pełna_Nazwa, Argumenty in Reguły %}
                         <tr>
+                            <td>{{ loop.index }}</td>
                             <td>
                                 {% if Argumenty == "" %}
                                     <a href="{{ url_for(Pełna_Nazwa) }}">{{ Reguła }}</a>
@@ -43,7 +45,8 @@
                 new DataTable("#Tabela_Sciezki", {
                     lengthMenu: [-1, 10],
                     language: { // https://datatables.net/plug-ins/i18n/
-                        //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json",
+                        //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json", // CORS blokuje
+                        url: "{{ url_for('static', filename='../../Statyczne/DataTables/pl.json')}}",
                     }
                 });
             });

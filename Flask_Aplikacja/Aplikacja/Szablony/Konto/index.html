@@ -8,7 +8,7 @@
     <h1>{{ _("Konto") }}</h1>
 
     {% if current_user.is_authenticated %}
-        <p>{{ _("Jesteś obecnie zalogowany jako: %(Użytkownik)s.", Użytkownik=current_user.Login) }}</p>
+        <p>{{ _("Jesteś obecnie zalogowany jako: '%(Użytkownik)s'.", Użytkownik=current_user.login) }}</p>
 
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Usuń_Konto') }}" class="btn btn-primary">Usuń Konto</a>
         <a href="{{ url_for('Blueprint_2.Widok_Konto_Edytuj_Konto') }}" class="btn btn-primary">Edytuj Swoje Dane</a>

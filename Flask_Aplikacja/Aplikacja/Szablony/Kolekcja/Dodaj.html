@@ -8,26 +8,20 @@
 {% block Treść %}
     <h1>{{ _("Dodaj Przedmiot") }}</h1>
 
+    <p>Po dodaniu przedmiotu będziesz mógł dodać do niego zdjęcia czy skany oraz własne notatki.</p>
+
     <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
         <form method="POST" novalidate class="{% if request.method == 'POST'%}was-validated{% endif %}">
-            {#{{ Formularz.csrf_token }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Nazwa) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Opis) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Cena_Zakupu) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Wartość_Rynkowa) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Kategoria) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Czy_Prywatne) }}#}
-            {#{{ Formularz_Pole(Formularz.Pole_Submit) }}#}
-
-
             {{ Formularz.csrf_token }}
-
-            {% for field in Formularz %}
-                {% if field.type not in ["CSRFTokenField", "SubmitField"] %}
-                    {{ Formularz_Pole(field) }}
-                {% endif %}
-            {% endfor %}
-
+            {{ Formularz_Pole(Formularz.Pole_Nazwa) }}
+            {{ Formularz_Pole(Formularz.Pole_Opis) }}
+            {{ Formularz_Pole(Formularz.Pole_Cena_Zakupu) }}
+            {{ Formularz_Pole(Formularz.Pole_Cena_Zakupu_Waluta) }}
+            {{ Formularz_Pole(Formularz.Pole_Wartość_Rynkowa) }}
+            {{ Formularz_Pole(Formularz.Pole_Wartość_Rynkowa_Waluta) }}
+            {{ Formularz_Pole(Formularz.Pole_Kategoria) }}
+            {{ Formularz_Pole(Formularz.Pola_Własne) }}
+            {{ Formularz_Pole(Formularz.Pole_Czy_Prywatne) }}
             {{ Formularz_Pole(Formularz.Pole_Submit) }}
         </form>
     </div>

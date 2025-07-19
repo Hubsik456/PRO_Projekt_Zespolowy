@@ -15,5 +15,4 @@ class Formularz_Pole_Własne(FLASK_FORM):
         csrf = False
 
     Pole_Rodzaj = SELECT_FIELD("Rodzaj", choices=[("a", "Opcja #A"), ("b", "Opcja #B"), ("c", "Opcja #C")])
-    Pole_Treść = STRING_FIELD("Wartość", validators=[VALIDATORS.DataRequired()])
-
+    Pole_Treść = STRING_FIELD("Wartość")

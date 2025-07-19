@@ -66,16 +66,10 @@
             {% elif Pole.type in ["ColorField"] %}
                 {{ Pole(class="form-control form-control-color mb-4", **kwargs)|safe }}
 
-            {# --- Zmodyfikowany blok dla FieldList i FormField --- #}
             {% elif Pole.type == "FieldList" %}
-                <div class="field-list-container mb-4">
+                <div id="Pola_Własne" class="field-list-container mb-4">
                     {% for Dodatkowe_Pole in Pole %}
-                        <div class="field-list-item mb-3 p-2">
-                            {# Przycisk usuwania dla elementu listy #}
-                            {#{% if delete_button %}
-                                <button type="button" class="btn btn-danger btn-sm float-end" onclick="removeField(this)">Usuń</button>
-                            {% endif %}#}
-
+                        <div class="mb-3 p-2 Pole_Własne">
                             {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
 
                             {# Błędy i opisy dla pojedynczego elementu listy (FormField) #}
@@ -92,19 +86,20 @@
                                     {{ Dodatkowe_Pole.description }}
                                 </div>
                             {% endif %}
+
+
                         </div>
                     {% endfor %}
 
-                    {# Przycisk dodawania nowego elementu do listy #}
-                    {#}
-                    {% if add_button %}
-                        <button type="button" class="btn btn-success mt-2" onclick="addField()">Dodaj nowe</button>
-                    {% endif %}
-                    #}
+                </div>
+
+                {# Przycisk dodawania nowego elementu do listy #}
+                <div class="border-2 border-top border-primary-subtle text-end">
+                    <button type="button" class="btn btn-primary mt-2" onclick="Formularz_Dodaj_Pole_Własne()">Dodaj nowe pole</button>
                 </div>
 
             {% elif Pole.type == "FormField" %}
-                <div class="form-field-container mb-4 pt-3 ps-3 pe-3 border rounded">
+                <div class="mb-4 p-3 border rounded">
                     {% for Dodatkowe_Pole in Pole %}
                         {% if Dodatkowe_Pole.type != 'CSRFTokenField' %}
                             {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
@@ -122,10 +117,16 @@
                                     {{ Dodatkowe_Pole.description }}
                                 </div>
                             {% endif %}
+
                         {% endif %}
+
                     {% endfor %}
+
+                    {# Przycisk usuwania dla elementu listy #}
+                    <div class="text-end">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="Formularz_Usuń_Pole_Własne(this.closest('.Pole_Własne'))">Usuń pole własne</button>
+                    </div>
                 </div>
-            {# --- Koniec zmodyfikowanego bloku --- #}
 
             {# Wysyłanie formularza #}
             {% elif Pole.type == "SubmitField" %}
