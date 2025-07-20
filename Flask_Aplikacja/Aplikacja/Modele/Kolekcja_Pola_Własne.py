@@ -14,14 +14,13 @@ class PoleWlasne(DB.Model):
 
     przedmiot = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot",
-        back_populates="pola_wlasne", # Użyj back_populates
+        back_populates="pola_wlasne",
         lazy=True
     )
 
-    # Używamy back_populates tutaj, aby powiązać z relacją 'pola_wlasne' w PoleWlasneRodzaj
     typ_pola_wlasnego = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje.PoleWlasneRodzaj",
-        back_populates="powiazane_pola_wlasne", # back_populates musi wskazywać na nazwę atrybutu relacji w drugiej klasie
+        back_populates="powiazane_pola_wlasne",
         lazy=True
     )
 

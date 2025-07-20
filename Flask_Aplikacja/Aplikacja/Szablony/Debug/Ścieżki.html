@@ -10,6 +10,13 @@
 
     {% if Reguły %}
         <div class="mb-2">
+            <p>Widoczność kolumn:
+                <a href="#" class="toggle-vis" data-column="0">#</a>
+                <a href="#" class="toggle-vis" data-column="1">Reguła</a>
+                <a href="#" class="toggle-vis" data-column="2">Pełna Nazwa Widoku</a>
+                <a href="#" class="toggle-vis" data-column="3">Argumenty</a>
+            </p>
+
             <table id="Tabela_Sciezki" class="table table-bordered table-striped">
                 <thead>
                     <tr class="table-primary">
@@ -41,15 +48,50 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function(){
-                new DataTable("#Tabela_Sciezki", {
-                    lengthMenu: [-1, 10],
-                    language: { // https://datatables.net/plug-ins/i18n/
+            document.addEventListener("DOMContentLoaded", function()
+            {
+                var Tabela = new DataTable("#Tabela_Sciezki", {
+
+                    layout: {
+                        bottom2End: {
+                            buttons: [
+                                'copy', 'excel', "csv", 'pdf'
+                            ],
+                        }
+                    },
+                    lengthMenu: [-1, 3, 10, 25, 50, 100,],
+                    language: {
                         //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json", // CORS blokuje
                         url: "{{ url_for('static', filename='../../Statyczne/DataTables/pl.json')}}",
-                    }
+                    },
+                    scrollX: true,
+                    columnControl: ['order', "spacer", ['orderAsc', 'orderDesc', 'search']],
+                    ordering: {
+                        indicators: false,
+                    },
+                    fixedHeader: {
+                        header: true,
+                        headerOffset: $('#Banner').height()
+                    },
+
+                });
+
+                // https://datatables.net/examples/api/show_hide.html
+                document.querySelectorAll('a.toggle-vis').forEach((el) => {
+                    el.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.target.classList.toggle('text-decoration-line-through');
+                        e.target.classList.toggle('text-secondary');
+
+
+                        let columnIdx = e.target.getAttribute('data-column');
+                        let column = Tabela.column(columnIdx);
+
+                        column.visible(!column.visible());
+                    });
                 });
             });
+
         </script>
     {% endif %}
 {% endblock %}

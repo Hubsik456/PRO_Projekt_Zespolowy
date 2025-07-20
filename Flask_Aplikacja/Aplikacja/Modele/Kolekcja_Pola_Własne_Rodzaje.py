@@ -12,11 +12,9 @@ class PoleWlasneRodzaj(DB.Model):
     typ_danych = DB.Column(DB.String(100), nullable=False)
     opis = DB.Column(DB.Text)
 
-    # Używamy back_populates tutaj, aby powiązać z relacją 'typ_pola_wlasnego' w PoleWlasne
-    # Zmieniona nazwa atrybutu relacji, aby była unikalna i nie kolidowała z 'rodzaj_pola_wlasnego'
-    powiazane_pola_wlasne = DB.relationship( # Zmieniono nazwę atrybutu relacji
+    powiazane_pola_wlasne = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Pola_Własne.PoleWlasne",
-        back_populates="typ_pola_wlasnego", # Wskazuje na atrybut relacji w PoleWlasne
+        back_populates="typ_pola_wlasnego",
         lazy=True
     )
 

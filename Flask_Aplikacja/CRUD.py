@@ -61,13 +61,12 @@ przedmiot_1 = Przedmiot(
     id=1,
     nazwa="Harry Potter i Kamień Filozoficzny",
     opis="Pierwsza część serii książek o Harrym Potterze.",
-    # data_dodania jest ustawiana domyślnie
-    id_wlasciciel=uzytkownik_1.id, # Odwołanie do id istniejącego użytkownika
+    id_wlasciciel=uzytkownik_1.id,
     cena_zakupu=25.50,
-    id_cena_zakupu_waluta=waluta_1.id, # Odwołanie do id istniejącej waluty
+    id_cena_zakupu_waluta=waluta_1.id,
     wartosc_rynkowa=35.00,
-    id_wartosc_rynkowa_waluta=waluta_1.id, # Odwołanie do id istniejącej waluty
-    id_kategoria=kategoria_1.id, # Odwołanie do id istniejącej kategorii
+    id_wartosc_rynkowa_waluta=waluta_1.id,
+    id_kategoria=kategoria_1.id,
     czy_prywatne=False
 )
 
@@ -90,9 +89,9 @@ przedmiot_3 = Przedmiot(
     opis="Postapokaliptyczna gra RPG z 2010 roku.",
     id_wlasciciel=uzytkownik_2.id,
     cena_zakupu=12.99,
-    id_cena_zakupu_waluta=waluta_2.id, # USD
+    id_cena_zakupu_waluta=waluta_2.id,
     wartosc_rynkowa=20.00,
-    id_wartosc_rynkowa_waluta=waluta_2.id, # USD
+    id_wartosc_rynkowa_waluta=waluta_2.id,
     id_kategoria=kategoria_5.id,
     czy_prywatne=False
 )
@@ -113,7 +112,7 @@ notatka_2 = Notatka(
     id_przedmiot=przedmiot_3.id,
     tytul="Błędy w grze",
     opis="Gra wymaga patcha fanowskiego dla stabilności.",
-    czy_prywatne=True # Prywatna notatka
+    czy_prywatne=True
 )
 
 DB.session.add_all([notatka_1, notatka_2])
@@ -122,19 +121,19 @@ DB.session.commit()
 #! Kolekcja - Pola Własne
 pole_wlasne_1 = PoleWlasne(
     id=1,
-    id_rodzaj=pole_wlasne_rodzaj_1.id, # Stan
+    id_rodzaj=pole_wlasne_rodzaj_1.id,
     id_przedmiot=przedmiot_1.id,
     wartosc="Bardzo dobry"
 )
 pole_wlasne_2 = PoleWlasne(
     id=2,
-    id_rodzaj=pole_wlasne_rodzaj_2.id, # Data Nabycia
+    id_rodzaj=pole_wlasne_rodzaj_2.id,
     id_przedmiot=przedmiot_1.id,
     wartosc="2022-03-15"
 )
 pole_wlasne_3 = PoleWlasne(
     id=3,
-    id_rodzaj=pole_wlasne_rodzaj_1.id, # Stan
+    id_rodzaj=pole_wlasne_rodzaj_1.id,
     id_przedmiot=przedmiot_3.id,
     wartosc="Używany"
 )
@@ -146,7 +145,7 @@ DB.session.commit()
 zdjecie_1 = Zdjecie(
     id=1,
     id_przedmiot=przedmiot_1.id,
-    zdjecie_dane=b"zdjecie_ksiazki_harry_potter", # Przykładowe dane binarne
+    zdjecie_dane=b"zdjecie_ksiazki_harry_potter",
     tytul="Okładka przód",
     opis="Zdjęcie okładki książki Harry Potter."
 )
@@ -162,3 +161,4 @@ DB.session.add_all([zdjecie_1, zdjecie_2])
 DB.session.commit()
 
 #! Koniec
+exit()

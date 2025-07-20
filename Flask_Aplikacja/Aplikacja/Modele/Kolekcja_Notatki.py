@@ -13,10 +13,9 @@ class Notatka(DB.Model):
     opis = DB.Column(DB.Text)
     czy_prywatne = DB.Column(DB.Boolean)
 
-    # Zmieniamy 'backref' na 'back_populates' i wskazujemy na atrybut relacji w klasie Przedmiot.
     przedmiot = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot",
-        back_populates="notatki", # <-- Teraz back_populates wskazuje na istniejącą relację "notatki" w Przedmiot
+        back_populates="notatki",
         lazy=True
     )
 

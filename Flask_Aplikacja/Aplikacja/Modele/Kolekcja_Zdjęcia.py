@@ -13,11 +13,9 @@ class Zdjecie(DB.Model):
     tytul = DB.Column(DB.String(100), nullable=False)
     opis = DB.Column(DB.Text)
 
-    # Zmieniamy 'backref' na 'back_populates'
-    # 'back_populates' musi wskazywać na nazwę atrybutu relacji w klasie Przedmiot, czyli "zdjecia".
     przedmiot = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot",
-        back_populates="zdjecia", # <--- Zmieniono na back_populates
+        back_populates="zdjecia",
         lazy=True
     )
 

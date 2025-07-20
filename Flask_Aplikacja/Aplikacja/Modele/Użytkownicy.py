@@ -41,8 +41,8 @@ class Uzytkownik(USER_MIXIN, DB.Model):
     opis = DB.Column(DB.Text)
 
     przedmioty_uzytkownika = DB.relationship(
-        "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot", # Pełna ścieżka do klasy Przedmiot
-        back_populates="wlasciciel", # Nazwa atrybutu relacji w klasie Przedmiot
+        "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot",
+        back_populates="wlasciciel",
         lazy=True
     )
 
