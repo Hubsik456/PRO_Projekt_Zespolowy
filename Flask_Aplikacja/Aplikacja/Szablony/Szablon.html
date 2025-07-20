@@ -145,7 +145,7 @@
             {# WIP| Konta #}
             <div class="container border-2 border-top border-primary-subtle pb-2 pt-2">
                 {% if current_user.is_authenticated %}
-                    <p class="mb-0"><span class="fw-bolder">Zalogowano jako</span>: <a href="{{ url_for('Blueprint_2.Widok_Konto_Index')}}">{{ current_user.Login }}</a></p>
+                    <p class="mb-0"><span class="fw-bolder">Zalogowano jako</span>: <a href="{{ url_for('Blueprint_2.Widok_Konto_Index')}}">{{ current_user.login }}</a></p>
 
                 {% else %}
                     <p class="mb-0">Nie zalogowano</p>

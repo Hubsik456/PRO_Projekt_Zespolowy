@@ -28,13 +28,11 @@
             <div class="col-md-9">
 
         {% else %}
-            {# Jeśli to FormField, zajmuje całą szerokość, a labelki będą wewnątrz #}
             <div class="col-md-12">
 
         {% endif %}
 
             {# Standardowe Pola Formularzy #}
-            {# Tutaj możesz zostawić bez zmian, ponieważ są to proste pola #}
             {% if Pole.type in ["StringField", "TextAreaField", "EmailField", "FileField", "MultipleFileField", "DecimalField", "FloatField", "IntegerField"] %}
                 {{ Pole(class="form-control mb-4", **kwargs)|safe }}
 
@@ -70,27 +68,29 @@
 
             {% elif Pole.type == "FieldList" %}
                 <div id="Pola_Własne" class="field-list-container mb-4">
-                    {% for Dodatkowe_Pole_FormField in Pole %} {# To jest FieldList, a Dodatkowe_Pole_FormField to FormField #}
-                        <div class="mb-3 p-2 Pole_Własne" data-index="{{ Dodatkowe_Pole_FormField.name.split('-')[1] }}"> {# Dodaj data-index dla JS #}
-                            {# Renderujemy FormField rekurencyjnie #}
-                            {{ Formularz_Pole(Dodatkowe_Pole_FormField, **kwargs) }}
+                    {% for Dodatkowe_Pole in Pole %}
+                        <div class="mb-3 p-2 Pole_Własne">
+                            {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
 
-                            {# Błędy dla całego FormField (opcjonalnie, jeśli chcesz błędy na poziomie grupy) #}
-                            {% if Dodatkowe_Pole_FormField.errors %}
+                            {# Błędy i opisy dla pojedynczego elementu listy (FormField) #}
+                            {#{% if Dodatkowe_Pole.errors %}
                                 <div class="alert alert-danger mt-2">
-                                    {% for Błąd in Dodatkowe_Pole_FormField.errors %}
+                                    {% for Błąd in Dodatkowe_Pole.errors %}
                                         <p>{{ Błąd }}</p>
                                     {% endfor %}
                                 </div>
-                            {% endif %}
-                            {# Usunięto opis z FormField, bo Pole_Własne.description jest zawsze puste #}
+                            {% endif %}#}
 
-                            {# Przycisk usuwania dla elementu listy #}
-                            <div class="text-end">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="Formularz_Usuń_Pole_Własne(this)">Usuń pole własne</button>
-                            </div>
+                            {% if Dodatkowe_Pole.description %}
+                                <div class="form-text mt-2">
+                                    {{ Dodatkowe_Pole.description }}
+                                </div>
+                            {% endif %}
+
+
                         </div>
                     {% endfor %}
+
                 </div>
 
                 {# Przycisk dodawania nowego elementu do listy #}
@@ -99,47 +99,32 @@
                 </div>
 
             {% elif Pole.type == "FormField" %}
-                {# To jest FormField (sub-formularz), który zawiera id_rodzaj i wartosc #}
                 <div class="mb-4 p-3 border rounded">
-                    {# Renderujemy pola wewnętrzne FormField, przekazując im ich nazwy #}
-                    {# WAŻNE: W tym miejscu musisz renderować pola indywidualnie, nie rekurencyjnie całym makrem dla nich #}
-                    {# ponieważ makro Formularz_Pole znowu by dodawało row/col etc. #}
-                    <div class="row">
-                        <div class="col-md-3">
-                            {% if Pole.id_rodzaj.flags.required %}
-                                <span class="text-danger fw-bold" title="To pole jest wymagane. Uzupełnij je aby móc przesłać formularz.">*</span>
-                            {% endif %}
-                            <b>{{ Pole.id_rodzaj.label(class="col-form-label") }}:</b>
-                        </div>
-                        <div class="col-md-9">
-                            {{ Pole.id_rodzaj(class="form-select mb-4", **kwargs)|safe }}
-                            {% if Pole.id_rodzaj.errors %}
-                                <div class="alert alert-danger mb-4">
-                                    {% for Błąd in Pole.id_rodzaj.errors %}
-                                        <p>{{ Błąd }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% for Dodatkowe_Pole in Pole %}
+                        {% if Dodatkowe_Pole.type != 'CSRFTokenField' %}
+                            {{ Formularz_Pole(Dodatkowe_Pole, **kwargs) }}
 
-                    <div class="row">
-                        <div class="col-md-3">
-                            {% if Pole.wartosc.flags.required %}
-                                <span class="text-danger fw-bold" title="To pole jest wymagane. Uzupełnij je aby móc przesłać formularz.">*</span>
-                            {% endif %}
-                            <b>{{ Pole.wartosc.label(class="col-form-label") }}:</b>
-                        </div>
-                        <div class="col-md-9">
-                            {{ Pole.wartosc(class="form-control mb-4", **kwargs)|safe }}
-                            {% if Pole.wartosc.errors %}
-                                <div class="alert alert-danger mb-4">
-                                    {% for Błąd in Pole.wartosc.errors %}
+                            {#{% if sub_field_in_formfield.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {% for Błąd in sub_field_in_formfield.errors %}
                                         <p>{{ Błąd }}</p>
                                     {% endfor %}
                                 </div>
+                            {% endif %}#}
+
+                            {% if Dodatkowe_Pole.description %}
+                                <div class="form-text mt-2">
+                                    {{ Dodatkowe_Pole.description }}
+                                </div>
                             {% endif %}
-                        </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {# Przycisk usuwania dla elementu listy #}
+                    <div class="text-end">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="Formularz_Usuń_Pole_Własne(this.closest('.Pole_Własne'))">Usuń pole własne</button>
                     </div>
                 </div>
 
@@ -171,8 +156,7 @@
             {% endif %}
 
             {# Komunikaty o błędach walidacji formularza #}
-            {# Ten blok pozostawiamy na końcu makra, bo Pole.errors jest tu właściwe dla wszystkich typów #}
-            {% if Pole.errors and Pole.type not in ["FieldList", "FormField"] %} {# FormField i FieldList błędy obsługujemy wyżej #}
+            {% if Pole.errors and Pole.type not in ["FieldList", "FormField"] %}
                 <div class="alert alert-danger mb-4">
                     {% for Błąd in Pole.errors %}
                         <p>{{ Błąd }}</p>
@@ -181,7 +165,7 @@
             {% endif %}
 
             {# Komunikaty z opisami pól formularza #}
-            {% if Pole.description and Pole.type not in ["FieldList", "FormField"] %} {# FormField i FieldList opisy były wcześniej #}
+            {% if Pole.description %}
                 <div class="form-text mb-4">
                     {{ Pole.description }}
                 </div>

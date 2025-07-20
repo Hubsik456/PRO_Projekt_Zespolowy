@@ -20,15 +20,13 @@ from Aplikacja.Kolekcja.Formularze.Pole_Własne import Formularz_Pole_Własne
 
 #! Main
 class Formularz_Dodanie_Przedmiotu(FLASK_FORM):
-    Pole_Nazwa = STRING_FIELD("Nazwa", validators=[VALIDATORS.DataRequired(), VALIDATORS.length(min=3, max=100)])
-    Pole_Opis = TEXTAREA_FIELD("Opis")
-    Pole_Cena_Zakupu = DECIMAL_FIELD("Cena Zakupu", validators=[VALIDATORS.DataRequired(), VALIDATORS.NumberRange(min=0)], places=2)
-    Pole_Cena_Zakupu_Waluta = SELECT_FIELD("Waluta", choices=[("zł", "Złoty"), ("eur", "Euro"), ("usd", "Dolar")], validators=[VALIDATORS.DataRequired()])
-    Pole_Wartość_Rynkowa = DECIMAL_FIELD("Wartość Rynkowa", validators=[VALIDATORS.DataRequired(), VALIDATORS.NumberRange(min=0)], places=2)
-    Pole_Wartość_Rynkowa_Waluta = SELECT_FIELD("Waluta", choices=[("zł", "Złoty"), ("eur", "Euro"), ("usd", "Dolar")], validators=[VALIDATORS.DataRequired()])
-    Pole_Kategoria = SELECT_FIELD("Kategoria", choices=[("1", "Opcja #1"), ("2", "Opcja #2"), ("3", "Opcja #3")], validators=[VALIDATORS.DataRequired()])
-    Pole_Czy_Prywatne = BOOLEAN_FIELD("Czy Prywatne")
-
-    Pola_Własne = FIELD_LIST(FORM_FIELD(Formularz_Pole_Własne), min_entries=3)
-
+    nazwa = STRING_FIELD("Nazwa", validators=[VALIDATORS.DataRequired(), VALIDATORS.length(min=3, max=100)])
+    opis = TEXTAREA_FIELD("Opis")
+    cena_zakupu = DECIMAL_FIELD("Cena Zakupu", validators=[VALIDATORS.DataRequired(), VALIDATORS.NumberRange(min=0)], places=2)
+    id_cena_zakupu_waluta = SELECT_FIELD("Waluta Zakupu", validators=[VALIDATORS.DataRequired()], coerce=int)
+    wartosc_rynkowa = DECIMAL_FIELD("Wartość Rynkowa", validators=[VALIDATORS.DataRequired(), VALIDATORS.NumberRange(min=0)], places=2)
+    id_wartosc_rynkowa_waluta = SELECT_FIELD("Waluta Rynkowa", validators=[VALIDATORS.DataRequired()], coerce=int)
+    id_kategoria = SELECT_FIELD("Kategoria", validators=[VALIDATORS.DataRequired()], coerce=int)
+    czy_prywatne = BOOLEAN_FIELD("Czy Prywatne")
+    Pola_Własne = FIELD_LIST(FORM_FIELD(Formularz_Pole_Własne), min_entries=1) # 0
     Pole_Submit = SUBMIT_FIELD("Wyślij")

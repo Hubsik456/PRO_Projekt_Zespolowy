@@ -192,15 +192,15 @@ function Formularz_Dodaj_Pole_Własne()
     Nowe_Pole_Własne.innerHTML = Pierwsze_Pole_Własne.innerHTML;
 
     const Nowe_ID = document.querySelectorAll('.Pole_Własne').length;
-    const Pole_Select = Nowe_Pole_Własne.querySelector('#Pola_Własne-0-Pole_Rodzaj');
+    const Pole_Select = Nowe_Pole_Własne.querySelector('#Pola_Własne-0-id_rodzaj');
 
-    Pole_Select.id = `Pola_Własne-${Nowe_ID}-Pole_Rodzaj`;
+    Pole_Select.id = `Pola_Własne-${Nowe_ID}-id_rodzaj`;
     Pole_Select.name = Pole_Select.id;
-    Pole_Select.value = "";
+    Pole_Select.value = "1";
 
-    const Pole_Input = Nowe_Pole_Własne.querySelector('#Pola_Własne-0-Pole_Treść');
+    const Pole_Input = Nowe_Pole_Własne.querySelector('#Pola_Własne-0-wartosc');
 
-    Pole_Input.id = `Pola_Własne-${Nowe_ID}-Pole_Treść`;
+    Pole_Input.id = `Pola_Własne-${Nowe_ID}-wartosc`;
     Pole_Input.name = Pole_Input.id;
     Pole_Input.value = "";
 
@@ -211,14 +211,8 @@ function Formularz_Dodaj_Pole_Własne()
 function Formularz_Usuń_Pole_Własne(Pole_Własne)
 {
     /* "Usuwa" podane pole własne. W obecnej wersji, usuwnie polega na ukryciu pola i wstawieniu wartości null w jego polach. W przyszłosci można przerobić tę funkcję, tak aby faktycznie usuwała pola. */
-
-    console.log(Pole_Własne);
-
     Pole_Własne.classList.add("d-none");
 
     Pole_Input = Pole_Własne.querySelector("input");
     Pole_Input.value = "";
-
-    console.log(Pole_Select);
-    console.log(Pole_Input);
 }

@@ -17,7 +17,7 @@
                 <a href="#" class="toggle-vis" data-Kolumna="3">Argumenty</a>
             </p>
 
-            <table id="Tabela_Sciezki" class="table table-bordered table-striped">
+            <table id="DataTable" class="table table-bordered table-striped">
                 <thead>
                     <tr class="table-primary">
                         <th scope="col">#</th>
@@ -48,48 +48,43 @@
         </div>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function()
-            {
-                var Tabela = new DataTable("#Tabela_Sciezki", {
-                    layout: {
-                        bottom2End: {
-                            buttons: [
-                                'copy', 'excel', "csv", 'pdf'
-                            ],
-                        }
-                    },
-                    lengthMenu: [-1, 3, 10, 25, 50, 100],
-                    language: {
-                        //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json", // CORS blokuje
-                        url: "{{ url_for('static', filename='../../Statyczne/DataTables/pl.json')}}",
-                    },
-                    scrollX: true,
-                    columnControl: ['order', "spacer", ['orderAsc', 'orderDesc', 'search']],
-                    ordering: {
-                        indicators: false,
-                    },
-                    fixedHeader: {
-                        header: true,
-                        headerOffset: $('#Banner').height()
-                    },
-
-                });
-
-                // Włączenie/Wyłączanie wyświetlania kolumn wybranych przez użytkownika, src: https://datatables.net/examples/api/show_hide.html
-                document.querySelectorAll('a.toggle-vis').forEach((el) => {
-                    el.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        e.target.classList.toggle('text-decoration-line-through');
-                        e.target.classList.toggle('text-secondary');
-
-                        let Kolumna_ID = e.target.getAttribute('data-Kolumna');
-                        let Kolumna = Tabela.Kolumna(Kolumna_ID);
-
-                        Kolumna.visible(!Kolumna.visible());
-                    });
-                });
+            var Tabela = new DataTable("#DataTable", {
+                layout: {
+                    bottom2End: {
+                        buttons: [
+                            'copy', 'excel', "csv", 'pdf'
+                        ],
+                    }
+                },
+                lengthMenu: [-1, 5, 10, 25, 50, 100],
+                language: {
+                    //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json", // CORS blokuje
+                    url: "{{ url_for('static', filename='../../Statyczne/DataTables/pl.json') }}",
+                },
+                scrollX: true,
+                columnControl: ['order', "spacer", ['orderAsc', 'orderDesc', 'search']],
+                ordering: {
+                    indicators: false,
+                },
+                fixedHeader: {
+                    header: true,
+                    headerOffset: $('#Banner').height()
+                },
             });
 
+            document.querySelectorAll('a.toggle-vis').forEach((el) =>
+            {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.target.classList.toggle('text-decoration-line-through');
+                    e.target.classList.toggle('text-secondary');
+
+                    let Kolumna_ID = e.target.getAttribute('data-Kolumna');
+                    let Kolumna = Tabela.column(Kolumna_ID);
+
+                    Kolumna.visible(!Kolumna.visible());
+                });
+            });
         </script>
     {% endif %}
 {% endblock %}

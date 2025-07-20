@@ -8,6 +8,101 @@
 {% block Treść %}
     <h1>Moja Kolekcja</h1>
 
-    {{ Lorem_Ipsum(5) }}
+    {% if Kolekcja %}
+    <div class="mb-2">
+            <p>Widoczność kolumn:
+                <a href="#" class="toggle-vis" data-Kolumna="0">#</a>
+                <a href="#" class="toggle-vis" data-Kolumna="1">Nazwa</a>
+                <a href="#" class="toggle-vis" data-Kolumna="2">Data Dodania</a>
+                <a href="#" class="toggle-vis" data-Kolumna="3">Cena Zakupu</a>
+                <a href="#" class="toggle-vis" data-Kolumna="4">Wartość Rynkowa</a>
+                <a href="#" class="toggle-vis" data-Kolumna="5">Kategoria</a>
+                <a href="#" class="toggle-vis" data-Kolumna="6">Czy Prywatne</a>
+                <a href="#" class="toggle-vis" data-Kolumna="7">Linki</a>
+            </p>
+
+            <table id="DataTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col">#</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Data Dodania</th>
+                        <th scope="col">Cena Zakupu</th>
+                        <th scope="col">Wartość Rynkowa</th>
+                        <th scope="col">Kategoria</th>
+                        <th scope="col">Czy Prywatne</th>
+                        <th scope="col">Linki</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for Przedmiot in Kolekcja %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ Przedmiot.nazwa }}</td>
+                            <td>{{ Przedmiot.data_dodania }}</td>
+                            <td>{{ Przedmiot.cena_zakupu }} {{ Przedmiot.waluta_zakupu.skrot }}</td>
+                            <td>{{ Przedmiot.wartosc_rynkowa }} {{ Przedmiot.waluta_rynkowa.skrot }}</td>
+                            <td>{{ Przedmiot.kategoria.nazwa }}</td>
+                            <td>
+                                {% if Przedmiot.czy_prywatne %}
+                                    Tak
+                                {% else %}
+                                    Nie
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Szczegóły', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Szczegóły</a><br>
+                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Edytuj</a><br>
+                                <a href="#" class="pb-2 d-inline-block">Zdjęcia</a><br>
+                                <a href="#" class="pb-2 d-inline-block text-danger">Usuń</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}">tutaj</a> aby dodać nowy przedmiot do Twojej kolekcji.</p>
+
+        <script>
+            var Tabela = new DataTable("#DataTable", {
+                layout: {
+                    bottom2End: {
+                        buttons: [
+                            'copy', 'excel', "csv", 'pdf'
+                        ],
+                    }
+                },
+                lengthMenu: [-1, 5, 10, 25, 50, 100],
+                language: {
+                    //url: "//cdn.datatables.net/plug-ins/2.3.2/i18n/pl.json", // CORS blokuje
+                    url: "{{ url_for('static', filename='../../Statyczne/DataTables/pl.json') }}",
+                },
+                scrollX: true,
+                columnControl: ['order', "spacer", ['orderAsc', 'orderDesc', 'search']],
+                ordering: {
+                    indicators: false,
+                },
+                fixedHeader: {
+                    header: true,
+                    headerOffset: $('#Banner').height()
+                },
+            });
+
+            document.querySelectorAll('a.toggle-vis').forEach((el) =>
+            {
+                el.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.target.classList.toggle('text-decoration-line-through');
+                    e.target.classList.toggle('text-secondary');
+
+                    let Kolumna_ID = e.target.getAttribute('data-Kolumna');
+                    let Kolumna = Tabela.column(Kolumna_ID);
+
+                    Kolumna.visible(!Kolumna.visible());
+                });
+            });
+        </script>
+    {% endif %}
 
 {% endblock %}

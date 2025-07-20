@@ -8,6 +8,31 @@
 {% block Treść %}
     <h1>Kolekcja</h1>
 
+    <p>Kurator Kolekcji pozwala Ci na przechowywanie informacji o swoich przedmiotach. Aby dodać nowy przedmiot musisz:</p>
+    <ol>
+        <li>Zapoznać się z <a href="{{ url_for('Blueprint_1.Widok_Main_Polityka_Prywatności') }}">polityką prywatności</a></li>
+        <li><a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}">Zalogować</a> / <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}">Zarejestrować się</a></li>
+        <li>Wypełnić <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}">formularz</a></li>
+    </ol>
+
+    <p>Po dodaniu swojego przedmiotu, możesz dodać do niego własne notatki i ewnetualne zdjęcia lub skany. Twoja kolekcja będzie widoczna dla innych użytkowników.</p>
+
+    <p>Dodane przedmioty i notatki możesz oznaczyćjako "Prywatne", wtedy tylko Ty będziesz miał do nich dostęp.</p>
+
+
+    {% if current_user.is_authenticated %}
+        <p>Całą Swoją kolekcje możesz przeglądać <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Moja_Kolekcja') }}">tutaj</a>.</p>
+
+        <div class="text-center">
+            <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}" class="btn btn-primary mt-2 mb-2">Dodaj nowy przedmiot</a>
+        </div>
+
+    {% else %}
+        <p>Aby dodać własne przedmioty do kolekcji musisz się <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}">zalogować</a>. Jeśli nie masz jeszcze konta, możesz się <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}">zarejestrować</a>.</p>
+
+    {% endif %}
+
+
     {{ Lorem_Ipsum(5) }}
 
 {% endblock %}

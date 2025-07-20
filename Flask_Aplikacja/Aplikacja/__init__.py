@@ -107,6 +107,16 @@ def create_app(Ustawienia=Konfiguracja):
         """
         return RENDER_TEMPLATE("Błędy/401.html"), 401
 
+    @Aplikacja.errorhandler(403)
+    def Błąd_403(blad):
+        """Obsługuje błąd 403 (Forbidden).
+
+        :param blad: Obiekt błędu 403.
+        :return: Wyrenderowany szablon błędu 403 i kod statusu 403.
+        :rtype: tuple
+        """
+        return RENDER_TEMPLATE("Błędy/403.html"), 403
+
     @Aplikacja.errorhandler(404)
     def Błąd_404(Błąd):
         """Obsługuje błąd 404 (Not Found).

@@ -53,17 +53,20 @@ class Przedmiot(DB.Model):
     pola_wlasne = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Pola_Własne.PoleWlasne",
         back_populates="przedmiot",
-        lazy=True
+        lazy=True,
+        cascade="all, delete-orphan"
     )
     notatki = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Notatki.Notatka",
         back_populates="przedmiot",
-        lazy=True
+        lazy=True,
+        cascade="all, delete-orphan"
     )
     zdjecia = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Zdjęcia.Zdjecie",
         back_populates="przedmiot",
-        lazy=True
+        lazy=True,
+        cascade="all, delete-orphan"
     )
 
     def __repr__(self):

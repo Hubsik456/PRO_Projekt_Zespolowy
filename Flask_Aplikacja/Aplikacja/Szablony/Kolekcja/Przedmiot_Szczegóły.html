@@ -1,0 +1,88 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
+
+{% block Tytuł %}
+    Szczegóły Przedmiotu
+{% endblock %}
+
+{% block Treść %}
+    <h1>Szczegóły Przedmiotu</h1>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">Pole</th>
+                <th scope="col">Wartość</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>{{ Przedmiot.id }}</td>
+            </tr>
+            <tr>
+                <td>Nazwa</td>
+                <td>{{ Przedmiot.nazwa }}</td>
+            </tr>
+            <tr>
+                <td>Data Dodania</td>
+                <td>{{ Przedmiot.data_dodania }}</td>
+            </tr>
+            <tr>
+                <td>Data Edycji</td>
+                <td>{{ Przedmiot.data_edycji }}</td>
+            </tr>
+            <tr>
+                <td>Właściciel</td>
+                <td>{{ Przedmiot.wlasciciel.login }}</td>
+            </tr>
+            <tr>
+                <td>Cena Zakupu</td>
+                <td>{{ Przedmiot.cena_zakupu }} {{ Przedmiot.waluta_zakupu.skrot }}</td>
+            </tr>
+            <tr>
+                <td>Wartość Rynkowa</td>
+                <td>{{ Przedmiot.wartosc_rynkowa }} {{ Przedmiot.waluta_rynkowa.skrot }}</td>
+            </tr>
+            <tr>
+                <td>Kategoria</td>
+                <td>{{ Przedmiot.kategoria.nazwa }}</td>
+            </tr>
+            <tr>
+                <td>Czy Prywatne</td>
+                <td>
+                    {% if Przedmiot.czy_prywatne %}
+                        Tak
+                    {% else %}
+                        Nie
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Pola Własne</td>
+                <td>
+                    <ul class="mb-0">
+                        {% for Pole_Własne in Przedmiot.pola_wlasne %}
+                            <li>
+                                <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
+                                {{ Pole_Własne.wartosc}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a> aby edytować ten przedmiot.</p>
+
+    <h2>Notatki</h2>
+
+    <p>WIP</p>
+
+    <h2>Zdjęcia</h2>
+
+    <p>WIP</p>
+
+
+{% endblock %}
