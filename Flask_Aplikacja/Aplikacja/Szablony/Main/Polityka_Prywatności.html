@@ -1,12 +1,47 @@
 {% extends "Szablon.html" %}
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 
-{% block Tytuł %}
-    Polityka Prywatności
-{% endblock %}
-
+{% block Tytuł %}Polityka Prywatności{% endblock %}
 {% block Treść %}
     <h1>Polityka Prywatności</h1>
-
-    {{ Lorem_Ipsum(3) }}
+    <p>
+        Dziękujemy za korzystanie z naszej aplikacji do zarządzania kolekcjami. Ochrona Twoich danych jest dla nas priorytetem. Poniższy dokument w prosty sposób wyjaśnia, jakie dane zbieramy i w jakim celu.
+    </p>
+    <hr>
+    <h3>1. Jakie dane zbieramy?</h3>
+    <ul>
+        <li>
+            <b>Dane konta:</b> Podczas rejestracji prosimy o podanie loginu, adresu e-mail oraz hasła (przechowujemy je w formie zaszyfrowanej).
+        </li>
+        <li>
+            <b>Dane Twojej kolekcji:</b> Wszystkie informacje, które wprowadzasz na temat swoich przedmiotów, takie jak nazwy, opisy, ceny, zdjęcia, notatki czy pola własne.
+        </li>
+        <li>
+            <b>Dane o aktywności:</b> Zbieramy podstawowe, anonimowe informacje o sposobie korzystania z aplikacji w celu jej ulepszania.
+        </li>
+    </ul>
+    <h3>2. W jakim celu używamy Twoich danych?</h3>
+    <p>Twoje dane są wykorzystywane wyłącznie w celu świadczenia usług aplikacji, czyli:</p>
+    <ul>
+        <li>Umożliwienia Ci logowania i zarządzania swoim kontem.</li>
+        <li>Przechowywania i prezentowania danych o Twojej kolekcji.</li>
+        <li>Komunikacji w sprawach dotyczących konta (np. reset hasła).</li>
+        <li>Zapewnienia bezpieczeństwa i stabilności działania serwisu.</li>
+    </ul>
+    <h3>3. Udostępnianie danych</h3>
+    <p>
+        <b>Nie sprzedajemy ani nie udostępniamy Twoich danych osobowych</b> podmiotom trzecim. Dane Twoich przedmiotów, które oznaczysz jako publiczne, będą widoczne dla innych użytkowników aplikacji. Dane prywatne pozostają widoczne tylko dla Ciebie.
+    </p>
+    <h3>4. Twoje prawa</h3>
+    <p>Masz pełne prawo do:</p>
+    <ul>
+        <li>Wglądu w swoje dane.</li>
+        <li>Poprawiania swoich danych.</li>
+        <li>Całkowitego usunięcia swojego konta wraz ze wszystkimi powiązanymi danymi.</li>
+    </ul>
+    <h3>5. Kontakt</h3>
+    <p>
+        W razie pytań dotyczących polityki prywatności, prosimy o kontakt pod adresami e-mail:
+        <a href="mailto:w67174@student.wsiz.edu.pl">w67174@student.wsiz.edu.pl</a> lub
+        <a href="mailto:w67259@student.wsiz.edu.pl">w67259@student.wsiz.edu.pl</a>.
+    </p>
 {% endblock %}
