@@ -31,7 +31,7 @@ language = "pl"
 
 # Używamy popularnego motywu "Read the Docs"
 html_theme = "bizstyle"
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
 
 # Opcje dla autodoc
 autodoc_member_order = "bysource"  # Sortuj elementy wg kolejności w kodzie
