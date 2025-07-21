@@ -61,14 +61,33 @@
             <tr>
                 <td>Pola Własne</td>
                 <td>
-                    <ul class="mb-0">
+                    {% if Przedmiot.pola_wlasne %}
+                        <ul class="mb-0">
                         {% for Pole_Własne in Przedmiot.pola_wlasne %}
                             <li>
                                 <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
                                 {{ Pole_Własne.wartosc}}
+                                <br>
+                                <span class="text-end d-block">
+                                    <a class="m-2" href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}">Edytuj</a>
+
+                                    <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Usuń', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}" method="POST">
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm(`Czy na pewno chcesz usunąć pole własne '{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: {{ Pole_Własne.wartosc }}'?`);">
+                                            Usuń
+                                        </button>
+                                    </form>
+                                </span>
                             </li>
                         {% endfor %}
-                    </ul>
+                        </ul>
+
+                    {% else %}
+                        Brak
+
+                    {% endif %}
+
+                    <p class="mb-0 mt-2">Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nowe pole własne.</p>
                 </td>
             </tr>
         </tbody>
@@ -78,11 +97,65 @@
 
     <h2>Notatki</h2>
 
-    <p>WIP</p>
+    {% if Przedmiot.notatki %}
+        <ul>
+            {% for Notatka in Przedmiot.notatki %}
+                <li class="mb-4">
+                    <b>{{ Notatka.tytul }}</b>
+                    <br>
+                    <span>{{ Notatka.opis }}</span>
+                    <br>
+                    {% if Notatka.czy_prywatne %}
+                        <span class="small fw-light fst-italic">Notatka Prywatna</span>
+                        <br>
+                    {% endif %}
+                    <span class="text-end d-block">
+                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}" class="m-2">Edytuj</a>
+
+                        <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Usuń', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}" method="POST">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm(`Czy na pewno chcesz usunąć notatkę '{{ Notatka.tytul }}'?`);">
+                                Usuń
+                            </button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową notatkę.</p>
 
     <h2>Zdjęcia</h2>
 
-    <p>WIP</p>
+    {% if Zdjęcia %}
+        <ul>
+            {% for Zdjęcie in Zdjęcia %}
+                <li>
+                    <img src="{{ Zdjęcie.data_uri }}" alt="{{ Zdjęcie.tytul }}" style="max-width: 200px; height: auto;">
+                    <br>
+                    <b>{{ Zdjęcie.tytul }}</b>
+                    <br>
+                    {{ Zdjęcie.opis }}
+
+                    <br>
+                    <br>
+                    <span class="text-end d-block">
+                        <a class="m-2" href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Grafika=Zdjęcie.id) }}">Edytuj</a>
+
+                        <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Usuń', ID_Przedmiot=Przedmiot.id, ID_Grafika=Zdjęcie.id) }}" method="POST">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm(`Czy na pewno chcesz usunąć zdjęcie '{{ Zdjęcie.tytul }}'? Tej operacji nie można cofnąć.`);">
+                                Usuń
+                            </button>
+                        </form>
+                    <br>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową grafikę.</p>
 
 
 {% endblock %}

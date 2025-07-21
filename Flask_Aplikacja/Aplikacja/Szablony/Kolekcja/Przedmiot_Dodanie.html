@@ -1,0 +1,28 @@
+{% extends "Szablon.html" %}
+{% from "Makra/Formularz_Pole.html" import Formularz_Pole %}
+
+{% block Tytuł %}
+    {{ _("Dodaj Przedmiot") }}
+{% endblock %}
+
+{% block Treść %}
+    <h1>{{ _("Dodaj Przedmiot") }}</h1>
+
+    <p>Po dodaniu przedmiotu będziesz mógł dodać do niego zdjęcia czy skany oraz własne notatki.</p>
+
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+        <form method="POST" novalidate class="{% if request.method == 'POST'%}was-validated{% endif %}">
+            {{ Formularz.csrf_token }}
+            {{ Formularz_Pole(Formularz.nazwa) }}
+            {{ Formularz_Pole(Formularz.opis) }}
+            {{ Formularz_Pole(Formularz.cena_zakupu) }}
+            {{ Formularz_Pole(Formularz.id_cena_zakupu_waluta) }}
+            {{ Formularz_Pole(Formularz.wartosc_rynkowa) }}
+            {{ Formularz_Pole(Formularz.id_wartosc_rynkowa_waluta) }}
+            {{ Formularz_Pole(Formularz.id_kategoria) }}
+            {{ Formularz_Pole(Formularz.czy_prywatne) }}
+            {#{{ Formularz_Pole(Formularz.Pola_Własne) }}#}
+            {{ Formularz_Pole(Formularz.Pole_Submit) }}
+        </form>
+    </div>
+{% endblock %}

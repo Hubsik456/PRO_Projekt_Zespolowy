@@ -54,7 +54,12 @@
                                 <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Szczegóły', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Szczegóły</a><br>
                                 <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Edytuj</a><br>
                                 <a href="#" class="pb-2 d-inline-block">Zdjęcia</a><br>
-                                <a href="#" class="pb-2 d-inline-block text-danger">Usuń</a>
+                                <form action="{{ url_for('Blueprint_3.Widok_Kolekcja_Usuń', ID=Przedmiot.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm(`Czy na pewno chcesz usunąć przedmiot '{{ Przedmiot.nazwa }}'?`);">
+                                        Usuń
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}

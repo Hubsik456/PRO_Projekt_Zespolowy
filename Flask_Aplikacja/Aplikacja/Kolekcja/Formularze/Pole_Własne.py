@@ -5,7 +5,8 @@ from flask_wtf import FlaskForm as FLASK_FORM
 from wtforms import (
     StringField as STRING_FIELD,
     SelectField as SELECT_FIELD,
-    validators as VALIDATORS
+    validators as VALIDATORS,
+    SubmitField as SUBMIT_FIELD
 )
 
 #! Main
@@ -19,3 +20,4 @@ class Formularz_Pole_Własne(FLASK_FORM):
         validators=[VALIDATORS.DataRequired()]
     )
     wartosc = STRING_FIELD("Wartość", validators=[VALIDATORS.DataRequired()])
+    Pole_Submit = SUBMIT_FIELD("Wyślij")

@@ -12,6 +12,7 @@ class Zdjecie(DB.Model):
     zdjecie_dane = DB.Column(DB.LargeBinary, nullable=False)
     tytul = DB.Column(DB.String(100), nullable=False)
     opis = DB.Column(DB.Text)
+    mimetype = DB.Column(DB.String(50), nullable=False) # <--- DODANA KOLUMNA
 
     przedmiot = DB.relationship(
         "Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot",

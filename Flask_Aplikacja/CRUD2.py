@@ -411,9 +411,8 @@ zdjecia = [
         opis="Okładka albumu Dark Side of the Moon.",
     ),
 ]
-DB.session.add_all(zdjecia)
+#DB.session.add_all(zdjecia)
 DB.session.commit()
 
 #! Koniec
-print("Baza danych została pomyślnie usunięta, stworzona i wypełniona nowymi danymi.")
 exit()

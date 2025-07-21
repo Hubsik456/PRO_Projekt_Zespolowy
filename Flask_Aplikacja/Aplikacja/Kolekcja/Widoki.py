@@ -10,6 +10,8 @@ związanych z zarządzaniem kolekcjami użytkowników.
 from flask import render_template as RENDER_TEMPLATE, request as REQUEST, flash as FLASH, redirect as REDIRECT, url_for as URL_FOR, abort as ABORT
 from flask_login import login_required as LOGIN_REQUIRED, current_user as CURRENT_USER
 from sqlalchemy.sql import func as FUNC
+from flask_wtf.file import FileRequired
+import base64 as BASE64
 
 #! Lokalne importy
 from Aplikacja.Rozszerzenia import DB
@@ -17,6 +19,8 @@ from Aplikacja.Kolekcja import Blueprint_3
 
 from Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu import Formularz_Dodanie_Przedmiotu
 from Aplikacja.Kolekcja.Formularze.Pole_Własne import Formularz_Pole_Własne
+from Aplikacja.Kolekcja.Formularze.Notatka import Formularz_Notatka
+from Aplikacja.Kolekcja.Formularze.Zdjęcie import Formularz_Zdjecie
 
 from Aplikacja.Modele.Użytkownicy import Uzytkownik
 from Aplikacja.Modele.Kolekcja_Przedmioty import Przedmiot
@@ -41,7 +45,7 @@ def Widok_Kolekcja_Index():
 def Widok_Kolekcja_Podsumowanie():
     return RENDER_TEMPLATE("Kolekcja/Podsumowanie.html")
 
-@Blueprint_3.route("/<int:ID>")
+@Blueprint_3.route("/<int:ID>/")
 @LOGIN_REQUIRED
 def Widok_Kolekcja_Kolekcja(ID):
     return RENDER_TEMPLATE("Kolekcja/Kolekcja.html", ID=ID)
@@ -60,36 +64,22 @@ def Widok_Kolekcja_Dodaj():
 
     #? Dodanie opcji do `<select>`
     Select_Waluty = DB.session.execute(DB.select(Waluta)).scalars().all()
-    # Pamiętaj o str() dla SelectField, nawet jeśli masz coerce=int, bo html zawsze wysyła string
     Formularz.id_cena_zakupu_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
     Formularz.id_wartosc_rynkowa_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
 
     Select_Kategorie = DB.session.execute(DB.select(Kategoria)).scalars().all()
     Formularz.id_kategoria.choices = [(str(x.id), x.nazwa) for x in Select_Kategorie]
 
-    Select_Pola_Wlasne_Rodzaje = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
-    Select_Pola_Wlasne_Rodzaje_Pozycje = [(str(x.id), x.nazwa) for x in Select_Pola_Wlasne_Rodzaje]
-
-    # Ustaw choices dla wszystkich pól własnych na formularzu (w tym domyślnych)
-    for _Pole_Własne in Formularz.Pola_Własne:
-        _Pole_Własne.form.id_rodzaj.choices = Select_Pola_Wlasne_Rodzaje_Pozycje
+    #Select_Pola_Wlasne_Rodzaje = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
+    #Select_Pola_Wlasne_Rodzaje_Pozycje = [(str(x.id), x.nazwa) for x in Select_Pola_Wlasne_Rodzaje]
 
     #? Jeśli formularz został przesłany
     if REQUEST.method == "POST":
-        # Ponownie ustaw choices w POST przed validate_on_submit(),
-        # aby walidacja SelectField mogła działać prawidłowo.
         Formularz.id_cena_zakupu_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
         Formularz.id_wartosc_rynkowa_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
         Formularz.id_kategoria.choices = [(str(x.id), x.nazwa) for x in Select_Kategorie]
 
-        for _Pole_Własne in Formularz.Pola_Własne:
-            _Pole_Własne.form.id_rodzaj.choices = Select_Pola_Wlasne_Rodzaje_Pozycje
-
         if Formularz.validate_on_submit():
-            # populate_obj dla głównego formularza zadziała teraz poprawnie,
-            # ponieważ SelectField mają coerce=int i choices są prawidłowo ustawione.
-            # Ważne: NIE używaj populate_obj dla Nowy_Przedmiot, bo tworzysz go ręcznie
-            # i przypisujesz wartości bezpośrednio z Formularz.data
             Nowy_Przedmiot = Przedmiot(
                 nazwa=Formularz.nazwa.data,
                 opis=Formularz.opis.data,
@@ -103,19 +93,7 @@ def Widok_Kolekcja_Dodaj():
             )
 
             DB.session.add(Nowy_Przedmiot)
-            DB.session.flush()
-
-            for entry_form in Formularz.Pola_Własne.entries:
-                if entry_form.form.id_rodzaj.data and entry_form.form.wartosc.data:
-                    Nowe_Pole_Wlasne = PoleWlasne(
-                        id_przedmiot=Nowy_Przedmiot.id,
-                        id_rodzaj=entry_form.form.id_rodzaj.data, # Już jest int dzięki coerce=int
-                        wartosc=entry_form.form.wartosc.data
-                    )
-                    DB.session.add(Nowe_Pole_Wlasne)
-                elif entry_form.form.id_rodzaj.data or entry_form.form.wartosc.data:
-                    FLASH(f"Pomijam niekompletne pole własne: rodzaj='{entry_form.form.id_rodzaj.data}', wartość='{entry_form.form.wartosc.data}'.", "warning")
-
+            #DB.session.flush()
             DB.session.commit()
 
             FLASH(f"Dodano nowy przedmiot do Twojej kolekcji.", "success")
@@ -123,9 +101,10 @@ def Widok_Kolekcja_Dodaj():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz, Select_Pola_Wlasne_Rodzaje_Pozycje=Select_Pola_Wlasne_Rodzaje_Pozycje)
+    #return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz, Select_Pola_Wlasne_Rodzaje_Pozycje=Select_Pola_Wlasne_Rodzaje_Pozycje)
+    return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz)
 
-@Blueprint_3.route("/moja-kolekcja/szczegoly/<int:ID>")
+@Blueprint_3.route("/moja-kolekcja/szczegoly/<int:ID>/")
 @LOGIN_REQUIRED
 def Widok_Kolekcja_Szczegóły(ID):
     #? Pobranie przedmiotów
@@ -139,24 +118,39 @@ def Widok_Kolekcja_Szczegóły(ID):
     if _Przedmiot.id_wlasciciel != CURRENT_USER.id:
         ABORT(403)
 
-    return RENDER_TEMPLATE("Kolekcja/Przedmiot_Szczegóły.html", Przedmiot=_Przedmiot)
+    #? Przetworzenie zdjęć do wyświetlenia w szablonie
+    zdjecia_do_szablonu = []
+    for zdjecie in _Przedmiot.zdjecia:
+        if zdjecie.zdjecie_dane and zdjecie.mimetype:
+            encoded_image = BASE64.b64encode(zdjecie.zdjecie_dane).decode('utf-8')
+            # Zbuduj pełny Data URI
+            data_uri = f"data:{zdjecie.mimetype};base64,{encoded_image}"
+        else:
+            data_uri = None # Jeśli brakuje danych lub mimetype, nie wyświetlaj
 
-@Blueprint_3.route("/moja-kolekcja/edytuj/<int:ID>/", methods=["GET", "POST"])
+        zdjecia_do_szablonu.append({
+            'id': zdjecie.id,
+            'tytul': zdjecie.tytul,
+            'opis': zdjecie.opis,
+            'data_uri': data_uri
+        })
+
+    return RENDER_TEMPLATE("Kolekcja/Przedmiot_Szczegóły.html", Przedmiot=_Przedmiot, Zdjęcia=zdjecia_do_szablonu)
+
+@Blueprint_3.route("/moja-kolekcja/edytuj/<int:ID>/", methods=["POST", "GET"])
 @LOGIN_REQUIRED
 def Widok_Kolekcja_Edytuj(ID):
-    #? Pobranie przedmiotu
-    _Przedmiot = DB.get_or_404(Przedmiot, ID)
+    #? Sprawdzenie czy przedmiot istnieje
+    Edytowany_Przedmiot = DB.session.execute(DB.select(Przedmiot).filter_by(id=ID, id_wlasciciel=CURRENT_USER.id)).scalar_one_or_none()
 
-    #? Sprawdzenie czy obency użytkownik to właściciel przedmiotu
-    if _Przedmiot.id_wlasciciel != CURRENT_USER.id:
-        ABORT(403)
+    if not Edytowany_Przedmiot:
+        FLASH("Nie można odnaleźć tego przedmiotu.", "danger")
+        ABORT(404)
 
-    # Inicjujemy formularz. populate_obj zadziała na głównych polach.
-    # FieldList będzie zawierać min_entries=1 puste pole na początku,
-    # które później nadpiszemy lub dodamy do niego dane z _Przedmiot.pola_wlasne.
-    Formularz = Formularz_Dodanie_Przedmiotu(obj=_Przedmiot)
+    #? Formularz
+    Formularz = Formularz_Dodanie_Przedmiotu()
 
-    #* Dodanie pozycji do Select (główne pola formularza)
+    #? Dodanie opcji do `<select>`
     Select_Waluty = DB.session.execute(DB.select(Waluta)).scalars().all()
     Formularz.id_cena_zakupu_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
     Formularz.id_wartosc_rynkowa_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
@@ -164,86 +158,341 @@ def Widok_Kolekcja_Edytuj(ID):
     Select_Kategorie = DB.session.execute(DB.select(Kategoria)).scalars().all()
     Formularz.id_kategoria.choices = [(str(x.id), x.nazwa) for x in Select_Kategorie]
 
-    Select_Pola_Wlasne_Rodzaje = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
-    Select_Pola_Wlasne_Rodzaje_Pozycje = [(str(x.id), x.nazwa) for x in Select_Pola_Wlasne_Rodzaje] # ID jako stringi
-
-    #* Przetwarzanie formularza - GET
+    #? GET
     if REQUEST.method == "GET":
-        # Wyczyść domyślne wpisy z FieldList, aby wypełnić je danymi z bazy
-        Formularz.Pola_Własne.entries = []
+        Formularz.nazwa.data = Edytowany_Przedmiot.nazwa
+        Formularz.opis.data = Edytowany_Przedmiot.opis
+        Formularz.cena_zakupu.data = Edytowany_Przedmiot.cena_zakupu
+        Formularz.id_cena_zakupu_waluta.data = Edytowany_Przedmiot.id_cena_zakupu_waluta
+        Formularz.wartosc_rynkowa.data = Edytowany_Przedmiot.wartosc_rynkowa
+        Formularz.id_wartosc_rynkowa_waluta.data = Edytowany_Przedmiot.id_wartosc_rynkowa_waluta
+        Formularz.id_kategoria.data = Edytowany_Przedmiot.id_kategoria
+        Formularz.czy_prywatne.data = Edytowany_Przedmiot.czy_prywatne
 
-        # Wypełnij FieldList istniejącymi danymi z obiektu _Przedmiot
-        for x in _Przedmiot.pola_wlasne:
-            Pozycja = Formularz.Pola_Własne.append_entry()
-            # Ustaw choices dla TEGO konkretnego SelectField w sub-formularzu
-            Pozycja.form.id_rodzaj.choices = Select_Pola_Wlasne_Rodzaje_Pozycje
-            # Ważne: przypisujemy ID jako STRING, bo SelectField oczekuje stringów
-            Pozycja.form.id_rodzaj.data = str(x.id_rodzaj)
-            Pozycja.form.wartosc.data = x.wartosc
-
-        # Jeśli _Przedmiot.pola_wlasne jest puste, dodaj jedno puste pole
-        # (ponieważ min_entries=1 w Formularz_Dodanie_Przedmiotu)
-        if not _Przedmiot.pola_wlasne:
-            Pozycja = Formularz.Pola_Własne.append_entry()
-            Pozycja.form.id_rodzaj.choices = Select_Pola_Wlasne_Rodzaje_Pozycje
-
-
-    #* Przetwarzanie formularza - POST
+    #? POST
     if REQUEST.method == "POST":
-        # ZAWSZE ustawiaj choices przed validate_on_submit() w POST,
-        # aby walidatory SelectField mogły prawidłowo działać dla wszystkich pól.
-        Formularz.id_cena_zakupu_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
-        Formularz.id_wartosc_rynkowa_waluta.choices = [(str(x.id), x.nazwa) for x in Select_Waluty]
-        Formularz.id_kategoria.choices = [(str(x.id), x.nazwa) for x in Select_Kategorie]
-
-        # Ustaw choices dla każdego sub-formularza w FieldList również w POST
-        for _Pole_Własne in Formularz.Pola_Własne:
-            _Pole_Własne.form.id_rodzaj.choices = Select_Pola_Wlasne_Rodzaje_Pozycje
-
-
         if Formularz.validate_on_submit():
-            # populate_obj zadba o główne pola formularza (nazwa, opis, ceny itd.)
-            Formularz.populate_obj(_Przedmiot)
+            Edytowany_Przedmiot.nazwa = Formularz.nazwa.data
+            Edytowany_Przedmiot.opis = Formularz.opis.data
+            Edytowany_Przedmiot.cena_zakupu = Formularz.cena_zakupu.data
+            Edytowany_Przedmiot.id_cena_zakupu_waluta = Formularz.id_cena_zakupu_waluta.data
+            Edytowany_Przedmiot.wartosc_rynkowa = Formularz.wartosc_rynkowa.data
+            Edytowany_Przedmiot.id_wartosc_rynkowa_waluta = Formularz.id_wartosc_rynkowa_waluta.data
+            Edytowany_Przedmiot.id_kategoria = Formularz.id_kategoria.data
+            Edytowany_Przedmiot.czy_prywatne = Formularz.czy_prywatne.data
 
-            _Przedmiot.data_edycji = FUNC.now()
-
-            # Usunięcie istniejących pól własnych
-            # Iterujemy po kopii listy, aby uniknąć problemów z modyfikacją podczas iteracji
-            for existing_pole_wlasne in list(_Przedmiot.pola_wlasne):
-                DB.session.delete(existing_pole_wlasne)
-            DB.session.flush() # Ważne: Zastosuj usunięcia w sesji przed dodaniem nowych
-
-            # Dodawanie nowych pól własnych na podstawie danych z formularza
-            for entry_form in Formularz.Pola_Własne.entries:
-                # Sprawdź, czy oba pola (rodzaj i wartość) są wypełnione
-                # id_rodzaj.data jest już intem dzięki coerce=int
-                if entry_form.form.id_rodzaj.data and entry_form.form.wartosc.data:
-                    Nowe_Pole_Wlasne = PoleWlasne(
-                        id_przedmiot=_Przedmiot.id, # Przypisujemy ID przedmiotu
-                        id_rodzaj=entry_form.form.id_rodzaj.data,
-                        wartosc=entry_form.form.wartosc.data
-                    )
-                    DB.session.add(Nowe_Pole_Wlasne)
-                # Obsłuż przypadek, gdy jedno z pól jest wypełnione, ale drugie nie
-                elif entry_form.form.id_rodzaj.data or entry_form.form.wartosc.data:
-                    FLASH(f"Pomijam niekompletne pole własne: rodzaj='{entry_form.form.id_rodzaj.data}', wartość='{entry_form.form.wartosc.data}'.", "warning")
-
-
-            # Zapisanie zmian do bazy danych
             DB.session.commit()
-            FLASH("Zmiany zostały zapisane", "success")
+
+            FLASH(f"Zaktualizowano przedmiot '{Edytowany_Przedmiot.nazwa}'.", "success")
             return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Moja_Kolekcja"))
 
-        else:
-            FLASH("Podano nieprawidłowe dane!", "danger")
-            # Jeśli walidacja się nie powiedzie, formularz zostanie ponownie wyrenderowany.
-            # Musisz się upewnić, że SelectFieldy w FieldList mają ponownie ustawione choices.
-            # Ta pętla na początku bloku POST już to robi.
+        FLASH("Podano niepoprawne dane.", "danger")
 
-    # Przekazujemy Select_Pola_Wlasne_Rodzaje_Pozycje do szablonu dla JS
-    return RENDER_TEMPLATE("Kolekcja/Przedmiot_Edycja.html", Formularz=Formularz, ID=ID, Select_Pola_Wlasne_Rodzaje_Pozycje=Select_Pola_Wlasne_Rodzaje_Pozycje)
+    return RENDER_TEMPLATE("Kolekcja/Przedmiot_Edycja.html", Formularz=Formularz)
 
-@Blueprint_3.route("/moja-kolekcja/usun/<int:ID>")
+@Blueprint_3.route("/moja-kolekcja/usun/<int:ID>/", methods=["POST"])
 @LOGIN_REQUIRED
-def Widok_Kolekcja_Usuń():
-    return RENDER_TEMPLATE("Kolekcja/Usuń.html")
+def Widok_Kolekcja_Usuń(ID):
+    #? Sprawdzenie czy przedmiot istnieje
+    Przedmiot_Do_Usuniecia = DB.session.execute(DB.select(Przedmiot).filter_by(id=ID, id_wlasciciel=CURRENT_USER.id)).scalar_one_or_none()
+
+    if not Przedmiot_Do_Usuniecia:
+        FLASH("Nie można odnaleźć przedmiotu do usunięcia lub nie masz do niego uprawnień.", "danger")
+        ABORT(404)
+
+    DB.session.delete(Przedmiot_Do_Usuniecia)
+    DB.session.commit()
+
+    FLASH(f"Przedmiot '{Przedmiot_Do_Usuniecia.nazwa}' został pomyślnie usunięty.", "success")
+    return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Moja_Kolekcja"))
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID>/notatki/dodaj/", methods=["POST", "GET"])
+@LOGIN_REQUIRED
+def Widok_Kolekcja_Notatka_Dodaj(ID):
+    przedmiot_parent = DB.session.execute(
+        DB.select(Przedmiot).filter_by(id=ID, id_wlasciciel=CURRENT_USER.id)
+    ).scalar_one_or_none()
+
+    if not przedmiot_parent:
+        FLASH("Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania do niego notatek.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Notatka()
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            nowa_notatka = Notatka(
+                tytul=Formularz.tytul.data,
+                opis=Formularz.opis.data,
+                czy_prywatne=Formularz.czy_prywatne.data,
+                id_przedmiot=ID
+            )
+
+            DB.session.add(nowa_notatka)
+            DB.session.commit()
+
+            FLASH(f"Notatka '{nowa_notatka.tytul}' została dodana.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Notatka_Dodanie.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/notatki/edytuj/<int:ID_Notatka>/", methods=["POST", "GET"])
+@LOGIN_REQUIRED
+def Widok_Kolekcja_Notatka_Edytuj(ID_Przedmiot, ID_Notatka):
+    edytowana_notatka = DB.session.execute(
+        DB.select(Notatka)
+        .join(Przedmiot)
+        .filter(
+            Notatka.id == ID_Notatka,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    if not edytowana_notatka:
+        FLASH("Nie znaleziono notatki lub nie masz uprawnień do jej edycji.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Notatka()
+
+    if REQUEST.method == "GET":
+        Formularz.tytul.data = edytowana_notatka.tytul
+        Formularz.opis.data = edytowana_notatka.opis
+        Formularz.czy_prywatne.data = edytowana_notatka.czy_prywatne
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            edytowana_notatka.tytul = Formularz.tytul.data
+            edytowana_notatka.opis = Formularz.opis.data
+            edytowana_notatka.czy_prywatne = Formularz.czy_prywatne.data
+
+            DB.session.commit()
+
+            FLASH(f"Notatka '{edytowana_notatka.tytul}' została zaktualizowana.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=edytowana_notatka.id_przedmiot))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Notatka_Edycja.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/notatki/usuń/<int:ID_Notatka>/", methods=["POST"])
+@LOGIN_REQUIRED
+def Widok_Kolekcja_Notatka_Usuń(ID_Przedmiot, ID_Notatka):
+    Notatka_Do_Usuniecia = DB.session.execute(
+        DB.select(Notatka)
+        .join(Przedmiot) # Dołączamy tabelę Przedmioty
+        .filter(
+            Notatka.id == ID_Notatka,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    print(Notatka_Do_Usuniecia)
+
+    if not Notatka_Do_Usuniecia:
+        FLASH("Nie można odnaleźć notatki do usunięcia lub nie masz do niej uprawnień.", "danger")
+        ABORT(404)
+
+    DB.session.delete(Notatka_Do_Usuniecia)
+    DB.session.commit()
+
+    FLASH(f"Notatka '{Notatka_Do_Usuniecia.tytul}' została pomyślnie usunięta.", "success")
+    return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID>/pola-wlasne/dodaj/", methods=["POST", "GET"])
+def Widok_Kolekcja_Pole_Własne_Dodaj(ID):
+    przedmiot_parent = DB.session.execute(
+        DB.select(Przedmiot).filter_by(id=ID, id_wlasciciel=CURRENT_USER.id)
+    ).scalar_one_or_none()
+
+    if not przedmiot_parent:
+        FLASH("Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania pól własnych do niego.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Pole_Własne()
+
+    rodzaje_pol_wlasnych = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
+    Formularz.id_rodzaj.choices = [(str(r.id), r.nazwa) for r in rodzaje_pol_wlasnych]
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            nowe_pole_wlasne = PoleWlasne(
+                id_rodzaj=Formularz.id_rodzaj.data,
+                wartosc=Formularz.wartosc.data,
+                id_przedmiot=ID
+            )
+
+            DB.session.add(nowe_pole_wlasne)
+            DB.session.commit()
+
+            FLASH(f"Pole własne '{nowe_pole_wlasne.typ_pola_wlasnego.nazwa}: {nowe_pole_wlasne.wartosc}' zostało dodane.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Pole_Włsne_Dodanie.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/pola-wlasne/edytuj/<int:ID_Pole_Wlasne>/", methods=["POST", "GET"])
+def Widok_Kolekcja_Pole_Własne_Edytuj(ID_Przedmiot, ID_Pole_Wlasne):
+    edytowane_pole_wlasne = DB.session.execute(
+        DB.select(PoleWlasne)
+        .join(Przedmiot)
+        .filter(
+            PoleWlasne.id == ID_Pole_Wlasne,
+            PoleWlasne.id_przedmiot == ID_Przedmiot,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    if not edytowane_pole_wlasne:
+        FLASH("Nie znaleziono pola własnego do edycji lub nie masz do niego uprawnień.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Pole_Własne()
+
+    rodzaje_pol_wlasnych = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
+    Formularz.id_rodzaj.choices = [(str(r.id), r.nazwa) for r in rodzaje_pol_wlasnych]
+
+    if REQUEST.method == "GET":
+        Formularz.id_rodzaj.data = edytowane_pole_wlasne.id_rodzaj
+        Formularz.wartosc.data = edytowane_pole_wlasne.wartosc
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            edytowane_pole_wlasne.id_rodzaj = Formularz.id_rodzaj.data
+            edytowane_pole_wlasne.wartosc = Formularz.wartosc.data
+
+            DB.session.commit()
+            FLASH(f"Pole własne '{edytowane_pole_wlasne.typ_pola_wlasnego.nazwa}: {edytowane_pole_wlasne.wartosc}' zostało zaktualizowane.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Pole_Włsne_Edycja.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/pola-wlasne/usun/<int:ID_Pole_Wlasne>/", methods=["POST"])
+def Widok_Kolekcja_Pole_Własne_Usuń(ID_Przedmiot, ID_Pole_Wlasne):
+    Pole_Wlasne_Do_Usuniecia = DB.session.execute(
+        DB.select(PoleWlasne)
+        .join(Przedmiot)
+        .join(PoleWlasneRodzaj)
+        .filter(
+            PoleWlasne.id == ID_Pole_Wlasne,
+            PoleWlasne.id_przedmiot == ID_Przedmiot,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    if not Pole_Wlasne_Do_Usuniecia:
+        FLASH("Nie można odnaleźć pola własnego do usunięcia lub nie masz do niego uprawnień.", "danger")
+        ABORT(404)
+
+    nazwa_typu_pola = Pole_Wlasne_Do_Usuniecia.typ_pola_wlasnego.nazwa
+
+    DB.session.delete(Pole_Wlasne_Do_Usuniecia)
+    DB.session.commit()
+
+    FLASH(f"Pole własne '{nazwa_typu_pola}: {Pole_Wlasne_Do_Usuniecia.wartosc}' zostało pomyślnie usunięte.", "success")
+    return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID>/grafiki/dodaj/", methods=["POST", "GET"])
+def Widok_Kolekcja_Zdjęcie_Dodaj(ID):
+    przedmiot_parent = DB.session.execute(
+        DB.select(Przedmiot).filter_by(id=ID, id_wlasciciel=CURRENT_USER.id)
+    ).scalar_one_or_none()
+
+    if not przedmiot_parent:
+        FLASH("Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania grafik do niego.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Zdjecie()
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            zdjecie_dane_binarne = Formularz.zdjecie_plik.data.read()
+            mimetype_pliku = Formularz.zdjecie_plik.data.mimetype
+
+            nowe_zdjecie = Zdjecie(
+                id_przedmiot=ID,
+                zdjecie_dane=zdjecie_dane_binarne,
+                tytul=Formularz.tytul.data,
+                opis=Formularz.opis.data,
+                mimetype=mimetype_pliku
+            )
+
+            DB.session.add(nowe_zdjecie)
+            DB.session.commit()
+
+            FLASH(f"Zdjęcie '{nowe_zdjecie.tytul}' zostało dodane.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Zdjęcie_Dodanie.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/grafiki/<int:ID_Grafika>/", methods=["POST", "GET"])
+def Widok_Kolekcja_Zdjęcie_Edytuj(ID_Przedmiot, ID_Grafika):
+    edytowane_zdjecie = DB.session.execute(
+        DB.select(Zdjecie)
+        .join(Przedmiot)
+        .filter(
+            Zdjecie.id == ID_Grafika,
+            Zdjecie.id_przedmiot == ID_Przedmiot,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    if not edytowane_zdjecie:
+        FLASH("Nie znaleziono grafiki do edycji lub nie masz do niej uprawnień.", "danger")
+        ABORT(404)
+
+    Formularz = Formularz_Zdjecie()
+
+    Formularz.zdjecie_plik.validators = [x for x in Formularz.zdjecie_plik.validators if not isinstance(x, FileRequired)]
+
+    if REQUEST.method == "GET":
+        Formularz.tytul.data = edytowane_zdjecie.tytul
+        Formularz.opis.data = edytowane_zdjecie.opis
+
+    if REQUEST.method == "POST":
+        if Formularz.validate_on_submit():
+            edytowane_zdjecie.tytul = Formularz.tytul.data
+            edytowane_zdjecie.opis = Formularz.opis.data
+
+            if Formularz.zdjecie_plik.data and Formularz.zdjecie_plik.data.filename:
+                edytowane_zdjecie.zdjecie_dane = Formularz.zdjecie_plik.data.read()
+                edytowane_zdjecie.mimetype = Formularz.zdjecie_plik.data.mimetype
+
+            DB.session.commit()
+
+            FLASH(f"Grafika '{edytowane_zdjecie.tytul}' została zaktualizowana.", "success")
+            return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
+
+        FLASH("Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.", "danger")
+
+    return RENDER_TEMPLATE("Kolekcja/Zdjęcie_Edycja.html", Formularz=Formularz)
+
+@Blueprint_3.route("/moja-kolekcja/<int:ID_Przedmiot>/grafiki/usun/<int:ID_Grafika>/", methods=["POST"])
+def Widok_Kolekcja_Zdjęcie_Usuń(ID_Przedmiot, ID_Grafika):
+    Zdjecie_Do_Usuniecia = DB.session.execute(
+        DB.select(Zdjecie)
+        .join(Przedmiot)
+        .filter(
+            Zdjecie.id == ID_Grafika,
+            Zdjecie.id_przedmiot == ID_Przedmiot,
+            Przedmiot.id_wlasciciel == CURRENT_USER.id
+        )
+    ).scalar_one_or_none()
+
+    if not Zdjecie_Do_Usuniecia:
+        FLASH("Nie można odnaleźć grafiki do usunięcia lub nie masz do niej uprawnień.", "danger")
+        ABORT(404)
+
+    tytul_zdjecia = Zdjecie_Do_Usuniecia.tytul
+
+    DB.session.delete(Zdjecie_Do_Usuniecia)
+    DB.session.commit()
+
+    FLASH(f"Grafika '{tytul_zdjecia}' została pomyślnie usunięta.", "success")
+    return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))

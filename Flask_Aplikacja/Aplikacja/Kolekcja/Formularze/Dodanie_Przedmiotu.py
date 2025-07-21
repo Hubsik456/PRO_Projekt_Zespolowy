@@ -28,5 +28,5 @@ class Formularz_Dodanie_Przedmiotu(FLASK_FORM):
     id_wartosc_rynkowa_waluta = SELECT_FIELD("Waluta Rynkowa", validators=[VALIDATORS.DataRequired()], coerce=int)
     id_kategoria = SELECT_FIELD("Kategoria", validators=[VALIDATORS.DataRequired()], coerce=int)
     czy_prywatne = BOOLEAN_FIELD("Czy Prywatne")
-    Pola_Własne = FIELD_LIST(FORM_FIELD(Formularz_Pole_Własne), min_entries=1) # 0
+    #Pola_Własne = FIELD_LIST(FORM_FIELD(Formularz_Pole_Własne), min_entries=1) # 0
     Pole_Submit = SUBMIT_FIELD("Wyślij")
