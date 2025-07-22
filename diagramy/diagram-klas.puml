@@ -1,0 +1,72 @@
+@startuml
+' Ukrycie pustych metod i pól
+hide empty members
+
+' Definicja klas na podstawie modeli SQLAlchemy
+class Uzytkownik {
+  +id: int
+  +login: str
+  +haslo: str
+  +email: str
+  +opis: str
+}
+
+class Przedmiot {
+  +id: int
+  +nazwa: str
+  +opis: str
+  +cena_zakupu: Decimal
+  +wartosc_rynkowa: Decimal
+  +czy_prywatne: bool
+}
+
+class Kategoria {
+  +id: int
+  +nazwa: str
+  +opis: str
+}
+
+class Waluta {
+  +id: int
+  +skrot: str
+  +nazwa: str
+}
+
+class Zdjecie {
+  +id: int
+  +tytul: str
+  +opis: str
+  +mimetype: str
+}
+
+class Notatka {
+  +id: int
+  +tytul: str
+  +opis: str
+  +czy_prywatne: bool
+}
+
+class PoleWlasne {
+  +id: int
+  +wartosc: str
+}
+
+class PoleWlasneRodzaj {
+  +id: int
+  +nazwa: str
+  +typ_danych: str
+  +opis: str
+}
+
+' Definicja relacji między klasami
+Uzytkownik "1" -- "0..*" Przedmiot : > posiada
+Przedmiot "0..*" -- "1" Kategoria : > należy do
+Przedmiot "0..*" -- "1" Waluta : > cena_zakupu
+Przedmiot "0..*" -- "1" Waluta : > wartosc_rynkowa
+
+Przedmiot "1" -- "0..*" Zdjecie : > ma
+Przedmiot "1" -- "0..*" Notatka : > ma
+Przedmiot "1" -- "0..*" PoleWlasne : > ma
+
+PoleWlasne "0..*" -- "1" PoleWlasneRodzaj : > jest typu
+@enduml

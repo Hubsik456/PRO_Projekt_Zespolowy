@@ -1,0 +1,41 @@
+@startuml
+title Diagram Aktywności - Dodawanie Przedmiotu do Kolekcji
+
+|Użytkownik|
+start
+:Wybiera opcję "Dodaj nowy przedmiot";
+
+|System|
+:Wyświetla formularz dodawania przedmiotu;
+
+|Użytkownik|
+:Wypełnia dane przedmiotu (nazwa, cena, kategoria itp.);
+:Przesyła formularz;
+
+|System|
+:Waliduje dane z formularza;
+
+if (Dane są poprawne?) then (Tak)
+  :Zapisuje nowy przedmiot w bazie danych;
+  :Wyświetla komunikat o powodzeniu;
+  :Przekierowuje na stronę "Moja Kolekcja";
+else (Nie)
+  :Wyświetla formularz ponownie z komunikatami o błędach;
+  |Użytkownik|
+  :Poprawia dane w formularzu;
+  :Ponownie przesyła formularz;
+  |System|
+  repeat
+  :Waliduje dane;
+  repeat while (Dane są niepoprawne) is (Tak)
+  ->Tak;
+  :Zapisuje nowy przedmiot w bazie danych;
+  :Wyświetla komunikat o powodzeniu;
+  :Przekierowuje na stronę "Moja Kolekcja";
+endif
+
+|Użytkownik|
+:Widzi zaktualizowaną listę przedmiotów;
+stop
+
+@enduml
