@@ -1,15 +1,31 @@
 {% set Pozycje_Menu =
     [
-        ("Kolekcja", "Blueprint_3.Widok_Kolekcja_Index"),
-        ("Konto", "Blueprint_2.Widok_Konto_Index"),
+        [
+            ("Kolekcja", "#"),
+            ("Kolekcja", "Blueprint_3.Widok_Kolekcja_Index"),
+            ("Moja Kolekcja", "Blueprint_3.Widok_Kolekcja_Moja_Kolekcja")
+        ],
+
+        [
+            ("Konto", "#"),
             ("Logowanie", "Blueprint_2.Widok_Konto_Logowanie"),
             ("Rejestracja", "Blueprint_2.Widok_Konto_Rejestracja"),
             ("Zmień Hasło", "Blueprint_2.Widok_Konto_Zmiana_Hasła"),
             ("Edytuj Konto", "Blueprint_2.Widok_Konto_Edytuj_Konto"),
             ("Wyloguj", "Blueprint_2.Widok_Konto_Wyloguj"),
             ("Usuń Konto", "Blueprint_2.Widok_Konto_Usuń_Konto"),
-        ("O Programie", "Blueprint_1.Widok_Main_O_Programie"),
-        ("Polityka Prywatności", "Blueprint_1.Widok_Main_Polityka_Prywatności"),
+        ],
+
+        [("O Programie", "Blueprint_1.Widok_Main_O_Programie")],
+
+        [("Polityka Prywatności", "Blueprint_1.Widok_Main_Polityka_Prywatności")],
+
+        [
+            ("Debug", "#"),
+            ("Debug", "Blueprint_0.Widok_Debug_Index"),
+            ("Ścieżki", "Blueprint_0.Widok_Debug_Ścieżki"),
+            ("Flash", "Blueprint_0.Widok_Debug_Flash"),
+        ]
     ]
 %}
 
@@ -20,7 +36,7 @@
                 <i class="bi bi-house" title="Strona główna"></i>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Menu_Glowne" title="Zwin/Rozwij menu.">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Menu_Glowne" title="Zwiń/Rozwiń menu.">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -28,10 +44,38 @@
 
             <div class="collapse navbar-collapse" id="Menu_Glowne">
                 <ul class="navbar-nav navbar-nav-scroll mb-2 mb-lg-0">
-                    {% for Tekst, URL in Pozycje_Menu %}
-                        <li class="nav-item">
-                            <a class="nav-link fw-normal {% if url_for(URL) == request.path %}active{% endif %}" href="{{ url_for(URL) }}">{{ Tekst }}</a>
-                        </li>
+                    {% for Pozycja in Pozycje_Menu %}
+                        {# Pojedyncza pozycja #}
+                        {% if Pozycja | length == 1 %}
+                            {% set Tekst, URL = Pozycja[0] %}
+                            <li class="nav-item">
+                                <a class="nav-link fw-normal {% if URL != '#' and url_for(URL) == request.path %}active{% endif %}" href="{% if URL != '#' %}{{ url_for(URL) }}{% else %}#{% endif %}">
+                                    {{ Tekst }}
+                                </a>
+                            </li>
+
+                        {# Rozwijane menu #}
+                        {% else %}
+                            {% set Glowny_Tekst, Glowny_URL = Pozycja[0] %} {# Naspis; nie link #}
+                            {% set Podpozycje = Pozycja[1:] %} {# Normalne pozycje #}
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle fw-normal" href="#" id="navbarDropdown{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ Glowny_Tekst }}
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown{{ loop.index }}">
+                                    {% for Tekst, URL in Podpozycje %}
+                                        <li>
+                                            <a class="dropdown-item {% if URL != '#' and url_for(URL) == request.path %}active{% endif %}" href="{% if URL != '#' %}{{ url_for(URL) }}{% else %}#{% endif %}">
+                                                {{ Tekst }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+
                     {% endfor %}
                 </ul>
             </div>

@@ -40,3 +40,29 @@ body[data-theme="brite"] .vr {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+/*! Karuzele swiper.js */
+    /*? Ogólne */
+.swiper .swiper-wrapper .swiper-slide {
+    background-color: var(--bs-primary-bg-subtle) !important;
+}
+.swiper-no-swiping {
+    cursor: auto;
+}
+    /*? Zmiana wyglądu pozostałych/aktywnego/poprzedniego/następnych */
+.swiper .swiper-slide {
+    opacity: 0.1;
+    transition: .3s ease all;
+    height: auto;
+}
+.swiper .swiper-slide-active, .swiper .swiper-slide-duplicate-active  {
+    opacity: 1
+}
+.swiper .swiper-slide-prev, .swiper .swiper-slide-duplicate-prev  {
+    filter: grayscale(70%);
+    opacity: 1;
+}
+.swiper .swiper-slide-next, .swiper .swiper-slide-duplicate-next  {
+    filter: grayscale(70%);
+    opacity: 1;
+}

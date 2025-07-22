@@ -1,5 +1,6 @@
 {% extends "Szablon.html" %}
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
+{% from "Makra/Swiper.html" import Swiper %}
 
 {% block Tytuł %}
     Szczegóły Przedmiotu
@@ -30,7 +31,15 @@
             </tr>
             <tr>
                 <td>Data Edycji</td>
-                <td>{{ Przedmiot.data_edycji }}</td>
+                <td>
+                    {% if Przedmiot.data_edycji %}
+                        {{ Przedmiot.data_edycji }}
+
+                    {% else %}
+                        Brak
+
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <td>Właściciel</td>
@@ -53,8 +62,12 @@
                 <td>
                     {% if Przedmiot.czy_prywatne %}
                         Tak
+
                     {% else %}
                         Nie
+                        <br>
+                        Link do przedmiotu: <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Przedmiot.id) }}">Link</a>
+
                     {% endif %}
                 </td>
             </tr>
@@ -97,7 +110,11 @@
 
     <h2>Notatki</h2>
 
+    <p>Poniżej znajdują się notataki, w tym te oznaczone jako prywatne.</p>
+
     {% if Przedmiot.notatki %}
+        <p>Poniżej znajdują się notataki, wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
+
         <ul>
             {% for Notatka in Przedmiot.notatki %}
                 <li class="mb-4">
@@ -121,39 +138,25 @@
                 </li>
             {% endfor %}
         </ul>
+    {% else %}
+        <p>Do tego przedmiotu nie dołączono żadnych notatek.</p>
+
     {% endif %}
 
     <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową notatkę.</p>
 
     <h2>Zdjęcia</h2>
 
+
     {% if Zdjęcia %}
-        <ul>
-            {% for Zdjęcie in Zdjęcia %}
-                <li>
-                    <img src="{{ Zdjęcie.data_uri }}" alt="{{ Zdjęcie.tytul }}" style="max-width: 200px; height: auto;">
-                    <br>
-                    <b>{{ Zdjęcie.tytul }}</b>
-                    <br>
-                    {{ Zdjęcie.opis }}
+        <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
+        {{ Swiper(Zdjęcia, True) }}
 
-                    <br>
-                    <br>
-                    <span class="text-end d-block">
-                        <a class="m-2" href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Grafika=Zdjęcie.id) }}">Edytuj</a>
-
-                        <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Usuń', ID_Przedmiot=Przedmiot.id, ID_Grafika=Zdjęcie.id) }}" method="POST">
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm(`Czy na pewno chcesz usunąć zdjęcie '{{ Zdjęcie.tytul }}'? Tej operacji nie można cofnąć.`);">
-                                Usuń
-                            </button>
-                        </form>
-                    <br>
-                </li>
-            {% endfor %}
-        </ul>
+    {% else %}
+        <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
 
     {% endif %}
+
 
     <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową grafikę.</p>
 

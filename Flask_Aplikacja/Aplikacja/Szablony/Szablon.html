@@ -143,7 +143,7 @@
                 {% block Treść %}{% endblock %}
 
             </div>
-            {# WIP| Konta #}
+            {# Konta #}
             <div class="container border-2 border-top border-primary-subtle pb-2 pt-2">
                 {% if current_user.is_authenticated %}
                     <p class="mb-0">
@@ -153,14 +153,12 @@
                     <p class="mb-0">Nie zalogowano</p>
                 {% endif %}
             </div>
-            {# WIP| Debug #}
-            <div class="container">
+            {# Debug #}
+            <div class="container d-none">
                 <p>
                     <b>Tryb Ciemny</b>: <code>{{ Tryb_Ciemny }}</code>
                     <br>
                     <b>Motyw</b>: <code>{{ Motyw }}</code>
-                    <br>
-                    {#<b>Język</b>: <code>{{ Język }}</code> <br>#}
                 </p>
             </div>
             {# Strzałka Scroll #}
@@ -184,7 +182,7 @@
                             Patryk Pieniążek (w67174) - <a href="https://github.com/ppieniazek" class="text-white">GitHub</a>
                         </li>
                     </ul>
-                    <p class="small text-body-secondary mb-2">
+                    <p class="small mb-2">
                         Projekt Zespołowy &nbsp;&bull;&nbsp; 6 IIZ, GP02 &nbsp;&bull;&nbsp; Lipiec 2025
                     </p>
                     <p class="small mb-0">

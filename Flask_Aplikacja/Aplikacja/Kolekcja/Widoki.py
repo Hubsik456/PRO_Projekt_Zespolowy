@@ -17,7 +17,9 @@ from flask import (
 )
 from flask_login import current_user as CURRENT_USER, login_required as LOGIN_REQUIRED
 from flask_wtf.file import FileRequired
+from sqlalchemy.sql import func as FUNC
 
+#! Lokalne importy
 from Aplikacja.Kolekcja import Blueprint_3
 from Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu import (
     Formularz_Dodanie_Przedmiotu,
@@ -32,8 +34,6 @@ from Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje import PoleWlasneRodzaj
 from Aplikacja.Modele.Kolekcja_Przedmioty import Przedmiot
 from Aplikacja.Modele.Kolekcja_Waluty import Waluta
 from Aplikacja.Modele.Kolekcja_Zdjęcia import Zdjecie
-
-#! Lokalne importy
 from Aplikacja.Rozszerzenia import DB
 
 
@@ -46,17 +46,6 @@ def Widok_Kolekcja_Index():
     :rtype: str
     """
     return RENDER_TEMPLATE("Kolekcja/index.html")
-
-
-@Blueprint_3.route("/podsumowanie/")
-def Widok_Kolekcja_Podsumowanie():
-    """Renderuje stronę z podsumowaniem kolekcji.
-
-    :return: Wyrenderowany szablon HTML strony podsumowania.
-    :rtype: str
-    """
-    return RENDER_TEMPLATE("Kolekcja/Podsumowanie.html")
-
 
 @Blueprint_3.route("/<int:ID>/")
 @LOGIN_REQUIRED
@@ -113,9 +102,6 @@ def Widok_Kolekcja_Dodaj():
     Select_Kategorie = DB.session.execute(DB.select(Kategoria)).scalars().all()
     Formularz.id_kategoria.choices = [(str(x.id), x.nazwa) for x in Select_Kategorie]
 
-    # Select_Pola_Wlasne_Rodzaje = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()
-    # Select_Pola_Wlasne_Rodzaje_Pozycje = [(str(x.id), x.nazwa) for x in Select_Pola_Wlasne_Rodzaje]
-
     # ? Jeśli formularz został przesłany
     if REQUEST.method == "POST":
         Formularz.id_cena_zakupu_waluta.choices = [
@@ -150,7 +136,6 @@ def Widok_Kolekcja_Dodaj():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    # return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz, Select_Pola_Wlasne_Rodzaje_Pozycje=Select_Pola_Wlasne_Rodzaje_Pozycje)
     return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz)
 
 
@@ -198,6 +183,7 @@ def Widok_Kolekcja_Szczegóły(ID):
                 "tytul": zdjecie.tytul,
                 "opis": zdjecie.opis,
                 "data_uri": data_uri,
+                "id_przedmiot": zdjecie.przedmiot.id
             }
         )
 
@@ -275,6 +261,7 @@ def Widok_Kolekcja_Edytuj(ID):
             )
             Edytowany_Przedmiot.id_kategoria = Formularz.id_kategoria.data
             Edytowany_Przedmiot.czy_prywatne = Formularz.czy_prywatne.data
+            Edytowany_Przedmiot.data_edycji = FUNC.now()
 
             DB.session.commit()
 
@@ -793,3 +780,37 @@ def Widok_Kolekcja_Zdjęcie_Usuń(ID_Przedmiot, ID_Grafika):
 
     FLASH(f"Grafika '{tytul_zdjecia}' została pomyślnie usunięta.", "success")
     return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
+
+@Blueprint_3.route("/przedmiot/<int:ID>/")
+def Widok_Kolekcja_Przedmiot(ID):
+    przedmiot = DB.session.execute(
+        DB.select(Przedmiot).filter_by(id=ID)
+    ).scalar_one_or_none()
+
+    if not przedmiot:
+        ABORT(404)
+
+    if CURRENT_USER.is_authenticated:
+        if CURRENT_USER.id == przedmiot.id_wlasciciel:
+            FLASH("Jesteś właścielem tego przedmiotu", "info")
+
+    Notatki_Publiczne = DB.session.execute(DB.select(Notatka).filter(Notatka.id_przedmiot == przedmiot.id, Notatka.czy_prywatne == False)).scalars().all()
+
+    zdjecia_do_szablonu = []
+    for zdjecie in przedmiot.zdjecia:
+        if zdjecie.zdjecie_dane and zdjecie.mimetype:
+            encoded_image = BASE64.b64encode(zdjecie.zdjecie_dane).decode("utf-8")
+            data_uri = f"data:{zdjecie.mimetype};base64,{encoded_image}"
+        else:
+            data_uri = None
+
+        zdjecia_do_szablonu.append(
+            {
+                "id": zdjecie.id,
+                "tytul": zdjecie.tytul,
+                "opis": zdjecie.opis,
+                "data_uri": data_uri,
+            }
+        )
+
+    return RENDER_TEMPLATE("Kolekcja/Przedmiot.html", Przedmiot=przedmiot, Notatki=Notatki_Publiczne, Zdjęcia=zdjecia_do_szablonu)
