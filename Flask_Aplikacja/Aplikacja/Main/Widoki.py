@@ -20,7 +20,6 @@ from flask import (
 
 #! Lokalne Importy
 from Aplikacja.Main import Blueprint_1
-from Aplikacja.Main.Formularze.Wybór_Języka import Formularz_Wyboru_Języka
 from Aplikacja.Main.Formularze.Wybór_Motywu import Formularz_Wyboru_Motywu
 
 
@@ -55,34 +54,34 @@ def Widok_Main_Polityka_Prywatności():
     return RENDER_TEMPLATE("Main/Polityka_Prywatności.html")
 
 
-@Blueprint_1.route("/jezyk/", methods=["POST", "GET"])
-def Widok_Main_Język():
-    """Renderuje stronę wyboru języka i obsługuje zmianę.
+# @Blueprint_1.route("/jezyk/", methods=["POST", "GET"])
+# def Widok_Main_Język():
+#     """Renderuje stronę wyboru języka i obsługuje zmianę.
 
-    Przy żądaniu GET wyświetla formularz.
-    Przy żądaniu POST waliduje formularz, zapisuje wybrany
-    język w ciasteczku i przekierowuje na stronę główną.
+#     Przy żądaniu GET wyświetla formularz.
+#     Przy żądaniu POST waliduje formularz, zapisuje wybrany
+#     język w ciasteczku i przekierowuje na stronę główną.
 
-    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
-    :rtype: str or werkzeug.wrappers.response.Response
-    """
-    Formularz = Formularz_Wyboru_Języka()
+#     :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.
+#     :rtype: str or werkzeug.wrappers.response.Response
+#     """
+#     Formularz = Formularz_Wyboru_Języka()
 
-    if REQUEST.method == "POST":
-        if Formularz.validate_on_submit():
-            FLASH("Zapisano wybór języka.", "success")
+#     if REQUEST.method == "POST":
+#         if Formularz.validate_on_submit():
+#             FLASH("Zapisano wybór języka.", "success")
 
-            Wybrany_Język = Formularz.Pole_Język.data
-            Odpowiedź = MAKE_RESPONSE(REDIRECT(URL_FOR("Blueprint_1.Widok_Main_Index")))
-            Odpowiedź.set_cookie(
-                key="Jezyk", value=Wybrany_Język, max_age=(30 * 24 * 3600)
-            )
+#             Wybrany_Język = Formularz.Pole_Język.data
+#             Odpowiedź = MAKE_RESPONSE(REDIRECT(URL_FOR("Blueprint_1.Widok_Main_Index")))
+#             Odpowiedź.set_cookie(
+#                 key="Jezyk", value=Wybrany_Język, max_age=(30 * 24 * 3600)
+#             )
 
-            return Odpowiedź
+#             return Odpowiedź
 
-        FLASH("Podano niepoprawne dane", "danger")
+#         FLASH("Podano niepoprawne dane", "danger")
 
-    return RENDER_TEMPLATE("Main/Język.html", Formularz=Formularz)
+#     return RENDER_TEMPLATE("Main/Język.html", Formularz=Formularz)
 
 
 @Blueprint_1.route("/motyw/", methods=["POST", "GET"])

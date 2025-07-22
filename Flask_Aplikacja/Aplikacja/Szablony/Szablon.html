@@ -1,63 +1,72 @@
 {% from "Makra/Menu.html" import Menu %}
 {% from "Makra/Komunikaty.html" import Komunikaty %}
-
 <!DOCTYPE html>
-<html lang="{{ Język }}">
+<html lang="pl">
     <head>
         {# Ogólne #}
-        <title>{% block Tytuł %}{% endblock %} | Kurator Kolekcji</title>
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='Favicon.png')}}">
+        <title>
 
+            {% block Tytuł %}{% endblock %}
+
+        | Kurator Kolekcji</title>
+        <link rel="icon"
+              type="image/x-icon"
+              href="{{ url_for('static', filename='Favicon.png') }}">
         {# Meta #}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="Hubert Michna, Patryk Pieniążek">
         <meta name="description" content="Cyfrowy Kurator Kolekcji">
         <meta name="keywords" content="Cyfrowy Kurator Kolekcji">
-
         {# jQuery, pod DataTables #}
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-
         {# CDN - Swiper.js #}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
         {# CDN - Google Charts #}
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
         {# CDN - Bootstrap 5.3.3 #}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         {% if Motyw %}
-            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/{{ Motyw }}/bootstrap.min.css" rel="stylesheet">
-
+            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/{{ Motyw }}/bootstrap.min.css"
+                  rel="stylesheet">
         {% else %}
-            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/united/bootstrap.min.css" rel="stylesheet">
-
+            <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.7/dist/united/bootstrap.min.css"
+                  rel="stylesheet">
         {% endif %}
-        {#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">#}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+        {#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous">#}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+                crossorigin="anonymous"></script>
         {# Datatables #}
-        <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/datatables.min.css" rel="stylesheet" integrity="sha384-BFhcC+P+xKeIDcKVmtP69nCXqDxLHYpjkv5c6QBxwkzBhyJwAVAe5/+BCcEGJeo/" crossorigin="anonymous">
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/datatables.min.js" integrity="sha384-vi8UyBPkQ1na4fAFc9gHV0oROk6rRo7EgvTF2M2p9JGIJSS6x5xg5Dj4J0li+3g5" crossorigin="anonymous"></script>
-
+        <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/datatables.min.css"
+              rel="stylesheet"
+              integrity="sha384-BFhcC+P+xKeIDcKVmtP69nCXqDxLHYpjkv5c6QBxwkzBhyJwAVAe5/+BCcEGJeo/"
+              crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"
+                integrity="sha384-VFQrHzqBh5qiJIU0uGU5CIW3+OWpdGGJM9LBnGbuIH2mkICcFZ7lPd/AAtI7SNf7"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"
+                integrity="sha384-/RlQG9uf0M2vcTw3CX7fbqgbj/h8wKxw7C3zu9/GxcBPRKOEcESxaxufwRXqzq6n"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/datatables.min.js"
+                integrity="sha384-vi8UyBPkQ1na4fAFc9gHV0oROk6rRo7EgvTF2M2p9JGIJSS6x5xg5Dj4J0li+3g5"
+                crossorigin="anonymous"></script>
         {#<link href="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/sb-1.8.3/datatables.min.css" rel="stylesheet" integrity="sha384-/slNNqNjJYZFa7k1UezcdLpE77JbveV1vhtqBj/escMrvAsrRN1ELw36XatpNQNf" crossorigin="anonymous">
-        <script src="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/sb-1.8.3/datatables.min.js" integrity="sha384-3mwQW4t5zAPK2wBsaWUuRxu3vAhsJ764tcDG5msdMblugjNdA0eeE6qoNKrOXYzb" crossorigin="anonymous"></script>#}
-
+<script src="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.4/b-colvis-3.2.4/b-html5-3.2.4/b-print-3.2.4/cc-1.0.7/fh-4.0.3/sb-1.8.3/datatables.min.js" integrity="sha384-3mwQW4t5zAPK2wBsaWUuRxu3vAhsJ764tcDG5msdMblugjNdA0eeE6qoNKrOXYzb" crossorigin="anonymous"></script>#}
         {# vanilla
         <link href="https://cdn.datatables.net/v/dt/dt-2.3.2/cc-1.0.7/datatables.min.css" rel="stylesheet" integrity="sha384-Cj3XOJTsHbH8wLMuiur9hBHE6VbFJ8lUnGGhQELFs136YAqA3kG8Ljowyz51xPUf" crossorigin="anonymous">
-        <script src="https://cdn.datatables.net/v/dt/dt-2.3.2/cc-1.0.7/datatables.min.js" integrity="sha384-uoZRKlUQlPstYKkxPTk3T53KCmifX/+WjwqqN9Q9MMHW1vgL12W9FrIiP/28HpWQ" crossorigin="anonymous"></script>#}
-
+<script src="https://cdn.datatables.net/v/dt/dt-2.3.2/cc-1.0.7/datatables.min.js" integrity="sha384-uoZRKlUQlPstYKkxPTk3T53KCmifX/+WjwqqN9Q9MMHW1vgL12W9FrIiP/28HpWQ" crossorigin="anonymous"></script>#}
         {# JS - Własne #}
         <script src="{{ url_for('static', filename='index.js') }}"></script>
-
         {# CSS - Własne #}
         <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     </head>
-
     <body data-theme="{{ Motyw }}">
         <div id="Treść">
             {# Banner #}
@@ -68,60 +77,53 @@
                     </header>
                 </div>
             </div>
-
             {# Menu #}
             {{ Menu() }}
-
             {# Przyciski #}
             <div class="container text-primary d-flex">
-                <button class="btn" onclick="Bootstrap_Tryb_Ciemny()" title="Włącz/Wyłącz tryb ciemny.">
+                <button class="btn"
+                        onclick="Bootstrap_Tryb_Ciemny()"
+                        title="Włącz/Wyłącz tryb ciemny.">
                     <i class="bi bi-lightbulb-fill"></i>
                 </button>
-
-                <a href="{{ url_for('Blueprint_1.Widok_Main_Motyw' )}}" class="btn" title="Wybierz motyw kolorystyczny.">
+                <a href="{{ url_for('Blueprint_1.Widok_Main_Motyw') }}"
+                   class="btn"
+                   title="Wybierz motyw kolorystyczny.">
                     <i class="bi bi-palette2"></i>
                 </a>
-
                 {#<button class="btn" onclick="alert('WIP')" title="Włącz/Wyłącz panel boczny.">
                     <i class="bi bi-layout-sidebar"></i>
-                </button>#}
-
+</button>#}
                 {#<button class="btn" onclick="alert('WIP')" title="Zmniejsz szerokość strony.">
                     <i class="bi bi-arrows-angle-contract"></i>
                 </button>
 
                 <button class="btn" onclick="alert('WIP')" title="Zwiększ szerokość strony.">
                     <i class="bi bi-arrows-angle-expand"></i>
-                </button>#}
-
+</button>#}
                 {#<button class="btn" onclick="alert('WIP')" title="Zmień szerokość treści.">
                     <i class="bi bi-arrows-expand-vertical"></i>
-                </button>#}
-
+</button>#}
                 {#<div class="vr mt-2 mb-2"></div>#}
-
                 {#<button class="btn" onclick="alert('WIP')" title="Zmniejsz rozmiar tekstów.">
                     <i class="bi bi-zoom-in"></i>
-                </button>#}
-
+</button>#}
                 {#<button class="btn" onclick="alert('WIP')" title="Zwiększ rozmiar tekstów.">
                     <i class="bi bi-zoom-out"></i>
-                </button>#}
-
-                <button class="btn" onclick="Podkreślanie_Linków()" title="Włącz/Wyłącz podkreślanie wszystkich linków.">
+</button>#}
+                <button class="btn"
+                        onclick="Podkreślanie_Linków()"
+                        title="Włącz/Wyłącz podkreślanie wszystkich linków.">
                     <i class="bi bi-type-underline"></i>
                 </button>
-
                 {#<a href="{{ url_for('Blueprint_1.Widok_Main_Język' )}}" class="btn" title="Wybierz język serwisu.">
                     <i class="bi bi-translate"></i>
                 </a>#}
             </div>
-
             {# NoScript #}
             <div class="container">
                 <noscript class="alert alert-danger">Dla zapewnienia poprawnego działania systemu, ta strona <strong>musi</strong> mieć dostęp do skryptów JavaScript.</noscript>
             </div>
-
             {# Komunikaty (Flash) #}
             {#{% with Komunikaty = get_flashed_messages() %}
                 {% if Komunikaty %}
@@ -136,62 +138,62 @@
                 {% endif %}
             {% endwith %}#}
             {{ Komunikaty() }}
-
             {# Treść #}
             <div class="container pb-4 pt-2">
                 {% block Treść %}{% endblock %}
-            </div>
 
+            </div>
             {# WIP| Konta #}
             <div class="container border-2 border-top border-primary-subtle pb-2 pt-2">
                 {% if current_user.is_authenticated %}
-                    <p class="mb-0"><span class="fw-bolder">Zalogowano jako</span>: <a href="{{ url_for('Blueprint_2.Widok_Konto_Index')}}">{{ current_user.login }}</a></p>
-
+                    <p class="mb-0">
+                        <span class="fw-bolder">Zalogowano jako</span>: <a href="{{ url_for('Blueprint_2.Widok_Konto_Index') }}">{{ current_user.login }}</a>
+                    </p>
                 {% else %}
                     <p class="mb-0">Nie zalogowano</p>
-
                 {% endif %}
             </div>
-
-
             {# WIP| Debug #}
             <div class="container">
                 <p>
-                    <b>Tryb Ciemny</b>: <code>{{ Tryb_Ciemny }}</code> <br>
-                    <b>Motyw</b>: <code>{{ Motyw }}</code> <br>
-                    <b>Język</b>: <code>{{ Język }}</code> <br>
+                    <b>Tryb Ciemny</b>: <code>{{ Tryb_Ciemny }}</code>
+                    <br>
+                    <b>Motyw</b>: <code>{{ Motyw }}</code>
+                    <br>
+                    {#<b>Język</b>: <code>{{ Język }}</code> <br>#}
                 </p>
             </div>
-
             {# Strzałka Scroll #}
             <div class="position-relative">
-                <button id="Przycisk_Scroll" class="btn btn-lg btn-primary position-fixed bottom-0 end-0 m-4 z-1" onclick="Strzałka_Scroll()" title="Przewiń do góry strony.">
+                <button id="Przycisk_Scroll"
+                        class="btn btn-lg btn-primary position-fixed bottom-0 end-0 m-4 z-1"
+                        onclick="Strzałka_Scroll()"
+                        title="Przewiń do góry strony.">
                     <i class="bi bi-arrow-up"></i>
                 </button>
             </div>
-
             {# Stopka #}
-            <div class="container-fluid bg-dark">
-                <div class="container pt-4 pb-4">
-                    <p class="text-light">
-                        <b>Autorzy</b>:
-                    </p>
-
-                    <ul class="text-light">
-                        <li><b>Hubert Michna</b> (w67259, <a href="https://github.com/Hubsik456" class="text-light">GitHub</a>),</li>
-                        <li><b>Patryk Pieniążek</b> (w67174, <a href="https://github.com/ppieniazek" class="text-light">GitHub</a>)</li>
+            <footer class="bg-dark text-white text-center py-4">
+                <div class="container">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item">
+                            Hubert Michna (w67259) - <a href="https://github.com/Hubsik456" class="text-white">GitHub</a>
+                        </li>
+                        <li class="list-inline-item">&bull;</li>
+                        <li class="list-inline-item">
+                            Patryk Pieniążek (w67174) - <a href="https://github.com/ppieniazek" class="text-white">GitHub</a>
+                        </li>
                     </ul>
-
-                    <p class="text-light small">
-                        <b>Przedmiot</b>: "<i>Projekt Zespołowy</i>"<br><br>Kwiecień-Lipiec 2025,
-                        <br>
-                        6 IIZ, GP02
+                    <p class="small text-body-secondary mb-2">
+                        Projekt Zespołowy &nbsp;&bull;&nbsp; 6 IIZ, GP02 &nbsp;&bull;&nbsp; Lipiec 2025
                     </p>
-
-                    <p class="text-light small">Repozytorium: <a href="https://github.com/Hubsik456/PRO_Projekt_Zespolowy">GitHub</a></p>
+                    <p class="small mb-0">
+                        © 2025 Kurator Kolekcji &nbsp;&bull;&nbsp;
+                        <a href="https://github.com/Hubsik456/PRO_Projekt_Zespolowy"
+                           class="text-white">Repozytorium projektu</a>
+                    </p>
                 </div>
-            </div>
-
+            </footer>
         </div>
     </body>
 </html>

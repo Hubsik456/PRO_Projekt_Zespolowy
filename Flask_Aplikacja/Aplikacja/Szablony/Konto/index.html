@@ -3,22 +3,38 @@
 {% block Tytuł %}Konto{% endblock %}
 
 {% block Treść %}
-    <h1>Konto</h1>
-    {% if current_user.is_authenticated %}
-        <p>Jesteś obecnie zalogowany jako: {{ current_user.login }}.</p>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Usuń_Konto') }}"
-           class="btn btn-primary">Usuń Konto</a>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Edytuj_Konto') }}"
-           class="btn btn-primary">Edytuj Swoje Dane</a>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Zmiana_Hasła') }}"
-           class="btn btn-primary">Zmień Hasło</a>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Wyloguj') }}"
-           class="btn btn-primary">Wyloguj</a>
-    {% else %}
-        <p>Nie jesteś obecnie zalogowany.</p>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}"
-           class="btn btn-primary">Logowanie</a>
-        <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}"
-           class="btn btn-primary">Rejestracja</a>
-    {% endif %}
+   <div class="container py-4">
+      {% if current_user.is_authenticated %}
+         <h1>Panel Konta</h1>
+         <p class="lead">
+            Witaj, <strong>{{ current_user.login }}</strong>!
+         </p>
+         <h3 class="h4">Ustawienia Konta</h3>
+         <div class="mt-3">
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Edytuj_Konto') }}"
+               class="btn btn-primary me-2 mb-2">
+               <i class="bi bi-pencil-square me-1"></i> Edytuj Profil
+            </a>
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Zmiana_Hasła') }}"
+               class="btn btn-primary me-2 mb-2">
+               <i class="bi bi-shield-lock me-1"></i> Zmień Hasło
+            </a>
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Usuń_Konto') }}"
+               class="btn btn-outline-danger mb-2">
+               <i class="bi bi-trash me-1"></i> Usuń Konto
+            </a>
+         </div>
+      {% else %}
+         <h1>Witaj w Kuratorze Kolekcji</h1>
+         <p class="lead">
+            Aby w pełni korzystać z aplikacji, zaloguj się na swoje konto lub załóż nowe, jeśli jeszcze go nie posiadasz.
+         </p>
+         <div class="mt-4">
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}"
+               class="btn btn-primary btn-lg me-2">Logowanie</a>
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}"
+               class="btn btn-secondary btn-lg">Rejestracja</a>
+         </div>
+      {% endif %}
+   </div>
 {% endblock %}

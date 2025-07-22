@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Modele.Kolekcja_Zdjęcia &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Modele.Kolekcja_Zdjęcia</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Modele.Kolekcja_Zdjęcia</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Model bazy danych dla tabeli &#39;Zdjecia&#39;.</span>
+
+<span class="sd">Moduł definiuje model SQLAlchemy dla zdjęć, które można</span>
+<span class="sd">przypisać do przedmiotów w kolekcji.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Lokalne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Rozszerzenia</span><span class="w"> </span><span class="kn">import</span> <span class="n">DB</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Zdjecie">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Modele.Kolekcja_Zdjęcia.Zdjecie">[dokumentacja]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Zdjecie</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model tabeli &#39;Zdjecia&#39; w bazie danych.</span>
+
+<span class="sd">    Reprezentuje zdjęcie powiązane z konkretnym przedmiotem.</span>
+
+<span class="sd">    :ivar int id: Unikalny identyfikator zdjęcia (klucz główny).</span>
+<span class="sd">    :ivar int id_przedmiot: Klucz obcy wskazujący na przedmiot, do którego należy zdjęcie.</span>
+<span class="sd">    :ivar bytes zdjecie_dane: Binarne dane pliku graficznego.</span>
+<span class="sd">    :ivar str tytul: Tytuł zdjęcia.</span>
+<span class="sd">    :ivar str opis: Opcjonalny opis zdjęcia.</span>
+<span class="sd">    :ivar str mimetype: Typ MIME pliku (np. &#39;image/jpeg&#39;).</span>
+<span class="sd">    :ivar Przedmiot przedmiot: Relacja do obiektu nadrzędnego Przedmiot.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;Zdjecia&quot;</span>
+
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">id_przedmiot</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">DB</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;Przedmioty.id&quot;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">zdjecie_dane</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">LargeBinary</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">tytul</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">opis</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">Text</span><span class="p">)</span>
+    <span class="n">mimetype</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># &lt;--- DODANA KOLUMNA</span>
+
+    <span class="n">przedmiot</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">relationship</span><span class="p">(</span>
+        <span class="s2">&quot;Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot&quot;</span><span class="p">,</span>
+        <span class="n">back_populates</span><span class="o">=</span><span class="s2">&quot;zdjecia&quot;</span><span class="p">,</span>
+        <span class="n">lazy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reprezentacja tekstowa obiektu Zdjecie.</span>
+
+<span class="sd">        :return: Tekstowa reprezentacja obiektu.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Zdjęcie ---&gt; ID: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&#39;, Tytuł: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39;.&quot;</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Modele.Kolekcja_Zdjęcia</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

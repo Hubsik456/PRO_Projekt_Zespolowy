@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Main.Formularze.Wybór_Języka &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Main.Formularze.Wybór_Języka</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Main.Formularze.Wybór_Języka</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Moduł formularza wyboru języka.&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_wtf</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlaskForm</span> <span class="k">as</span> <span class="n">FLASK_FORM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">wtforms</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SelectField</span> <span class="k">as</span> <span class="n">SELECT_FIELD</span><span class="p">,</span>
+    <span class="n">SubmitField</span> <span class="k">as</span> <span class="n">SUBMIT_FIELD</span><span class="p">,</span>
+    <span class="n">validators</span> <span class="k">as</span> <span class="n">VALIDATORS</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Formularz_Wyboru_Języka">
+<a class="viewcode-back" href="../../../../dokumentacja.html#Aplikacja.Main.Formularze.Wybór_Języka.Formularz_Wyboru_Języka">[dokumentacja]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Formularz_Wyboru_Języka</span><span class="p">(</span><span class="n">FLASK_FORM</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Formularz do wyboru języka interfejsu aplikacji.</span>
+
+<span class="sd">    :param Pole_Język: Pole wyboru języka (Polski lub Angielski).</span>
+<span class="sd">    :type Pole_Język: wtforms.fields.SelectField</span>
+<span class="sd">    :param Pole_Submit: Przycisk wysyłający formularz.</span>
+<span class="sd">    :type Pole_Submit: wtforms.fields.SubmitField</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Pole_Język</span> <span class="o">=</span> <span class="n">SELECT_FIELD</span><span class="p">(</span>
+        <span class="s2">&quot;Motyw&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;pl&quot;</span><span class="p">,</span> <span class="s2">&quot;Polski&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;English&quot;</span><span class="p">)],</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">VALIDATORS</span><span class="o">.</span><span class="n">DataRequired</span><span class="p">()],</span>
+    <span class="p">)</span>
+    <span class="n">Pole_Submit</span> <span class="o">=</span> <span class="n">SUBMIT_FIELD</span><span class="p">(</span><span class="s2">&quot;Wyślij&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Main.Formularze.Wybór_Języka</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

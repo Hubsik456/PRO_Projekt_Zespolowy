@@ -1,12 +1,20 @@
 {% extends "Szablon.html" %}
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 
-{% block Tytuł %}
-    O Programie
-{% endblock %}
+{% block Tytuł %}O Programie{% endblock %}
 
 {% block Treść %}
     <h1>O Programie</h1>
-
-    {{ Lorem_Ipsum(3) }}
+    <p>
+        <strong>Kurator Kolekcji</strong> to aplikacja internetowa stworzona z myślą o wszystkich pasjonatach i kolekcjonerach. Naszym celem jest dostarczenie prostego, ale potężnego narzędzia do katalogowania i zarządzania Twoimi cennymi zbiorami.
+    </p>
+    <p>Główne funkcje aplikacji to:</p>
+    <ul>
+        <li>Dodawanie i szczegółowe opisywanie przedmiotów w Twojej kolekcji.</li>
+        <li>Dołączanie zdjęć, notatek oraz definiowanie własnych pól dla każdego obiektu.</li>
+        <li>Kategoryzowanie zbiorów i śledzenie ich wartości rynkowej.</li>
+        <li>Bezpieczne przechowywanie danych o Twojej kolekcji w jednym miejscu, z dostępem online.</li>
+    </ul>
+    <p>
+        Niezależnie od tego, czy zbierasz monety, znaczki, gry wideo czy dzieła sztuki, mamy nadzieję, że nasza aplikacja stanie się nieocenionym pomocnikiem w Twoim hobby!
+    </p>
 {% endblock %}

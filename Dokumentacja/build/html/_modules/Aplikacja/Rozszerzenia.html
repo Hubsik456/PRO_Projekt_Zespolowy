@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Rozszerzenia &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=2827c288"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Rozszerzenia</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Rozszerzenia</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Moduł inicjalizujący rozszerzenia Flask.</span>
+
+<span class="sd">Centralne miejsce do tworzenia instancji rozszerzeń, które są</span>
+<span class="sd">następnie importowane i inicjalizowane w głównym pliku aplikacji.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Importy Zewnętrzne</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_app</span> <span class="k">as</span> <span class="n">CURRENT_APP</span><span class="p">,</span> <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_babel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Babel</span> <span class="k">as</span> <span class="n">BABEL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SQLAlchemy</span> <span class="k">as</span> <span class="n">SQL_ALCHEMY</span>
+
+<span class="c1">#! Tłumaczenia</span>
+<span class="n">Babel</span> <span class="o">=</span> <span class="n">BABEL</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="get_locale">
+<a class="viewcode-back" href="../../dokumentacja.html#Aplikacja.Rozszerzenia.get_locale">[dokumentacja]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_locale</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Określa język interfejsu dla żądania.</span>
+
+<span class="sd">    Sprawdza kolejno:</span>
+<span class="sd">    1. Ciasteczko &#39;Jezyk&#39; ustawione przez użytkownika.</span>
+<span class="sd">    2. Nagłówek &#39;Accept-Language&#39; przeglądarki.</span>
+<span class="sd">    3. Domyślną konfigurację aplikacji.</span>
+
+<span class="sd">    :return: Kod języka do użycia (np. &#39;pl&#39;, &#39;en&#39;).</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 1. Ciasteczko</span>
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Jezyk&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;LANGUAGES&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Jezyk&quot;</span><span class="p">)</span>
+    <span class="c1"># 2. Preferowany język</span>
+    <span class="n">Język</span> <span class="o">=</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">accept_languages</span><span class="o">.</span><span class="n">best_match</span><span class="p">(</span><span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;LANGUAGES&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">Język</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Język</span>
+    <span class="c1"># 3. Domyślny</span>
+    <span class="k">return</span> <span class="n">CURRENT_APP</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BABEL_DEFAULT_LOCALE&quot;</span><span class="p">,</span> <span class="s2">&quot;pl&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1">#! Baza Danych</span>
+<span class="n">DB</span> <span class="o">=</span> <span class="n">SQL_ALCHEMY</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Rozszerzenia</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

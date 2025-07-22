@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Kod modułu</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Główny plik inicjalizacyjny aplikacji (Application Factory).</span>
+
+<span class="sd">Ten moduł zawiera funkcję `create_app`, która jest odpowiedzialna za</span>
+<span class="sd">tworzenie i konfigurowanie instancji aplikacji Flask.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Flask</span> <span class="k">as</span> <span class="n">FLASK</span><span class="p">,</span>
+    <span class="n">abort</span> <span class="k">as</span> <span class="n">ABORT</span><span class="p">,</span>
+    <span class="n">flash</span> <span class="k">as</span> <span class="n">FLASH</span><span class="p">,</span>
+    <span class="n">render_template</span> <span class="k">as</span> <span class="n">RENDER_TEMPLATE</span><span class="p">,</span>
+    <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_login</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LoginManager</span> <span class="k">as</span> <span class="n">LOGIN_MANAGER</span><span class="p">,</span>
+    <span class="n">fresh_login_required</span> <span class="k">as</span> <span class="n">FRESH_LOGIN_REQUIRED</span><span class="p">,</span>
+    <span class="n">login_required</span> <span class="k">as</span> <span class="n">LOGIN_REQUIRED</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#! Lokalne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Konfiguracja</span><span class="w"> </span><span class="kn">import</span> <span class="n">Konfiguracja</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Kategorie</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kategoria</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Notatki</span><span class="w"> </span><span class="kn">import</span> <span class="n">Notatka</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Pola_Własne</span><span class="w"> </span><span class="kn">import</span> <span class="n">PoleWlasne</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje</span><span class="w"> </span><span class="kn">import</span> <span class="n">PoleWlasneRodzaj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Przedmioty</span><span class="w"> </span><span class="kn">import</span> <span class="n">Przedmiot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Waluty</span><span class="w"> </span><span class="kn">import</span> <span class="n">Waluta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Zdjęcia</span><span class="w"> </span><span class="kn">import</span> <span class="n">Zdjecie</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Użytkownicy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uzytkownik</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Rozszerzenia</span><span class="w"> </span><span class="kn">import</span> <span class="n">DB</span>
+
+
+<span class="c1">#! Funkcje</span>
+<div class="viewcode-block" id="create_app">
+<a class="viewcode-back" href="../dokumentacja.html#Aplikacja.create_app">[dokumentacja]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">(</span><span class="n">Ustawienia</span><span class="o">=</span><span class="n">Konfiguracja</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tworzy i konfiguruje instancję aplikacji Flask.</span>
+
+<span class="sd">    Wzorzec &quot;Application Factory&quot; pozwala na tworzenie wielu instancji</span>
+<span class="sd">    aplikacji z różnymi konfiguracjami, co jest przydatne m.in. do testowania.</span>
+
+<span class="sd">    :param Ustawienia: Obiekt konfiguracyjny do użycia.</span>
+<span class="sd">        Domyślnie `Konfiguracja` z pliku `Konfiguracja.py`.</span>
+<span class="sd">    :type Ustawienia: object</span>
+<span class="sd">    :return: Skonfigurowana instancja aplikacji Flask.</span>
+<span class="sd">    :rtype: flask.Flask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Aplikacja</span> <span class="o">=</span> <span class="n">FLASK</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">template_folder</span><span class="o">=</span><span class="s2">&quot;Szablony&quot;</span><span class="p">,</span> <span class="n">static_folder</span><span class="o">=</span><span class="s2">&quot;Statyczne&quot;</span><span class="p">)</span>
+    <span class="n">Aplikacja</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">Ustawienia</span><span class="p">)</span>
+
+    <span class="c1">#! Baza Danych</span>
+    <span class="n">DB</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">Aplikacja</span><span class="p">)</span>
+
+    <span class="c1">#! Konta Użytkowników</span>
+    <span class="c1"># TODO:</span>
+    <span class="n">Login_Manager</span> <span class="o">=</span> <span class="n">LOGIN_MANAGER</span><span class="p">()</span>
+    <span class="n">Login_Manager</span><span class="o">.</span><span class="n">login_view</span> <span class="o">=</span> <span class="s2">&quot;Blueprint_2.Widok_Konto_Logowanie&quot;</span>
+    <span class="n">Login_Manager</span><span class="o">.</span><span class="n">login_message</span> <span class="o">=</span> <span class="s2">&quot;Ta strona jest dostępna tylko dla zalogowanych użytkowników. Jeśli nie masz konta, musisz się zarejstrować.&quot;</span>
+    <span class="n">Login_Manager</span><span class="o">.</span><span class="n">login_message_category</span> <span class="o">=</span> <span class="s2">&quot;info&quot;</span>
+    <span class="n">Login_Manager</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">Aplikacja</span><span class="p">)</span>
+
+    <span class="nd">@Login_Manager</span><span class="o">.</span><span class="n">user_loader</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_user</span><span class="p">(</span><span class="n">user_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wczytuje użytkownika na podstawie jego ID, wymagane przez Flask-Login.</span>
+
+<span class="sd">        :param user_id: ID użytkownika do wczytania.</span>
+<span class="sd">        :type user_id: str</span>
+<span class="sd">        :return: Obiekt użytkownika lub None, jeśli nie znaleziono.</span>
+<span class="sd">        :rtype: Użytkownicy or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span>
+
+    <span class="c1">#! Blueprint&#39;y</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Debug</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_0</span> <span class="k">as</span> <span class="n">Blueprint_Debug</span>
+
+    <span class="n">Aplikacja</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">Blueprint_Debug</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Main</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_1</span> <span class="k">as</span> <span class="n">Blueprint_Main</span>
+
+    <span class="n">Aplikacja</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">Blueprint_Main</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_2</span> <span class="k">as</span> <span class="n">Blueprint_Konto</span>
+
+    <span class="n">Aplikacja</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">Blueprint_Konto</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_3</span> <span class="k">as</span> <span class="n">Blueprint_Kolekcja</span>
+
+    <span class="n">Aplikacja</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">Blueprint_Kolekcja</span><span class="p">)</span>
+
+    <span class="c1">#! Obsługa Błędów</span>
+    <span class="c1"># TODO: Dodać pozostałe błędy HTTP</span>
+    <span class="nd">@Aplikacja</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Błąd_401</span><span class="p">(</span><span class="n">Błąd</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obsługuje błąd 401 (Unauthorized).</span>
+
+<span class="sd">        :param Błąd: Obiekt błędu.</span>
+<span class="sd">        :return: Wyrenderowany szablon błędu 401.</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Błędy/401.html&quot;</span><span class="p">),</span> <span class="mi">401</span>
+
+    <span class="nd">@Aplikacja</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Błąd_403</span><span class="p">(</span><span class="n">blad</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obsługuje błąd 403 (Forbidden).</span>
+
+<span class="sd">        :param blad: Obiekt błędu 403.</span>
+<span class="sd">        :return: Wyrenderowany szablon błędu 403 i kod statusu 403.</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Błędy/403.html&quot;</span><span class="p">),</span> <span class="mi">403</span>
+
+    <span class="nd">@Aplikacja</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Błąd_404</span><span class="p">(</span><span class="n">Błąd</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obsługuje błąd 404 (Not Found).</span>
+
+<span class="sd">        :param Błąd: Obiekt błędu.</span>
+<span class="sd">        :return: Wyrenderowany szablon błędu 404.</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Błędy/404.html&quot;</span><span class="p">),</span> <span class="mi">404</span>
+
+    <span class="nd">@Aplikacja</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Błąd_500</span><span class="p">(</span><span class="n">Błąd</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obsługuje błąd 500 (Internal Server Error).</span>
+
+<span class="sd">        :param Błąd: Obiekt błędu.</span>
+<span class="sd">        :return: Wyrenderowany szablon błędu 500.</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Błędy/500.html&quot;</span><span class="p">),</span> <span class="mi">500</span>
+
+    <span class="c1">#! Jinja2</span>
+    <span class="nd">@Aplikacja</span><span class="o">.</span><span class="n">context_processor</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Jinja2_Zmienne_Globalne</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dodaje zmienne globalne do kontekstu szablonów Jinja2.</span>
+
+<span class="sd">        Udostępnia w szablonach informacje o aktualnym motywie,</span>
+<span class="sd">        trybie ciemnym i języku na podstawie ciasteczek.</span>
+
+<span class="sd">        :return: Słownik ze zmiennymi globalnymi.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Main.Formularze.Wybór_Motywu</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Wyboru_Motywu</span>
+
+        <span class="n">Dostępne_Motywy</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Wartość</span>
+            <span class="k">for</span> <span class="n">Wartość</span><span class="p">,</span> <span class="n">Klucz</span> <span class="ow">in</span> <span class="n">Formularz_Wyboru_Motywu</span><span class="o">.</span><span class="n">Pole_Motyw</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;choices&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+
+        <span class="n">Zmienne_Globalne</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Tryb_Ciemny&quot;</span><span class="p">:</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Tryb_Ciemny&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;Motyw&quot;</span><span class="p">:</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Motyw&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Motyw&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">Dostępne_Motywy</span>
+            <span class="k">else</span> <span class="s2">&quot;united&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Zmienne_Globalne</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Aplikacja</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Kod modułu</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

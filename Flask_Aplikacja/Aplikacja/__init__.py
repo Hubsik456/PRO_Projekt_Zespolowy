@@ -21,16 +21,15 @@ from flask_login import (
 #! Lokalne Importy
 from Konfiguracja import Konfiguracja
 
-from Aplikacja.Modele.Użytkownicy import Uzytkownik
-from Aplikacja.Modele.Kolekcja_Przedmioty import Przedmiot
-from Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje import PoleWlasneRodzaj
-from Aplikacja.Modele.Kolekcja_Pola_Własne import PoleWlasne
-from Aplikacja.Modele.Kolekcja_Waluty import Waluta
 from Aplikacja.Modele.Kolekcja_Kategorie import Kategoria
 from Aplikacja.Modele.Kolekcja_Notatki import Notatka
+from Aplikacja.Modele.Kolekcja_Pola_Własne import PoleWlasne
+from Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje import PoleWlasneRodzaj
+from Aplikacja.Modele.Kolekcja_Przedmioty import Przedmiot
+from Aplikacja.Modele.Kolekcja_Waluty import Waluta
 from Aplikacja.Modele.Kolekcja_Zdjęcia import Zdjecie
-
-from Aplikacja.Rozszerzenia import DB, Babel, get_locale
+from Aplikacja.Modele.Użytkownicy import Uzytkownik
+from Aplikacja.Rozszerzenia import DB
 
 
 #! Funkcje
@@ -71,14 +70,7 @@ def create_app(Ustawienia=Konfiguracja):
         """
         return Uzytkownik.query.get(int(user_id))
 
-    #! Tłumaczenia
-    Babel.init_app(Aplikacja, locale_selector=get_locale)
-
     #! Blueprint'y
-    from Aplikacja.CLI import Blueprint_CLI
-
-    Aplikacja.register_blueprint(Blueprint_CLI)
-
     from Aplikacja.Debug import Blueprint_0 as Blueprint_Debug
 
     Aplikacja.register_blueprint(Blueprint_Debug)
@@ -160,7 +152,6 @@ def create_app(Ustawienia=Konfiguracja):
             "Motyw": REQUEST.cookies.get("Motyw")
             if REQUEST.cookies.get("Motyw") in Dostępne_Motywy
             else "united",
-            "Język": get_locale(),
         }
         return dict(Zmienne_Globalne)
 

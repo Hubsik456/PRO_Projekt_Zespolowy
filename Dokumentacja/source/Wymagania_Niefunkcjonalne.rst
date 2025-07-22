@@ -1,4 +1,0 @@
-Wymaganie Niefunkcjonalne
-=========================
-
-WIP

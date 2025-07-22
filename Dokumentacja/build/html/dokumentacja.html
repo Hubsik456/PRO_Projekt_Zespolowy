@@ -1,55 +1,246 @@
+<!doctype html>
+<html class="no-js" lang="pl" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Indeks" href="genindex.html" /><link rel="search" title="Szukaj" href="search.html" /><link rel="prev" title="&lt;no title&gt;" href="index.html" />
 
-<!DOCTYPE html>
-
-<html lang="pl" data-content_root="./">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>Dokumentacja &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>Dokumentacja - Kurator Kolekcji 1.0 - dokumentacja</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
-    <script src="_static/documentation_options.js?v=331e28ce"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/translations.js?v=2827c288"></script>
-    <script src="_static/bizstyle.js"></script>
-    <link rel="index" title="Indeks" href="genindex.html" />
-    <link rel="search" title="Szukaj" href="search.html" />
-    <link rel="next" title="Podział Zadań" href="Podzia%C5%82_Zada%C5%84.html" />
-    <link rel="prev" title="Witaj w dokumentacji Kuratora Kolekcji!" href="index.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <!--[if lt IE 9]>
-    <script src="_static/css3-mediaqueries.js"></script>
-    <![endif]-->
-  </head><body>
-    <div class="related" role="navigation" aria-label="Related">
-      <h3>Nawigacja</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="Indeks ogólny"
-             accesskey="I">indeks</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Indeks modułów Pythona"
-             >moduły</a> |</li>
-        <li class="right" >
-          <a href="Podzia%C5%82_Zada%C5%84.html" title="Podział Zadań"
-             accesskey="N">dalej</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Witaj w dokumentacji Kuratora Kolekcji!"
-             accesskey="P">wstecz</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Dokumentacja</a></li> 
-      </ul>
-    </div>  
+    
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <section id="dokumentacja">
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Kurator Kolekcji 1.0 - dokumentacja</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">Kurator Kolekcji 1.0 - dokumentacja</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Szukaj" name="q" aria-label="Szukaj">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Spis Treści:</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Dokumentacja</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/dokumentacja.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="dokumentacja">
 <span id="id1"></span><h1>Dokumentacja<a class="headerlink" href="#dokumentacja" title="Link to this heading">¶</a></h1>
 <p>Ta część dokumentacji została wygenerowana automatycznie na podstawie
 docstringów w kodzie źródłowym aplikacji.</p>
@@ -78,138 +269,1353 @@ lub ustawiane na wartości domyślne.</p>
 </dl>
 </dd></dl>
 
+<p id="module-Aplikacja">Główny plik inicjalizacyjny aplikacji (Application Factory).</p>
+<p>Ten moduł zawiera funkcję <cite>create_app</cite>, która jest odpowiedzialna za
+tworzenie i konfigurowanie instancji aplikacji Flask.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.create_app">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.</span></span><span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ustawienia=&lt;class</span> <span class="pre">'Konfiguracja.Konfiguracja'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja.html#create_app"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.create_app" title="Link to this definition">¶</a></dt>
+<dd><p>Tworzy i konfiguruje instancję aplikacji Flask.</p>
+<p>Wzorzec „Application Factory” pozwala na tworzenie wielu instancji
+aplikacji z różnymi konfiguracjami, co jest przydatne m.in. do testowania.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Ustawienia</strong> (<em>object</em>) – Obiekt konfiguracyjny do użycia.
+Domyślnie <cite>Konfiguracja</cite> z pliku <cite>Konfiguracja.py</cite>.</p>
+</dd>
+<dt class="field-even">Zwraca<span class="colon">:</span></dt>
+<dd class="field-even"><p>Skonfigurowana instancja aplikacji Flask.</p>
+</dd>
+<dt class="field-odd">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-odd"><p>flask.Flask</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja.Rozszerzenia">Moduł inicjalizujący rozszerzenia Flask.</p>
+<p>Centralne miejsce do tworzenia instancji rozszerzeń, które są
+następnie importowane i inicjalizowane w głównym pliku aplikacji.</p>
 </section>
-<section id="modul-main-glowne-widoki">
-<h2>Moduł „Main” (Główne widoki)<a class="headerlink" href="#modul-main-glowne-widoki" title="Link to this heading">¶</a></h2>
-<section id="widoki">
-<h3>Widoki<a class="headerlink" href="#widoki" title="Link to this heading">¶</a></h3>
+<section id="module-Aplikacja.Main">
+<span id="modul-main-glowne-widoki"></span><h2>Moduł „Main” (Główne widoki)<a class="headerlink" href="#module-Aplikacja.Main" title="Link to this heading">¶</a></h2>
+<p>Inicjalizacja Blueprintu #1 - Main.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+głównego Blueprintu aplikacji, obsługującego ogólne widoki.</p>
+<section id="module-Aplikacja.Main.Widoki">
+<span id="widoki"></span><h3>Widoki<a class="headerlink" href="#module-Aplikacja.Main.Widoki" title="Link to this heading">¶</a></h3>
+<p>Główne widoki (routes) dla Blueprintu #1 - Main.</p>
+<p>Ten moduł zawiera logikę i definicje URL dla głównych,
+ogólnodostępnych stron aplikacji, takich jak:
+- Strona główna
+- O programie
+- Polityka prywatności
+- Ustawienia języka i motywu</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Main.Widoki.Widok_Main_Index">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Main.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Main_Index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Main/Widoki.html#Widok_Main_Index"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Main.Widoki.Widok_Main_Index" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę główną aplikacji.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Main.Widoki.Widok_Main_O_Programie">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Main.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Main_O_Programie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Main/Widoki.html#Widok_Main_O_Programie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Main.Widoki.Widok_Main_O_Programie" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę z informacjami o programie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony „O programie”.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Main.Widoki.Widok_Main_Polityka_Prywatnosci">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Main.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Main_Polityka_Prywatności</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Main/Widoki.html#Widok_Main_Polityka_Prywatności"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Main.Widoki.Widok_Main_Polityka_Prywatnosci" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę z polityką prywatności.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony „Polityka Prywatności”.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Main.Widoki.Widok_Main_Motyw">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Main.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Main_Motyw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Main/Widoki.html#Widok_Main_Motyw"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Main.Widoki.Widok_Main_Motyw" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę wyboru motywu i obsługuje zmianę.</p>
+<p>Przy żądaniu GET wyświetla formularz.
+Przy żądaniu POST waliduje formularz, zapisuje wybrany
+motyw w ciasteczku i przekierowuje na stronę główną.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="formularze">
-<h3>Formularze<a class="headerlink" href="#formularze" title="Link to this heading">¶</a></h3>
+<section id="module-Aplikacja.Main.Formularze.Wybor_Motywu">
+<span id="formularze"></span><h3>Formularze<a class="headerlink" href="#module-Aplikacja.Main.Formularze.Wybor_Motywu" title="Link to this heading">¶</a></h3>
+<p>Formularz wyboru motywu wizualnego aplikacji.</p>
+<p>Moduł ten definiuje formularz, który pozwala użytkownikowi
+na zmianę motywu kolorystycznego interfejsu.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Main.Formularze.Wybor_Motywu.Formularz_Wyboru_Motywu">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Main.Formularze.Wybór_Motywu.</span></span><span class="sig-name descname"><span class="pre">Formularz_Wyboru_Motywu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Main/Formularze/Wyb%C3%B3r_Motywu.html#Formularz_Wyboru_Motywu"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Main.Formularze.Wybor_Motywu.Formularz_Wyboru_Motywu" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do wyboru motywu kolorystycznego aplikacji.</p>
+<p>Umożliwia użytkownikowi wybór jednego z predefiniowanych
+motywów wizualnych. Wybór jest zapisywany w ciasteczku.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Motyw</strong> – Pole wyboru (lista rozwijana) z dostępnymi motywami.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk do zatwierdzenia wyboru.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
-<section id="modul-konto-zarzadzanie-uzytkownikiem">
-<h2>Moduł „Konto” (Zarządzanie użytkownikiem)<a class="headerlink" href="#modul-konto-zarzadzanie-uzytkownikiem" title="Link to this heading">¶</a></h2>
+<section id="module-Aplikacja.Konto">
+<span id="modul-konto-zarzadzanie-uzytkownikiem"></span><h2>Moduł „Konto” (Zarządzanie użytkownikiem)<a class="headerlink" href="#module-Aplikacja.Konto" title="Link to this heading">¶</a></h2>
+<p>Inicjalizacja Blueprintu #2 - Konta.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z kontami użytkowników.</p>
 <section id="id2">
 <h3>Widoki<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Konto.Widoki">Widoki (routes) dla Blueprintu #2 - Konta.</p>
+<p>Ten moduł zawiera całą logikę i definicje URL dla stron związanych
+z zarządzaniem kontem użytkownika, w tym:
+- Strona główna konta
+- Logowanie, wylogowywanie, rejestracja
+- Edycja profilu, zmiana hasła, usunięcie konta</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Index">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Index"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Index" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę główną panelu konta użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej konta.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Logowanie">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Logowanie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Logowanie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Logowanie" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę logowania i obsługuje proces logowania użytkownika.</p>
+<p>Przy żądaniu GET wyświetla formularz logowania.
+Przy żądaniu POST waliduje formularz, sprawdza dane logowania
+i w przypadku powodzenia loguje użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Rejestracja</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Rejestracja"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę rejestracji i obsługuje proces tworzenia nowego konta.</p>
+<p>Przy żądaniu GET wyświetla formularz rejestracji.
+Przy żądaniu POST waliduje formularz, sprawdza czy użytkownik
+o podanym loginie już nie istnieje, a następnie tworzy nowe konto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Zmiana_Hasla">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Zmiana_Hasła</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Zmiana_Hasła"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Zmiana_Hasla" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę zmiany hasła i obsługuje ten proces.</p>
+<p>Wymaga „świeżego” zalogowania. Przy żądaniu GET wyświetla formularz.
+Przy żądaniu POST waliduje go, sprawdza poprawność starego hasła
+i aktualizuje je w bazie danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Edytuj_Konto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Edytuj_Konto"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę edycji profilu użytkownika i obsługuje ten proces.</p>
+<p>Wymaga „świeżego” zalogowania. Przy żądaniu GET wyświetla formularz
+wypełniony aktualnymi danymi użytkownika. Przy żądaniu POST
+waliduje go i zapisuje zmiany w bazie danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Usun_Konto">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Usuń_Konto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Usuń_Konto"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Usun_Konto" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę usuwania konta i obsługuje ten proces.</p>
+<p>Wymaga „świeżego” zalogowania. Przy żądaniu GET wyświetla formularz
+wymagający potwierdzenia hasłem. Przy żądaniu POST waliduje go,
+sprawdza hasło i usuwa konto z bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str or werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Widoki.Widok_Konto_Wyloguj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Konto_Wyloguj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Widoki.html#Widok_Konto_Wyloguj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Widoki.Widok_Konto_Wyloguj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje wylogowanie aktualnie zalogowanego użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Odpowiedź przekierowująca na stronę główną konta.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>werkzeug.wrappers.response.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="id3">
 <h3>Formularze<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Konto.Formularze.Rejestracja">Formularz rejestracji nowego użytkownika.</p>
+<p>Moduł ten definiuje formularz umożliwiający nowym użytkownikom
+założenie konta w aplikacji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Formularze.Rejestracja.</span></span><span class="sig-name descname"><span class="pre">Formularz_Rejestracja</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Formularze/Rejestracja.html#Formularz_Rejestracja"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz rejestracji nowego konta.</p>
+<p>Wymaga podania unikalnego loginu, hasła (wraz z potwierdzeniem)
+oraz opcjonalnie adresu e-mail.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Login</strong> – Pole na login użytkownika.</p></li>
+<li><p><strong>Pole_Hasło_1</strong> – Pole na hasło.</p></li>
+<li><p><strong>Pole_Hasło_2</strong> – Pole do powtórzenia hasła.</p></li>
+<li><p><strong>Pole_Email</strong> – Opcjonalne pole na adres email.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk do zatwierdzenia formularza.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja.Konto.Formularze.Logowanie">Formularz logowania użytkownika.</p>
+<p>Moduł ten definiuje formularz używany przez użytkowników
+do zalogowania się na swoje konto w aplikacji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Formularze.Logowanie.</span></span><span class="sig-name descname"><span class="pre">Formularz_Logowanie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Formularze/Logowanie.html#Formularz_Logowanie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz logowania do aplikacji.</p>
+<p>Zbiera od użytkownika login i hasło w celu autoryzacji.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Login</strong> – Pole do wprowadzenia loginu użytkownika.</p></li>
+<li><p><strong>Pole_Hasło</strong> – Pole do wprowadzenia hasła.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk do zatwierdzenia formularza.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja.Konto.Formularze.Edytuj_Konto">Formularz edycji danych konta użytkownika.</p>
+<p>Moduł definiuje formularz pozwalający zalogowanemu
+użytkownikowi na zmianę danych swojego profilu.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Formularze.Edytuj_Konto.</span></span><span class="sig-name descname"><span class="pre">Formularz_Edytuj_Konto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Formularze/Edytuj_Konto.html#Formularz_Edytuj_Konto"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do edycji danych konta użytkownika.</p>
+<p>Pozwala na zmianę loginu, adresu email oraz opisu profilu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Login</strong> – Pole na nowy login użytkownika.</p></li>
+<li><p><strong>Pole_Email</strong> – Pole na nowy adres email.</p></li>
+<li><p><strong>Pole_Opis</strong> – Pole na opcjonalny opis profilu.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk do zapisania zmian.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja.Konto.Formularze.Zmiana_Hasla">Formularz zmiany hasła.</p>
+<p>Moduł ten definiuje formularz, za pomocą którego zalogowany
+użytkownik może zmienić swoje dotychczasowe hasło.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Formularze.Zmiana_Hasła.</span></span><span class="sig-name descname"><span class="pre">Formularz_Zmiana_Hasła</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Formularze/Zmiana_Has%C5%82a.html#Formularz_Zmiana_Hasła"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do zmiany hasła przez zalogowanego użytkownika.</p>
+<p>Wymaga podania aktualnego hasła oraz dwukrotnego wprowadzenia nowego.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Stare_Hasło</strong> – Pole na bieżące hasło użytkownika.</p></li>
+<li><p><strong>Pole_Nowe_Hasło_1</strong> – Pole na nowe hasło.</p></li>
+<li><p><strong>Pole_Nowe_Hasło_2</strong> – Pole do powtórzenia nowego hasła.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk do zatwierdzenia zmiany.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-Aplikacja.Konto.Formularze.Usun_Konto">Formularz usuwania konta użytkownika.</p>
+<p>Moduł definiuje formularz służący do permanentnego
+usunięcia konta z aplikacji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Konto.Formularze.Usuń_Konto.</span></span><span class="sig-name descname"><span class="pre">Formularz_Usuń_Konto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Konto/Formularze/Usu%C5%84_Konto.html#Formularz_Usuń_Konto"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do trwałego usunięcia konta użytkownika.</p>
+<p>Wymaga podania i potwierdzenia hasła w celu weryfikacji tożsamości.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Pole_Hasło_1</strong> – Pole na hasło użytkownika.</p></li>
+<li><p><strong>Pole_Hasło_2</strong> – Pole do powtórzenia hasła.</p></li>
+<li><p><strong>Pole_Submit</strong> – Przycisk inicjujący usunięcie konta.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
-<section id="modul-kolekcja">
-<h2>Moduł „Kolekcja”<a class="headerlink" href="#modul-kolekcja" title="Link to this heading">¶</a></h2>
+<section id="module-Aplikacja.Kolekcja">
+<span id="modul-kolekcja"></span><h2>Moduł „Kolekcja”<a class="headerlink" href="#module-Aplikacja.Kolekcja" title="Link to this heading">¶</a></h2>
+<p>Inicjalizacja Blueprintu #3 - Kolekcja.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z kolekcjami użytkownika.</p>
 <section id="id4">
 <h3>Widoki<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Kolekcja.Widoki">Widoki (routes) dla Blueprintu #3 - Kolekcja.</p>
+<p>Ten moduł zawiera logikę i definicje URL dla wszystkich stron
+związanych z zarządzaniem kolekcjami użytkowników.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Index"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę główną modułu Kolekcja.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej kolekcji.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Podsumowanie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Podsumowanie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę z podsumowaniem kolekcji.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony podsumowania.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Kolekcja">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Kolekcja</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Kolekcja"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Kolekcja" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla publiczną stronę kolekcji danego użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator użytkownika, którego kolekcja ma być wyświetlona.</p>
+</dd>
+<dt class="field-even">Zwraca<span class="colon">:</span></dt>
+<dd class="field-even"><p>Wyrenderowany szablon HTML z kolekcją użytkownika.</p>
+</dd>
+<dt class="field-odd">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Moja_Kolekcja">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Moja_Kolekcja</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Moja_Kolekcja"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Moja_Kolekcja" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla przedmioty w kolekcji zalogowanego użytkownika.</p>
+<p>Pobiera wszystkie przedmioty należące do <cite>current_user</cite> i przekazuje je
+do szablonu w celu wyświetlenia.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML z listą przedmiotów użytkownika.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Dodaj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Dodaj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Dodaj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Dodaj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje dodawanie nowego przedmiotu do kolekcji.</p>
+<p>Przy żądaniu GET wyświetla formularz dodawania przedmiotu.
+Przy żądaniu POST waliduje dane i tworzy nowy przedmiot w bazie danych,
+przypisując go do zalogowanego użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon z formularzem lub przekierowanie do listy kolekcji.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Szczegoly">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Szczegóły</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Szczegóły"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Szczegoly" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla szczegółowe informacje o wybranym przedmiocie.</p>
+<p>Sprawdza, czy przedmiot o danym ID istnieje i czy należy do zalogowanego użytkownika.
+Przetwarza zdjęcia do formatu Data URI w celu wyświetlenia w szablonie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje.</p></li>
+<li><p><strong>Abort</strong> – 403, jeśli użytkownik nie jest właścicielem przedmiotu.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon ze szczegółami przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Edytuj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Edytuj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Edytuj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Edytuj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje edycję istniejącego przedmiotu.</p>
+<p>Sprawdza, czy przedmiot należy do zalogowanego użytkownika.
+Przy żądaniu GET wypełnia formularz aktualnymi danymi przedmiotu.
+Przy żądaniu POST waliduje dane i aktualizuje przedmiot w bazie danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu do edycji.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon z formularzem edycji lub przekierowanie.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Usun">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Usuń</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Usuń"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Usun" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje usunięcie przedmiotu z kolekcji.</p>
+<p>Wymaga żądania POST. Sprawdza, czy przedmiot istnieje i należy do użytkownika,
+a następnie usuwa go z bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu do usunięcia.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Przekierowanie do strony z kolekcją użytkownika.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Dodaj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Notatka_Dodaj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Notatka_Dodaj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Dodaj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje dodawanie nowej notatki do przedmiotu.</p>
+<p>Sprawdza uprawnienia do przedmiotu nadrzędnego. Dla żądania GET wyświetla formularz,
+dla POST przetwarza go i dodaje notatkę do bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu, do którego dodawana jest notatka.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon z formularzem lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Edytuj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Notatka_Edytuj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Notatka</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Notatka_Edytuj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Edytuj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje edycję istniejącej notatki.</p>
+<p>Sprawdza, czy notatka istnieje i czy użytkownik ma do niej uprawnienia.
+Dla żądania GET wypełnia formularz danymi notatki, dla POST aktualizuje ją w bazie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Notatka</strong> (<em>int</em>) – ID edytowanej notatki.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli notatka nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formularz edycji lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Usun">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Notatka_Usuń</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Notatka</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Notatka_Usuń"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Usun" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje usunięcie notatki.</p>
+<p>Wymaga żądania POST. Sprawdza uprawnienia i usuwa notatkę z bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Notatka</strong> (<em>int</em>) – ID notatki do usunięcia.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli notatka nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Dodaj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Pole_Własne_Dodaj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Pole_Własne_Dodaj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Dodaj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje dodawanie nowego pola własnego do przedmiotu.</p>
+<p>Sprawdza uprawnienia. Dla GET wyświetla formularz, dla POST dodaje pole własne do bazy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu, do którego dodawane jest pole.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formularz dodawania lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Edytuj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Pole_Własne_Edytuj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Pole_Wlasne</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Pole_Własne_Edytuj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Edytuj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje edycję istniejącego pola własnego.</p>
+<p>Sprawdza uprawnienia. Dla GET wypełnia formularz, dla POST aktualizuje pole w bazie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Pole_Wlasne</strong> (<em>int</em>) – ID edytowanego pola własnego.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli pole nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formularz edycji lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Usun">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Pole_Własne_Usuń</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Pole_Wlasne</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Pole_Własne_Usuń"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Usun" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje usunięcie pola własnego.</p>
+<p>Wymaga żądania POST. Sprawdza uprawnienia i usuwa pole własne z bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Pole_Wlasne</strong> (<em>int</em>) – ID pola własnego do usunięcia.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli pole nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Dodaj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Zdjęcie_Dodaj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Zdjęcie_Dodaj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Dodaj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje dodawanie nowego zdjęcia do przedmiotu.</p>
+<p>Sprawdza uprawnienia. Dla GET wyświetla formularz, dla POST zapisuje plik
+i dane zdjęcia w bazie.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu, do którego dodawane jest zdjęcie.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formularz dodawania zdjęcia lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Edytuj">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Zdjęcie_Edytuj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Grafika</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Zdjęcie_Edytuj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Edytuj" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje edycję istniejącego zdjęcia.</p>
+<p>Sprawdza uprawnienia. Dla GET wypełnia formularz danymi zdjęcia.
+Dla POST aktualizuje tytuł/opis i opcjonalnie sam plik zdjęcia.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Grafika</strong> (<em>int</em>) – ID edytowanego zdjęcia.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli zdjęcie nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formularz edycji lub przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Usun">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Zdjęcie_Usuń</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID_Przedmiot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ID_Grafika</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Zdjęcie_Usuń"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Usun" title="Link to this definition">¶</a></dt>
+<dd><p>Obsługuje usunięcie zdjęcia.</p>
+<p>Wymaga żądania POST. Sprawdza uprawnienia i usuwa zdjęcie z bazy danych.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID_Przedmiot</strong> (<em>int</em>) – ID przedmiotu nadrzędnego.</p></li>
+<li><p><strong>ID_Grafika</strong> (<em>int</em>) – ID zdjęcia do usunięcia.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli zdjęcie nie istnieje lub brak uprawnień.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Przekierowanie do szczegółów przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-</section>
-<section id="modul-debug">
-<h2>Moduł „Debug”<a class="headerlink" href="#modul-debug" title="Link to this heading">¶</a></h2>
 <section id="id5">
-<h3>Widoki<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<h3>Formularze<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu">Formularz dodawania nowego przedmiotu do kolekcji.</p>
+<p>Główny formularz aplikacji, który zbiera wszystkie niezbędne
+dane do stworzenia nowego obiektu w kolekcji użytkownika.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu.Formularz_Dodanie_Przedmiotu">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu.</span></span><span class="sig-name descname"><span class="pre">Formularz_Dodanie_Przedmiotu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Formularze/Dodanie_Przedmiotu.html#Formularz_Dodanie_Przedmiotu"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu.Formularz_Dodanie_Przedmiotu" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz służący do dodawania nowego przedmiotu do kolekcji użytkownika.</p>
+<p>Zawiera wszystkie podstawowe pola opisujące przedmiot, takie jak nazwa, opis,
+cena, kategoria oraz pola dynamiczne (własne).</p>
+</dd></dl>
+
+<p id="module-Aplikacja.Kolekcja.Formularze.Notatka">Formularz dodawania i edycji notatki do przedmiotu.</p>
+<p>Moduł ten definiuje strukturę formularza używanego do tworzenia
+i modyfikowania notatek w kolekcji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Formularze.Notatka.Formularz_Notatka">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Formularze.Notatka.</span></span><span class="sig-name descname"><span class="pre">Formularz_Notatka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Formularze/Notatka.html#Formularz_Notatka"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Formularze.Notatka.Formularz_Notatka" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do tworzenia i edycji notatek powiązanych z przedmiotem w kolekcji.</p>
+<p>Definiuje pola formularza, ich walidatory oraz opisy, które są wyświetlane użytkownikowi.</p>
+</dd></dl>
+
+<p id="module-Aplikacja.Kolekcja.Formularze.Pole_Wlasne">Formularz dla niestandardowych (własnych) pól przedmiotu.</p>
+<p>Moduł zawiera definicję formularza, który pozwala użytkownikom
+dodawać własne, zdefiniowane przez siebie pola do przedmiotów.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Formularze.Pole_Własne.</span></span><span class="sig-name descname"><span class="pre">Formularz_Pole_Własne</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Formularze/Pole_W%C5%82asne.html#Formularz_Pole_Własne"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do definiowania niestandardowych pól dla przedmiotów w kolekcji.</p>
+<p>Umożliwia użytkownikowi wybór rodzaju pola oraz podanie jego wartości.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne.Meta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Formularze/Pole_W%C5%82asne.html#Formularz_Pole_Własne.Meta"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne.Meta" title="Link to this definition">¶</a></dt>
+<dd><p>Klasa Meta konfigurująca zachowanie formularza.</p>
+<p>Wyłącza ochronę CSRF dla tego formularza, co jest przydatne,
+gdy jest on używany jako podformularz w innych, dynamicznie generowanych formularzach.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Kolekcja.Formularze.Zdjecie">Formularz do przesyłania zdjęć dla przedmiotów w kolekcji.</p>
+<p>Moduł definiuje pola do przesyłania plików graficznych wraz z ich
+tytułem i opisem.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Formularze.Zdjecie.Formularz_Zdjecie">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Formularze.Zdjęcie.</span></span><span class="sig-name descname"><span class="pre">Formularz_Zdjecie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Formularze/Zdj%C4%99cie.html#Formularz_Zdjecie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Formularze.Zdjecie.Formularz_Zdjecie" title="Link to this definition">¶</a></dt>
+<dd><p>Formularz do przesyłania i opisywania zdjęć przedmiotów w kolekcji.</p>
+<p>Zawiera pola na tytuł, opcjonalny opis oraz pole do wyboru pliku graficznego.</p>
+</dd></dl>
+
 </section>
+</section>
+<section id="module-Aplikacja.Debug">
+<span id="modul-debug"></span><span id="module-Aplikacja.Kolekcja.Formularze.Usuniecie"></span><h2>Moduł „Debug”<a class="headerlink" href="#module-Aplikacja.Debug" title="Link to this heading">¶</a></h2>
+<p>Inicjalizacja Blueprintu #0 - Debug.</p>
+<p>Ten moduł jest odpowiedzialny za stworzenie i skonfigurowanie
+Blueprintu dla funkcjonalności związanych z debugowaniem i testowaniem aplikacji.</p>
 <section id="id6">
-<h3>Formularze<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<h3>Widoki<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Debug.Widoki">Widoki (routes) dla Blueprintu #0 - Debug.</p>
+<p>Moduł zawiera widoki i logikę przydatną podczas tworzenia
+i testowania aplikacji.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Debug.Widoki.Widok_Debug_Index">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Debug.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Debug_Index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Debug/Widoki.html#Widok_Debug_Index"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Debug.Widoki.Widok_Debug_Index" title="Link to this definition">¶</a></dt>
+<dd><p>Renderuje stronę główną panelu debugowania.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej panelu debugowania.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Debug.Widoki.Widok_Debug_Sciezki">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Debug.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Debug_Ścieżki</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Debug/Widoki.html#Widok_Debug_Ścieżki"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Debug.Widoki.Widok_Debug_Sciezki" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla listę wszystkich dostępnych ścieżek URL w aplikacji.</p>
+<p>Iteruje po <cite>current_app.url_map</cite>, aby zebrać informacje o wszystkich
+zdefiniowanych regułach routingu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML z tabelą zawierającą ścieżki.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Debug.Widoki.Widok_Debug_Flash">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Debug.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Debug_Flash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Debug/Widoki.html#Widok_Debug_Flash"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Debug.Widoki.Widok_Debug_Flash" title="Link to this definition">¶</a></dt>
+<dd><p>Testuje wyświetlanie komunikatów flash.</p>
+<p>Generuje komunikaty flash dla wszystkich dostępnych kategorii Bootstrapa.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Debug.Widoki.Widok_Test_1">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Debug.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Test_1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Debug/Widoki.html#Widok_Test_1"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Debug.Widoki.Widok_Test_1" title="Link to this definition">¶</a></dt>
+<dd><p>Widok testowy dla formularzy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Bledu">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Debug.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Debug_Generowanie_Błędu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Debug/Widoki.html#Widok_Debug_Generowanie_Błędu"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Bledu" title="Link to this definition">¶</a></dt>
+<dd><p>Celowo generuje błąd HTTP o podanym kodzie.</p>
+<p>Funkcja służy do testowania stron błędów.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Kod błędu HTTP do wygenerowania.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>werkzeug.exceptions.HTTPException</strong> – Przerywa żądanie z podanym kodem błędu.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id7">
+<h3>Formularze<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p id="module-Aplikacja.Debug.Formularze.Formularz_1">Moduł na formularze do debugowania i testowania.</p>
 </section>
 </section>
-<section id="modele-bazy-danych">
-<h2>Modele Bazy Danych<a class="headerlink" href="#modele-bazy-danych" title="Link to this heading">¶</a></h2>
+<section id="module-Aplikacja.Modele.Uzytkownicy">
+<span id="modele-bazy-danych"></span><h2>Modele Bazy Danych<a class="headerlink" href="#module-Aplikacja.Modele.Uzytkownicy" title="Link to this heading">¶</a></h2>
+<p>Model bazy danych dla tabeli «Użytkownicy».</p>
+<p>Moduł definiuje model SQLAlchemy dla użytkowników aplikacji, integrując
+się z Flask-Login do zarządzania sesjami.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Uzytkownicy.Uzytkownik">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Użytkownicy.</span></span><span class="sig-name descname"><span class="pre">Uzytkownik</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/U%C5%BCytkownicy.html#Uzytkownik"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Uzytkownicy» w bazie danych.</p>
+<p>Reprezentuje użytkownika aplikacji i przechowuje jego dane.
+Dziedziczy z UserMixin dla kompatybilności z Flask-Login.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator użytkownika (klucz główny).</p></li>
+<li><p><strong>login</strong> (<em>str</em>) – Login użytkownika, musi być unikalny.</p></li>
+<li><p><strong>haslo</strong> (<em>str</em>) – Zahaszowane hasło użytkownika.</p></li>
+<li><p><strong>email</strong> (<em>str</em>) – Adres email użytkownika, musi być unikalny.</p></li>
+<li><p><strong>dodano</strong> (<em>datetime</em>) – Data i czas utworzenia konta.</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Opcjonalny opis profilu użytkownika.</p></li>
+<li><p><strong>przedmioty_uzytkownika</strong> (<em>list</em>) – Lista przedmiotów posiadanych przez użytkownika.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Uzytkownicy.Uzytkownik.get_id">
+<span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/U%C5%BCytkownicy.html#Uzytkownik.get_id"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik.get_id" title="Link to this definition">¶</a></dt>
+<dd><p>Zwraca ID użytkownika, wymagane przez Flask-Login.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ID użytkownika jako string.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Uzytkownicy.Uzytkownik.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Przedmioty">Model bazy danych dla tabeli «Przedmioty».</p>
+<p>Główny moduł modelu kolekcji, definiujący strukturę przedmiotu,
+który jest centralnym elementem aplikacji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Przedmioty.</span></span><span class="sig-name descname"><span class="pre">Przedmiot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Przedmioty.html#Przedmiot"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Przedmioty» w bazie danych.</p>
+<p>Reprezentuje pojedynczy przedmiot w kolekcji użytkownika.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator przedmiotu (klucz główny).</p></li>
+<li><p><strong>nazwa</strong> (<em>str</em>) – Nazwa przedmiotu.</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Opcjonalny opis przedmiotu.</p></li>
+<li><p><strong>data_dodania</strong> (<em>datetime</em>) – Data i czas dodania przedmiotu.</p></li>
+<li><p><strong>data_edycji</strong> (<em>datetime</em>) – Data i czas ostatniej edycji przedmiotu.</p></li>
+<li><p><strong>id_wlasciciel</strong> (<em>int</em>) – Klucz obcy wskazujący na właściciela przedmiotu.</p></li>
+<li><p><strong>cena_zakupu</strong> (<em>Decimal</em>) – Cena, za jaką przedmiot został nabyty.</p></li>
+<li><p><strong>id_cena_zakupu_waluta</strong> (<em>int</em>) – Klucz obcy waluty dla ceny zakupu.</p></li>
+<li><p><strong>wartosc_rynkowa</strong> (<em>Decimal</em>) – Aktualna wartość rynkowa przedmiotu.</p></li>
+<li><p><strong>id_wartosc_rynkowa_waluta</strong> (<em>int</em>) – Klucz obcy waluty dla wartości rynkowej.</p></li>
+<li><p><strong>id_kategoria</strong> (<em>int</em>) – Klucz obcy wskazujący na kategorię przedmiotu.</p></li>
+<li><p><strong>czy_prywatne</strong> (<em>bool</em>) – Flaga określająca, czy przedmiot jest widoczny publicznie.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Kategorie">Model bazy danych dla tabeli «Kategorie».</p>
+<p>Moduł definiuje model SQLAlchemy dla kategorii, do których mogą być
+przypisywane przedmioty z kolekcji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Kategorie.Kategoria">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Kategorie.</span></span><span class="sig-name descname"><span class="pre">Kategoria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Kategorie.html#Kategoria"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Kategorie.Kategoria" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Kategorie» w bazie danych.</p>
+<p>Reprezentuje kategorię, którą można przypisać do przedmiotu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator kategorii (klucz główny).</p></li>
+<li><p><strong>nazwa</strong> (<em>str</em>) – Nazwa kategorii, musi być unikalna.</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Opcjonalny, dłuższy opis kategorii.</p></li>
+<li><p><strong>przedmioty</strong> (<em>list</em>) – Lista przedmiotów powiązanych z tą kategorią.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Kategorie.Kategoria.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Kategorie.Kategoria.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Waluty">Model bazy danych dla tabeli «Waluty».</p>
+<p>Moduł definiuje model SQLAlchemy dla walut, które są używane
+do określania ceny zakupu i wartości rynkowej przedmiotów.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Waluty.Waluta">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Waluty.</span></span><span class="sig-name descname"><span class="pre">Waluta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Waluty.html#Waluta"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Waluty.Waluta" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Waluty» w bazie danych.</p>
+<p>Przechowuje informacje o walutach (np. PLN, USD, EUR).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator waluty (klucz główny).</p></li>
+<li><p><strong>skrot</strong> (<em>str</em>) – Trzyliterowy skrót waluty (np. „PLN”), musi być unikalny.</p></li>
+<li><p><strong>nazwa</strong> (<em>str</em>) – Pełna nazwa waluty (np. „Polski złoty”), musi być unikalna.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Waluty.Waluta.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Waluty.Waluta.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Notatki">Model bazy danych dla tabeli «Notatki».</p>
+<p>Moduł definiuje model SQLAlchemy dla notatek, które można
+dodawać do poszczególnych przedmiotów w kolekcji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Notatki.Notatka">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Notatki.</span></span><span class="sig-name descname"><span class="pre">Notatka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Notatki.html#Notatka"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Notatki.Notatka" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Notatki» w bazie danych.</p>
+<p>Reprezentuje notatkę powiązaną z konkretnym przedmiotem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator notatki (klucz główny).</p></li>
+<li><p><strong>id_przedmiot</strong> (<em>int</em>) – Klucz obcy wskazujący na przedmiot, do którego należy notatka.</p></li>
+<li><p><strong>tytul</strong> (<em>str</em>) – Tytuł notatki.</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Treść notatki.</p></li>
+<li><p><strong>czy_prywatne</strong> (<em>bool</em>) – Flaga określająca, czy notatka jest widoczna publicznie.</p></li>
+<li><p><strong>przedmiot</strong> (<a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot" title="Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot"><em>Przedmiot</em></a>) – Relacja do obiektu nadrzędnego Przedmiot.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Notatki.Notatka.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Notatki.Notatka.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Zdjecia">Model bazy danych dla tabeli «Zdjecia».</p>
+<p>Moduł definiuje model SQLAlchemy dla zdjęć, które można
+przypisać do przedmiotów w kolekcji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Zdjęcia.</span></span><span class="sig-name descname"><span class="pre">Zdjecie</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Zdj%C4%99cia.html#Zdjecie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Zdjecia» w bazie danych.</p>
+<p>Reprezentuje zdjęcie powiązane z konkretnym przedmiotem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator zdjęcia (klucz główny).</p></li>
+<li><p><strong>id_przedmiot</strong> (<em>int</em>) – Klucz obcy wskazujący na przedmiot, do którego należy zdjęcie.</p></li>
+<li><p><strong>zdjecie_dane</strong> (<em>bytes</em>) – Binarne dane pliku graficznego.</p></li>
+<li><p><strong>tytul</strong> (<em>str</em>) – Tytuł zdjęcia.</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Opcjonalny opis zdjęcia.</p></li>
+<li><p><strong>mimetype</strong> (<em>str</em>) – Typ MIME pliku (np. «image/jpeg»).</p></li>
+<li><p><strong>przedmiot</strong> (<a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot" title="Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot"><em>Przedmiot</em></a>) – Relacja do obiektu nadrzędnego Przedmiot.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Pola_Wlasne">Model bazy danych dla tabeli «Pola_Wlasne».</p>
+<p>Moduł definiuje model SQLAlchemy dla wartości niestandardowych pól,
+które użytkownik może dodać do swoich przedmiotów w kolekcji.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Pola_Własne.</span></span><span class="sig-name descname"><span class="pre">PoleWlasne</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Pola_W%C5%82asne.html#PoleWlasne"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Pola_Wlasne» w bazie danych.</p>
+<p>Przechowuje konkretną wartość dla niestandardowego pola przypisanego
+do przedmiotu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator pola (klucz główny).</p></li>
+<li><p><strong>id_rodzaj</strong> (<em>int</em>) – Klucz obcy wskazujący na rodzaj tego pola.</p></li>
+<li><p><strong>id_przedmiot</strong> (<em>int</em>) – Klucz obcy wskazujący na przedmiot, do którego należy to pole.</p></li>
+<li><p><strong>wartosc</strong> (<em>str</em>) – Wartość pola, przechowywana jako tekst.</p></li>
+<li><p><strong>przedmiot</strong> (<a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot" title="Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot"><em>Przedmiot</em></a>) – Relacja do obiektu nadrzędnego Przedmiot.</p></li>
+<li><p><strong>typ_pola_wlasnego</strong> (<a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj" title="Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje.PoleWlasneRodzaj"><em>PoleWlasneRodzaj</em></a>) – Relacja do obiektu definiującego typ tego pola.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje">Model bazy danych dla tabeli «Pola_Wlasne_Rodzaje».</p>
+<p>Moduł definiuje model SQLAlchemy dla rodzajów niestandardowych pól,
+które użytkownik może tworzyć i przypisywać do przedmiotów.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje.</span></span><span class="sig-name descname"><span class="pre">PoleWlasneRodzaj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Modele/Kolekcja_Pola_W%C5%82asne_Rodzaje.html#PoleWlasneRodzaj"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj" title="Link to this definition">¶</a></dt>
+<dd><p>Model tabeli «Pola_Wlasne_Rodzaje» w bazie danych.</p>
+<p>Definiuje szablon dla niestandardowego pola (np. „Numer seryjny”, „Materiał”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Zmienne<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<em>int</em>) – Unikalny identyfikator rodzaju pola (klucz główny).</p></li>
+<li><p><strong>nazwa</strong> (<em>str</em>) – Nazwa rodzaju pola (np. „Materiał”), musi być unikalna.</p></li>
+<li><p><strong>typ_danych</strong> (<em>str</em>) – Określa typ danych dla tego pola (np. „tekst”, „liczba”).</p></li>
+<li><p><strong>opis</strong> (<em>str</em>) – Opcjonalny opis rodzaju pola.</p></li>
+<li><p><strong>powiazane_pola_wlasne</strong> (<em>list</em>) – Lista konkretnych wartości pól tego rodzaju.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">t.ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Query</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj.query" title="Link to this definition">¶</a></dt>
+<dd><p>A SQLAlchemy query for a model. Equivalent to <code class="docutils literal notranslate"><span class="pre">db.session.query(Model)</span></code>. Can be
+customized per-model by overriding <code class="xref py py-attr docutils literal notranslate"><span class="pre">query_class</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>The query interface is considered legacy in SQLAlchemy. Prefer using
+<code class="docutils literal notranslate"><span class="pre">session.execute(select())</span></code> instead.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
-
-            <div class="clearer"></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Hubert Michna, Patryk Pieniążek
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
           </div>
         </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-  <div>
-    <h3><a href="index.html">Spis treści</a></h3>
-    <ul>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
 <li><a class="reference internal" href="#">Dokumentacja</a><ul>
 <li><a class="reference internal" href="#module-Konfiguracja">Konfiguracja i uruchomienie</a><ul>
 <li><a class="reference internal" href="#Konfiguracja.Konfiguracja"><code class="docutils literal notranslate"><span class="pre">Konfiguracja</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modul-main-glowne-widoki">Moduł „Main” (Główne widoki)</a><ul>
-<li><a class="reference internal" href="#widoki">Widoki</a></li>
-<li><a class="reference internal" href="#formularze">Formularze</a></li>
+<li><a class="reference internal" href="#module-Aplikacja.Main">Moduł „Main” (Główne widoki)</a><ul>
+<li><a class="reference internal" href="#module-Aplikacja.Main.Widoki">Widoki</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Main_Index()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_O_Programie"><code class="docutils literal notranslate"><span class="pre">Widok_Main_O_Programie()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_Polityka_Prywatnosci"><code class="docutils literal notranslate"><span class="pre">Widok_Main_Polityka_Prywatności()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Main.Widoki.Widok_Main_Motyw"><code class="docutils literal notranslate"><span class="pre">Widok_Main_Motyw()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modul-konto-zarzadzanie-uzytkownikiem">Moduł „Konto” (Zarządzanie użytkownikiem)</a><ul>
-<li><a class="reference internal" href="#id2">Widoki</a></li>
-<li><a class="reference internal" href="#id3">Formularze</a></li>
+<li><a class="reference internal" href="#module-Aplikacja.Main.Formularze.Wybor_Motywu">Formularze</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Main.Formularze.Wybor_Motywu.Formularz_Wyboru_Motywu"><code class="docutils literal notranslate"><span class="pre">Formularz_Wyboru_Motywu</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modul-kolekcja">Moduł „Kolekcja”</a><ul>
-<li><a class="reference internal" href="#id4">Widoki</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modul-debug">Moduł „Debug”</a><ul>
-<li><a class="reference internal" href="#id5">Widoki</a></li>
-<li><a class="reference internal" href="#id6">Formularze</a></li>
+<li><a class="reference internal" href="#module-Aplikacja.Konto">Moduł „Konto” (Zarządzanie użytkownikiem)</a><ul>
+<li><a class="reference internal" href="#id2">Widoki</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Index()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Logowanie"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Logowanie()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Rejestracja()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Zmiana_Hasla"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Zmiana_Hasła()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Edytuj_Konto()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Usun_Konto"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Usuń_Konto()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Widoki.Widok_Konto_Wyloguj"><code class="docutils literal notranslate"><span class="pre">Widok_Konto_Wyloguj()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#modele-bazy-danych">Modele Bazy Danych</a></li>
+<li><a class="reference internal" href="#id3">Formularze</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Konto.Formularze.Rejestracja.Formularz_Rejestracja"><code class="docutils literal notranslate"><span class="pre">Formularz_Rejestracja</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Formularze.Logowanie.Formularz_Logowanie"><code class="docutils literal notranslate"><span class="pre">Formularz_Logowanie</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Formularze.Edytuj_Konto.Formularz_Edytuj_Konto"><code class="docutils literal notranslate"><span class="pre">Formularz_Edytuj_Konto</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Formularze.Zmiana_Hasla.Formularz_Zmiana_Hasla"><code class="docutils literal notranslate"><span class="pre">Formularz_Zmiana_Hasła</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Konto.Formularze.Usun_Konto.Formularz_Usun_Konto"><code class="docutils literal notranslate"><span class="pre">Formularz_Usuń_Konto</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Aplikacja.Kolekcja">Moduł „Kolekcja”</a><ul>
+<li><a class="reference internal" href="#id4">Widoki</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Index()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Podsumowanie()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Kolekcja"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Kolekcja()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Moja_Kolekcja"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Moja_Kolekcja()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Dodaj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Szczegoly"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Szczegóły()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Edytuj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Edytuj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Usun"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Usuń()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Notatka_Dodaj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Edytuj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Notatka_Edytuj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Usun"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Notatka_Usuń()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Pole_Własne_Dodaj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Edytuj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Pole_Własne_Edytuj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Wlasne_Usun"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Pole_Własne_Usuń()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Dodaj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Edytuj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Edytuj()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Usun"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Usuń()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Formularze</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu.Formularz_Dodanie_Przedmiotu"><code class="docutils literal notranslate"><span class="pre">Formularz_Dodanie_Przedmiotu</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Formularze.Notatka.Formularz_Notatka"><code class="docutils literal notranslate"><span class="pre">Formularz_Notatka</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne"><code class="docutils literal notranslate"><span class="pre">Formularz_Pole_Własne</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Formularze.Pole_Wlasne.Formularz_Pole_Wlasne.Meta"><code class="docutils literal notranslate"><span class="pre">Formularz_Pole_Własne.Meta</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Formularze.Zdjecie.Formularz_Zdjecie"><code class="docutils literal notranslate"><span class="pre">Formularz_Zdjecie</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Aplikacja.Debug">Moduł „Debug”</a><ul>
+<li><a class="reference internal" href="#id6">Widoki</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Index()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Sciezki"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Ścieżki()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Flash"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Flash()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Test_1"><code class="docutils literal notranslate"><span class="pre">Widok_Test_1()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Debug.Widoki.Widok_Debug_Generowanie_Bledu"><code class="docutils literal notranslate"><span class="pre">Widok_Debug_Generowanie_Błędu()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">Formularze</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-Aplikacja.Modele.Uzytkownicy">Modele Bazy Danych</a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik"><code class="docutils literal notranslate"><span class="pre">Uzytkownik</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik.get_id"><code class="docutils literal notranslate"><span class="pre">Uzytkownik.get_id()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Uzytkownicy.Uzytkownik.query"><code class="docutils literal notranslate"><span class="pre">Uzytkownik.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot"><code class="docutils literal notranslate"><span class="pre">Przedmiot</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Przedmioty.Przedmiot.query"><code class="docutils literal notranslate"><span class="pre">Przedmiot.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Kategorie.Kategoria"><code class="docutils literal notranslate"><span class="pre">Kategoria</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Kategorie.Kategoria.query"><code class="docutils literal notranslate"><span class="pre">Kategoria.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Waluty.Waluta"><code class="docutils literal notranslate"><span class="pre">Waluta</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Waluty.Waluta.query"><code class="docutils literal notranslate"><span class="pre">Waluta.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Notatki.Notatka"><code class="docutils literal notranslate"><span class="pre">Notatka</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Notatki.Notatka.query"><code class="docutils literal notranslate"><span class="pre">Notatka.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie"><code class="docutils literal notranslate"><span class="pre">Zdjecie</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Zdjecia.Zdjecie.query"><code class="docutils literal notranslate"><span class="pre">Zdjecie.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne"><code class="docutils literal notranslate"><span class="pre">PoleWlasne</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne.PoleWlasne.query"><code class="docutils literal notranslate"><span class="pre">PoleWlasne.query</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj"><code class="docutils literal notranslate"><span class="pre">PoleWlasneRodzaj</span></code></a><ul>
+<li><a class="reference internal" href="#Aplikacja.Modele.Kolekcja_Pola_Wlasne_Rodzaje.PoleWlasneRodzaj.query"><code class="docutils literal notranslate"><span class="pre">PoleWlasneRodzaj.query</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
-  </div>
-  <div>
-    <h4>Poprzedni temat</h4>
-    <p class="topless"><a href="index.html"
-                          title="poprzedni rozdział">Witaj w dokumentacji Kuratora Kolekcji!</a></p>
-  </div>
-  <div>
-    <h4>Następny temat</h4>
-    <p class="topless"><a href="Podzia%C5%82_Zada%C5%84.html"
-                          title="następny rozdział">Podział Zadań</a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>Ta strona</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/dokumentacja.rst.txt"
-            rel="nofollow">Pokaż źródło</a></li>
-    </ul>
-   </div>
-<search id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Szukaj" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+          </div>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="Related">
-      <h3>Nawigacja</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="Indeks ogólny"
-             >indeks</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Indeks modułów Pythona"
-             >moduły</a> |</li>
-        <li class="right" >
-          <a href="Podzia%C5%82_Zada%C5%84.html" title="Podział Zadań"
-             >dalej</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Witaj w dokumentacji Kuratora Kolekcji!"
-             >wstecz</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Dokumentacja</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
-    </div>
-  </body>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=331e28ce"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/translations.js?v=2827c288"></script>
+    </body>
 </html>

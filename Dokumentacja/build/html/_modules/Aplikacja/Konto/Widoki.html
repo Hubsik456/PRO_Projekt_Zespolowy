@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Konto.Widoki &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Konto.Widoki</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Konto.Widoki</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Widoki (routes) dla Blueprintu #2 - Konta.</span>
+
+<span class="sd">Ten moduł zawiera całą logikę i definicje URL dla stron związanych</span>
+<span class="sd">z zarządzaniem kontem użytkownika, w tym:</span>
+<span class="sd">- Strona główna konta</span>
+<span class="sd">- Logowanie, wylogowywanie, rejestracja</span>
+<span class="sd">- Edycja profilu, zmiana hasła, usunięcie konta</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">flash</span> <span class="k">as</span> <span class="n">FLASH</span><span class="p">,</span>
+    <span class="n">redirect</span> <span class="k">as</span> <span class="n">REDIRECT</span><span class="p">,</span>
+    <span class="n">render_template</span> <span class="k">as</span> <span class="n">RENDER_TEMPLATE</span><span class="p">,</span>
+    <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span><span class="p">,</span>
+    <span class="n">url_for</span> <span class="k">as</span> <span class="n">URL_FOR</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_login</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">current_user</span> <span class="k">as</span> <span class="n">CURRENT_USER</span><span class="p">,</span>
+    <span class="n">fresh_login_required</span> <span class="k">as</span> <span class="n">FRESH_LOGIN_REQUIRED</span><span class="p">,</span>
+    <span class="n">login_required</span> <span class="k">as</span> <span class="n">LOGIN_REQUIRED</span><span class="p">,</span>
+    <span class="n">login_user</span> <span class="k">as</span> <span class="n">LOGIN_USER</span><span class="p">,</span>
+    <span class="n">logout_user</span> <span class="k">as</span> <span class="n">LOGOUT_USER</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">werkzeug.security</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_password_hash</span> <span class="k">as</span> <span class="n">CHECK_PASSWORD_HASH</span><span class="p">,</span>
+    <span class="n">generate_password_hash</span> <span class="k">as</span> <span class="n">GENERATE_PASSWORD_HASH</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto.Formularze.Edytuj_Konto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Edytuj_Konto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto.Formularze.Logowanie</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Logowanie</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto.Formularze.Rejestracja</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Rejestracja</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto.Formularze.Usuń_Konto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Usuń_Konto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Konto.Formularze.Zmiana_Hasła</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Zmiana_Hasła</span>
+<span class="c1">#from Aplikacja.Modele.Użytkownicy import Uzytkownik</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Użytkownicy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uzytkownik</span>
+
+<span class="c1">#! Lokalne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Rozszerzenia</span><span class="w"> </span><span class="kn">import</span> <span class="n">DB</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Widok_Konto_Index">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Index">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę główną panelu konta użytkownika.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony głównej konta.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/index.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Logowanie">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Logowanie">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/logowanie/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Logowanie</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę logowania i obsługuje proces logowania użytkownika.</span>
+
+<span class="sd">    Przy żądaniu GET wyświetla formularz logowania.</span>
+<span class="sd">    Przy żądaniu POST waliduje formularz, sprawdza dane logowania</span>
+<span class="sd">    i w przypadku powodzenia loguje użytkownika.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: Zrobić redirect jeśli ktoś jest już zalogowany</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Logowanie</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Input_Login</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Login</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Input_Hasło</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Hasło</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">login</span><span class="o">=</span><span class="n">Input_Login</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Użytkownik</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">CHECK_PASSWORD_HASH</span><span class="p">(</span><span class="n">Użytkownik</span><span class="o">.</span><span class="n">haslo</span><span class="p">,</span> <span class="n">Input_Hasło</span><span class="p">):</span>
+                <span class="n">FLASH</span><span class="p">(</span>
+                    <span class="s2">&quot;Taki użytkownik nie istnieje lub podano niepoprawne hasło.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Logowanie.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zalogowano jako: &#39;</span><span class="si">{</span><span class="n">Użytkownik</span><span class="o">.</span><span class="n">login</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="n">LOGIN_USER</span><span class="p">(</span><span class="n">Użytkownik</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Logowanie.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Rejestracja">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Rejestracja">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/rejestracja/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Rejestracja</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę rejestracji i obsługuje proces tworzenia nowego konta.</span>
+
+<span class="sd">    Przy żądaniu GET wyświetla formularz rejestracji.</span>
+<span class="sd">    Przy żądaniu POST waliduje formularz, sprawdza czy użytkownik</span>
+<span class="sd">    o podanym loginie już nie istnieje, a następnie tworzy nowe konto.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: Zrobić redirect jeśli ktoś jest już zalogowany</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Rejestracja</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Input_Login</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Login</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Input_Hasło</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Hasło_1</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Input_Email</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Email</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">login</span><span class="o">=</span><span class="n">Input_Login</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">Użytkownik</span><span class="p">:</span>
+                <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Takie konto już istnieje.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Rejestracja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span>
+
+            <span class="n">Nowy_Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="p">(</span>
+                <span class="n">login</span><span class="o">=</span><span class="n">Input_Login</span><span class="p">,</span>
+                <span class="n">haslo</span><span class="o">=</span><span class="n">GENERATE_PASSWORD_HASH</span><span class="p">(</span><span class="n">Input_Hasło</span><span class="p">),</span>
+                <span class="n">email</span><span class="o">=</span><span class="n">Input_Email</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Nowy_Użytkownik</span><span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">LOGIN_USER</span><span class="p">(</span><span class="n">Nowy_Użytkownik</span><span class="p">)</span>
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Rejestracja zakońoczna pomyślnie.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Rejestracja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Zmiana_Hasła">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Zmiana_Hasła">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/zmiana-hasla/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@FRESH_LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Zmiana_Hasła</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę zmiany hasła i obsługuje ten proces.</span>
+
+<span class="sd">    Wymaga &quot;świeżego&quot; zalogowania. Przy żądaniu GET wyświetla formularz.</span>
+<span class="sd">    Przy żądaniu POST waliduje go, sprawdza poprawność starego hasła</span>
+<span class="sd">    i aktualizuje je w bazie danych.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Zmiana_Hasła</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">Input_Stare_Hasło</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Stare_Hasło</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Input_Nowe_Hasło</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Nowe_Hasło_1</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Użytkownik</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">CHECK_PASSWORD_HASH</span><span class="p">(</span>
+                <span class="n">Użytkownik</span><span class="o">.</span><span class="n">haslo</span><span class="p">,</span> <span class="n">Input_Stare_Hasło</span>
+            <span class="p">):</span>
+                <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne stare hasło.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Zmiana_Hasła.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span>
+
+            <span class="n">Użytkownik</span><span class="o">.</span><span class="n">haslo</span> <span class="o">=</span> <span class="n">GENERATE_PASSWORD_HASH</span><span class="p">(</span><span class="n">Input_Nowe_Hasło</span><span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Hasło zostało zmienione.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Zmiana_Hasła.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Edytuj_Konto">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Edytuj_Konto">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/edytuj-konto/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@FRESH_LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Edytuj_Konto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę edycji profilu użytkownika i obsługuje ten proces.</span>
+
+<span class="sd">    Wymaga &quot;świeżego&quot; zalogowania. Przy żądaniu GET wyświetla formularz</span>
+<span class="sd">    wypełniony aktualnymi danymi użytkownika. Przy żądaniu POST</span>
+<span class="sd">    waliduje go i zapisuje zmiany w bazie danych.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Edytuj_Konto</span><span class="p">()</span>
+    <span class="n">Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Użytkownik</span><span class="o">.</span><span class="n">login</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Login</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Użytkownik</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Email</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Użytkownik</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Opis</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Zapisano zmiany konta.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span>
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Login</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Użytkownik</span><span class="o">.</span><span class="n">login</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Email</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Użytkownik</span><span class="o">.</span><span class="n">email</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Opis</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Użytkownik</span><span class="o">.</span><span class="n">opis</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Edytuj_Konto.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Usuń_Konto">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Usuń_Konto">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/usun-konto/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@FRESH_LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Usuń_Konto</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę usuwania konta i obsługuje ten proces.</span>
+
+<span class="sd">    Wymaga &quot;świeżego&quot; zalogowania. Przy żądaniu GET wyświetla formularz</span>
+<span class="sd">    wymagający potwierdzenia hasłem. Przy żądaniu POST waliduje go,</span>
+<span class="sd">    sprawdza hasło i usuwa konto z bazy danych.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Usuń_Konto</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Użytkownik</span> <span class="o">=</span> <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">Input_Hasło</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Hasło_1</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Użytkownik</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">CHECK_PASSWORD_HASH</span><span class="p">(</span><span class="n">Użytkownik</span><span class="o">.</span><span class="n">haslo</span><span class="p">,</span> <span class="n">Input_Hasło</span><span class="p">):</span>
+                <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne hasło.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Usuń_Konto.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span>
+
+            <span class="n">Uzytkownik</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Twoje konto zostało usunięte.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne hasło.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Konto/Usuń_Konto.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Konto_Wyloguj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Konto.Widoki.Widok_Konto_Wyloguj">[dokumentacja]</a>
+<span class="nd">@Blueprint_2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/wyloguj/&quot;</span><span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Konto_Wyloguj</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje wylogowanie aktualnie zalogowanego użytkownika.</span>
+
+<span class="sd">    :return: Odpowiedź przekierowująca na stronę główną konta.</span>
+<span class="sd">    :rtype: werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wylogowano.&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">)</span>
+    <span class="n">LOGOUT_USER</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_2.Widok_Konto_Index&quot;</span><span class="p">))</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Konto.Widoki</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

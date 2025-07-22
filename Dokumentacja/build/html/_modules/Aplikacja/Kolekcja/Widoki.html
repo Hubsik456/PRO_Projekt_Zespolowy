@@ -1,0 +1,934 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Kolekcja.Widoki &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Kolekcja.Widoki</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Kolekcja.Widoki</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Widoki (routes) dla Blueprintu #3 - Kolekcja.</span>
+
+<span class="sd">Ten moduł zawiera logikę i definicje URL dla wszystkich stron</span>
+<span class="sd">związanych z zarządzaniem kolekcjami użytkowników.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">BASE64</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">abort</span> <span class="k">as</span> <span class="n">ABORT</span><span class="p">,</span>
+    <span class="n">flash</span> <span class="k">as</span> <span class="n">FLASH</span><span class="p">,</span>
+    <span class="n">redirect</span> <span class="k">as</span> <span class="n">REDIRECT</span><span class="p">,</span>
+    <span class="n">render_template</span> <span class="k">as</span> <span class="n">RENDER_TEMPLATE</span><span class="p">,</span>
+    <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span><span class="p">,</span>
+    <span class="n">url_for</span> <span class="k">as</span> <span class="n">URL_FOR</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_login</span><span class="w"> </span><span class="kn">import</span> <span class="n">current_user</span> <span class="k">as</span> <span class="n">CURRENT_USER</span><span class="p">,</span> <span class="n">login_required</span> <span class="k">as</span> <span class="n">LOGIN_REQUIRED</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask_wtf.file</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileRequired</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Formularz_Dodanie_Przedmiotu</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja.Formularze.Notatka</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Notatka</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja.Formularze.Pole_Własne</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Pole_Własne</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Kolekcja.Formularze.Zdjęcie</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Zdjecie</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Kategorie</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kategoria</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Notatki</span><span class="w"> </span><span class="kn">import</span> <span class="n">Notatka</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Pola_Własne</span><span class="w"> </span><span class="kn">import</span> <span class="n">PoleWlasne</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje</span><span class="w"> </span><span class="kn">import</span> <span class="n">PoleWlasneRodzaj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Przedmioty</span><span class="w"> </span><span class="kn">import</span> <span class="n">Przedmiot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Waluty</span><span class="w"> </span><span class="kn">import</span> <span class="n">Waluta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Modele.Kolekcja_Zdjęcia</span><span class="w"> </span><span class="kn">import</span> <span class="n">Zdjecie</span>
+
+<span class="c1">#! Lokalne importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Rozszerzenia</span><span class="w"> </span><span class="kn">import</span> <span class="n">DB</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Widok_Kolekcja_Index">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę główną modułu Kolekcja.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony głównej kolekcji.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/index.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Podsumowanie">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/podsumowanie/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Podsumowanie</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę z podsumowaniem kolekcji.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony podsumowania.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Podsumowanie.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Kolekcja">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Kolekcja">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&lt;int:ID&gt;/&quot;</span><span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Kolekcja</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wyświetla publiczną stronę kolekcji danego użytkownika.</span>
+
+<span class="sd">    :param ID: Identyfikator użytkownika, którego kolekcja ma być wyświetlona.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :return: Wyrenderowany szablon HTML z kolekcją użytkownika.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Kolekcja.html&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Moja_Kolekcja">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Moja_Kolekcja">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/&quot;</span><span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Moja_Kolekcja</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wyświetla przedmioty w kolekcji zalogowanego użytkownika.</span>
+
+<span class="sd">    Pobiera wszystkie przedmioty należące do `current_user` i przekazuje je</span>
+<span class="sd">    do szablonu w celu wyświetlenia.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML z listą przedmiotów użytkownika.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Kolekcja</span> <span class="o">=</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">przedmioty_uzytkownika</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Moja_Kolekcja.html&quot;</span><span class="p">,</span> <span class="n">Kolekcja</span><span class="o">=</span><span class="n">Kolekcja</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Dodaj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Dodaj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/dodaj/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Dodaj</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje dodawanie nowego przedmiotu do kolekcji.</span>
+
+<span class="sd">    Przy żądaniu GET wyświetla formularz dodawania przedmiotu.</span>
+<span class="sd">    Przy żądaniu POST waliduje dane i tworzy nowy przedmiot w bazie danych,</span>
+<span class="sd">    przypisując go do zalogowanego użytkownika.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon z formularzem lub przekierowanie do listy kolekcji.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Dodanie_Przedmiotu</span><span class="p">()</span>
+
+    <span class="c1"># ? Dodanie opcji do `&lt;select&gt;`</span>
+    <span class="n">Select_Waluty</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Waluta</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+    <span class="p">]</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+    <span class="p">]</span>
+
+    <span class="n">Select_Kategorie</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Kategoria</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Kategorie</span><span class="p">]</span>
+
+    <span class="c1"># Select_Pola_Wlasne_Rodzaje = DB.session.execute(DB.select(PoleWlasneRodzaj)).scalars().all()</span>
+    <span class="c1"># Select_Pola_Wlasne_Rodzaje_Pozycje = [(str(x.id), x.nazwa) for x in Select_Pola_Wlasne_Rodzaje]</span>
+
+    <span class="c1"># ? Jeśli formularz został przesłany</span>
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+        <span class="p">]</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+        <span class="p">]</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Kategorie</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Nowy_Przedmiot</span> <span class="o">=</span> <span class="n">Przedmiot</span><span class="p">(</span>
+                <span class="n">nazwa</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">nazwa</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">opis</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">cena_zakupu</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">cena_zakupu</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_cena_zakupu_waluta</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">wartosc_rynkowa</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc_rynkowa</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_wartosc_rynkowa_waluta</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_kategoria</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">czy_prywatne</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Nowy_Przedmiot</span><span class="p">)</span>
+            <span class="c1"># DB.session.flush()</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Dodano nowy przedmiot do Twojej kolekcji.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Moja_Kolekcja&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="c1"># return RENDER_TEMPLATE(&quot;Kolekcja/Dodaj.html&quot;, Formularz=Formularz, Select_Pola_Wlasne_Rodzaje_Pozycje=Select_Pola_Wlasne_Rodzaje_Pozycje)</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Dodaj.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Szczegóły">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Szczegóły">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/szczegoly/&lt;int:ID&gt;/&quot;</span><span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Szczegóły</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wyświetla szczegółowe informacje o wybranym przedmiocie.</span>
+
+<span class="sd">    Sprawdza, czy przedmiot o danym ID istnieje i czy należy do zalogowanego użytkownika.</span>
+<span class="sd">    Przetwarza zdjęcia do formatu Data URI w celu wyświetlenia w szablonie.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje.</span>
+<span class="sd">    :raises Abort: 403, jeśli użytkownik nie jest właścicielem przedmiotu.</span>
+<span class="sd">    :return: Wyrenderowany szablon ze szczegółami przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ? Pobranie przedmiotów</span>
+    <span class="n">_Przedmiot</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="c1"># ? Sprawdzenie czy przedmiot istnieje</span>
+    <span class="k">if</span> <span class="n">_Przedmiot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="c1"># ? Sprawdzenie czy obecny użytkownik to właściciel przedmiotu</span>
+    <span class="k">if</span> <span class="n">_Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">!=</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
+
+    <span class="c1"># ? Przetworzenie zdjęć do wyświetlenia w szablonie</span>
+    <span class="n">zdjecia_do_szablonu</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">zdjecie</span> <span class="ow">in</span> <span class="n">_Przedmiot</span><span class="o">.</span><span class="n">zdjecia</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">zdjecie</span><span class="o">.</span><span class="n">zdjecie_dane</span> <span class="ow">and</span> <span class="n">zdjecie</span><span class="o">.</span><span class="n">mimetype</span><span class="p">:</span>
+            <span class="n">encoded_image</span> <span class="o">=</span> <span class="n">BASE64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">zdjecie</span><span class="o">.</span><span class="n">zdjecie_dane</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="c1"># Zbuduj pełny Data URI</span>
+            <span class="n">data_uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;data:</span><span class="si">{</span><span class="n">zdjecie</span><span class="o">.</span><span class="n">mimetype</span><span class="si">}</span><span class="s2">;base64,</span><span class="si">{</span><span class="n">encoded_image</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_uri</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Jeśli brakuje danych lub mimetype, nie wyświetlaj</span>
+
+        <span class="n">zdjecia_do_szablonu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">zdjecie</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="s2">&quot;tytul&quot;</span><span class="p">:</span> <span class="n">zdjecie</span><span class="o">.</span><span class="n">tytul</span><span class="p">,</span>
+                <span class="s2">&quot;opis&quot;</span><span class="p">:</span> <span class="n">zdjecie</span><span class="o">.</span><span class="n">opis</span><span class="p">,</span>
+                <span class="s2">&quot;data_uri&quot;</span><span class="p">:</span> <span class="n">data_uri</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span>
+        <span class="s2">&quot;Kolekcja/Przedmiot_Szczegóły.html&quot;</span><span class="p">,</span>
+        <span class="n">Przedmiot</span><span class="o">=</span><span class="n">_Przedmiot</span><span class="p">,</span>
+        <span class="n">Zdjęcia</span><span class="o">=</span><span class="n">zdjecia_do_szablonu</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Edytuj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Edytuj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/edytuj/&lt;int:ID&gt;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Edytuj</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje edycję istniejącego przedmiotu.</span>
+
+<span class="sd">    Sprawdza, czy przedmiot należy do zalogowanego użytkownika.</span>
+<span class="sd">    Przy żądaniu GET wypełnia formularz aktualnymi danymi przedmiotu.</span>
+<span class="sd">    Przy żądaniu POST waliduje dane i aktualizuje przedmiot w bazie danych.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu do edycji.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</span>
+<span class="sd">    :return: Wyrenderowany szablon z formularzem edycji lub przekierowanie.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ? Sprawdzenie czy przedmiot istnieje</span>
+    <span class="n">Edytowany_Przedmiot</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Edytowany_Przedmiot</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Nie można odnaleźć tego przedmiotu.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="c1"># ? Formularz</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Dodanie_Przedmiotu</span><span class="p">()</span>
+
+    <span class="c1"># ? Dodanie opcji do `&lt;select&gt;`</span>
+    <span class="n">Select_Waluty</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Waluta</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+    <span class="p">]</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Waluty</span>
+    <span class="p">]</span>
+
+    <span class="n">Select_Kategorie</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Kategoria</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Select_Kategorie</span><span class="p">]</span>
+
+    <span class="c1"># ? GET</span>
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">nazwa</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">nazwa</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">opis</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">cena_zakupu</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">cena_zakupu</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc_rynkowa</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">wartosc_rynkowa</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span>
+        <span class="p">)</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_kategoria</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">czy_prywatne</span>
+
+    <span class="c1"># ? POST</span>
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">nazwa</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">nazwa</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">cena_zakupu</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">cena_zakupu</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Formularz</span><span class="o">.</span><span class="n">id_cena_zakupu_waluta</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">wartosc_rynkowa</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc_rynkowa</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">Formularz</span><span class="o">.</span><span class="n">id_wartosc_rynkowa_waluta</span><span class="o">.</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">id_kategoria</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">id_kategoria</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">czy_prywatne</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaktualizowano przedmiot &#39;</span><span class="si">{</span><span class="n">Edytowany_Przedmiot</span><span class="o">.</span><span class="n">nazwa</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Moja_Kolekcja&quot;</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Przedmiot_Edycja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Usuń">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Usuń">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/usun/&lt;int:ID&gt;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Usuń</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje usunięcie przedmiotu z kolekcji.</span>
+
+<span class="sd">    Wymaga żądania POST. Sprawdza, czy przedmiot istnieje i należy do użytkownika,</span>
+<span class="sd">    a następnie usuwa go z bazy danych.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu do usunięcia.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</span>
+<span class="sd">    :return: Przekierowanie do strony z kolekcją użytkownika.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ? Sprawdzenie czy przedmiot istnieje</span>
+    <span class="n">Przedmiot_Do_Usuniecia</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Przedmiot_Do_Usuniecia</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie można odnaleźć przedmiotu do usunięcia lub nie masz do niego uprawnień.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">Przedmiot_Do_Usuniecia</span><span class="p">)</span>
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">FLASH</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Przedmiot &#39;</span><span class="si">{</span><span class="n">Przedmiot_Do_Usuniecia</span><span class="o">.</span><span class="n">nazwa</span><span class="si">}</span><span class="s2">&#39; został pomyślnie usunięty.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Moja_Kolekcja&quot;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Notatka_Dodaj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Dodaj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/&lt;int:ID&gt;/notatki/dodaj/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Notatka_Dodaj</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje dodawanie nowej notatki do przedmiotu.</span>
+
+<span class="sd">    Sprawdza uprawnienia do przedmiotu nadrzędnego. Dla żądania GET wyświetla formularz,</span>
+<span class="sd">    dla POST przetwarza go i dodaje notatkę do bazy danych.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu, do którego dodawana jest notatka.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje lub użytkownik nie ma uprawnień.</span>
+<span class="sd">    :return: Wyrenderowany szablon z formularzem lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">przedmiot_parent</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">przedmiot_parent</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania do niego notatek.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Notatka</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">nowa_notatka</span> <span class="o">=</span> <span class="n">Notatka</span><span class="p">(</span>
+                <span class="n">tytul</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">opis</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">czy_prywatne</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_przedmiot</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nowa_notatka</span><span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Notatka &#39;</span><span class="si">{</span><span class="n">nowa_notatka</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39; została dodana.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Notatka_Dodanie.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Notatka_Edytuj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Edytuj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/notatki/edytuj/&lt;int:ID_Notatka&gt;/&quot;</span><span class="p">,</span>
+    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Notatka_Edytuj</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Notatka</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje edycję istniejącej notatki.</span>
+
+<span class="sd">    Sprawdza, czy notatka istnieje i czy użytkownik ma do niej uprawnienia.</span>
+<span class="sd">    Dla żądania GET wypełnia formularz danymi notatki, dla POST aktualizuje ją w bazie.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Notatka: ID edytowanej notatki.</span>
+<span class="sd">    :type ID_Notatka: int</span>
+<span class="sd">    :raises Abort: 404, jeśli notatka nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Formularz edycji lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">edytowana_notatka</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Notatka</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Notatka</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Notatka</span><span class="p">,</span> <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">edytowana_notatka</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Nie znaleziono notatki lub nie masz uprawnień do jej edycji.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Notatka</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">tytul</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">opis</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">czy_prywatne</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">tytul</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">czy_prywatne</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">czy_prywatne</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Notatka &#39;</span><span class="si">{</span><span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39; została zaktualizowana.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span>
+                <span class="n">URL_FOR</span><span class="p">(</span>
+                    <span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span>
+                    <span class="n">ID</span><span class="o">=</span><span class="n">edytowana_notatka</span><span class="o">.</span><span class="n">id_przedmiot</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Notatka_Edycja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Notatka_Usuń">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Notatka_Usuń">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/notatki/usuń/&lt;int:ID_Notatka&gt;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="nd">@LOGIN_REQUIRED</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Notatka_Usuń</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Notatka</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje usunięcie notatki.</span>
+
+<span class="sd">    Wymaga żądania POST. Sprawdza uprawnienia i usuwa notatkę z bazy danych.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Notatka: ID notatki do usunięcia.</span>
+<span class="sd">    :type ID_Notatka: int</span>
+<span class="sd">    :raises Abort: 404, jeśli notatka nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Notatka_Do_Usuniecia</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Notatka</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>  <span class="c1"># Dołączamy tabelę Przedmioty</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Notatka</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Notatka</span><span class="p">,</span> <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">Notatka_Do_Usuniecia</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Notatka_Do_Usuniecia</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie można odnaleźć notatki do usunięcia lub nie masz do niej uprawnień.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">Notatka_Do_Usuniecia</span><span class="p">)</span>
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">FLASH</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Notatka &#39;</span><span class="si">{</span><span class="n">Notatka_Do_Usuniecia</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39; została pomyślnie usunięta.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID_Przedmiot</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Pole_Własne_Dodaj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Własne_Dodaj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID&gt;/pola-wlasne/dodaj/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Pole_Własne_Dodaj</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje dodawanie nowego pola własnego do przedmiotu.</span>
+
+<span class="sd">    Sprawdza uprawnienia. Dla GET wyświetla formularz, dla POST dodaje pole własne do bazy.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu, do którego dodawane jest pole.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Formularz dodawania lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">przedmiot_parent</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">przedmiot_parent</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania pól własnych do niego.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Pole_Własne</span><span class="p">()</span>
+
+    <span class="n">rodzaje_pol_wlasnych</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">PoleWlasneRodzaj</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_rodzaj</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">r</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rodzaje_pol_wlasnych</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">nowe_pole_wlasne</span> <span class="o">=</span> <span class="n">PoleWlasne</span><span class="p">(</span>
+                <span class="n">id_rodzaj</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">id_rodzaj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">wartosc</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">id_przedmiot</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nowe_pole_wlasne</span><span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Pole własne &#39;</span><span class="si">{</span><span class="n">nowe_pole_wlasne</span><span class="o">.</span><span class="n">typ_pola_wlasnego</span><span class="o">.</span><span class="n">nazwa</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">nowe_pole_wlasne</span><span class="o">.</span><span class="n">wartosc</span><span class="si">}</span><span class="s2">&#39; zostało dodane.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Pole_Włsne_Dodanie.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Pole_Własne_Edytuj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Własne_Edytuj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/pola-wlasne/edytuj/&lt;int:ID_Pole_Wlasne&gt;/&quot;</span><span class="p">,</span>
+    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Pole_Własne_Edytuj</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Pole_Wlasne</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje edycję istniejącego pola własnego.</span>
+
+<span class="sd">    Sprawdza uprawnienia. Dla GET wypełnia formularz, dla POST aktualizuje pole w bazie.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Pole_Wlasne: ID edytowanego pola własnego.</span>
+<span class="sd">    :type ID_Pole_Wlasne: int</span>
+<span class="sd">    :raises Abort: 404, jeśli pole nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Formularz edycji lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">edytowane_pole_wlasne</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">PoleWlasne</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">PoleWlasne</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Pole_Wlasne</span><span class="p">,</span>
+            <span class="n">PoleWlasne</span><span class="o">.</span><span class="n">id_przedmiot</span> <span class="o">==</span> <span class="n">ID_Przedmiot</span><span class="p">,</span>
+            <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">edytowane_pole_wlasne</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie znaleziono pola własnego do edycji lub nie masz do niego uprawnień.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Pole_Własne</span><span class="p">()</span>
+
+    <span class="n">rodzaje_pol_wlasnych</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">PoleWlasneRodzaj</span><span class="p">))</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">id_rodzaj</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">r</span><span class="o">.</span><span class="n">nazwa</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rodzaje_pol_wlasnych</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">id_rodzaj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">id_rodzaj</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">wartosc</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">id_rodzaj</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">id_rodzaj</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">wartosc</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">wartosc</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">FLASH</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Pole własne &#39;</span><span class="si">{</span><span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">typ_pola_wlasnego</span><span class="o">.</span><span class="n">nazwa</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">edytowane_pole_wlasne</span><span class="o">.</span><span class="n">wartosc</span><span class="si">}</span><span class="s2">&#39; zostało zaktualizowane.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span>
+                <span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID_Przedmiot</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Pole_Włsne_Edycja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Pole_Własne_Usuń">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Pole_Własne_Usuń">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/pola-wlasne/usun/&lt;int:ID_Pole_Wlasne&gt;/&quot;</span><span class="p">,</span>
+    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Pole_Własne_Usuń</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Pole_Wlasne</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje usunięcie pola własnego.</span>
+
+<span class="sd">    Wymaga żądania POST. Sprawdza uprawnienia i usuwa pole własne z bazy danych.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Pole_Wlasne: ID pola własnego do usunięcia.</span>
+<span class="sd">    :type ID_Pole_Wlasne: int</span>
+<span class="sd">    :raises Abort: 404, jeśli pole nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Pole_Wlasne_Do_Usuniecia</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">PoleWlasne</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PoleWlasneRodzaj</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">PoleWlasne</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Pole_Wlasne</span><span class="p">,</span>
+            <span class="n">PoleWlasne</span><span class="o">.</span><span class="n">id_przedmiot</span> <span class="o">==</span> <span class="n">ID_Przedmiot</span><span class="p">,</span>
+            <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Pole_Wlasne_Do_Usuniecia</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie można odnaleźć pola własnego do usunięcia lub nie masz do niego uprawnień.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">nazwa_typu_pola</span> <span class="o">=</span> <span class="n">Pole_Wlasne_Do_Usuniecia</span><span class="o">.</span><span class="n">typ_pola_wlasnego</span><span class="o">.</span><span class="n">nazwa</span>
+
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">Pole_Wlasne_Do_Usuniecia</span><span class="p">)</span>
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">FLASH</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Pole własne &#39;</span><span class="si">{</span><span class="n">nazwa_typu_pola</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">Pole_Wlasne_Do_Usuniecia</span><span class="o">.</span><span class="n">wartosc</span><span class="si">}</span><span class="s2">&#39; zostało pomyślnie usunięte.&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID_Przedmiot</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Zdjęcie_Dodaj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjęcie_Dodaj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/moja-kolekcja/&lt;int:ID&gt;/grafiki/dodaj/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Zdjęcie_Dodaj</span><span class="p">(</span><span class="n">ID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje dodawanie nowego zdjęcia do przedmiotu.</span>
+
+<span class="sd">    Sprawdza uprawnienia. Dla GET wyświetla formularz, dla POST zapisuje plik</span>
+<span class="sd">    i dane zdjęcia w bazie.</span>
+
+<span class="sd">    :param ID: Identyfikator przedmiotu, do którego dodawane jest zdjęcie.</span>
+<span class="sd">    :type ID: int</span>
+<span class="sd">    :raises Abort: 404, jeśli przedmiot nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Formularz dodawania zdjęcia lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">przedmiot_parent</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span> <span class="n">id_wlasciciel</span><span class="o">=</span><span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">przedmiot_parent</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie znaleziono przedmiotu lub nie masz uprawnień do dodawania grafik do niego.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Zdjecie</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">zdjecie_dane_binarne</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">mimetype_pliku</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mimetype</span>
+
+            <span class="n">nowe_zdjecie</span> <span class="o">=</span> <span class="n">Zdjecie</span><span class="p">(</span>
+                <span class="n">id_przedmiot</span><span class="o">=</span><span class="n">ID</span><span class="p">,</span>
+                <span class="n">zdjecie_dane</span><span class="o">=</span><span class="n">zdjecie_dane_binarne</span><span class="p">,</span>
+                <span class="n">tytul</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">opis</span><span class="o">=</span><span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">mimetype</span><span class="o">=</span><span class="n">mimetype_pliku</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">nowe_zdjecie</span><span class="p">)</span>
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zdjęcie &#39;</span><span class="si">{</span><span class="n">nowe_zdjecie</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39; zostało dodane.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID</span><span class="p">))</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Zdjęcie_Dodanie.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Zdjęcie_Edytuj">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjęcie_Edytuj">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/grafiki/&lt;int:ID_Grafika&gt;/&quot;</span><span class="p">,</span>
+    <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Zdjęcie_Edytuj</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Grafika</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje edycję istniejącego zdjęcia.</span>
+
+<span class="sd">    Sprawdza uprawnienia. Dla GET wypełnia formularz danymi zdjęcia.</span>
+<span class="sd">    Dla POST aktualizuje tytuł/opis i opcjonalnie sam plik zdjęcia.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Grafika: ID edytowanego zdjęcia.</span>
+<span class="sd">    :type ID_Grafika: int</span>
+<span class="sd">    :raises Abort: 404, jeśli zdjęcie nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Formularz edycji lub przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">edytowane_zdjecie</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Zdjecie</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Zdjecie</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Grafika</span><span class="p">,</span>
+            <span class="n">Zdjecie</span><span class="o">.</span><span class="n">id_przedmiot</span> <span class="o">==</span> <span class="n">ID_Przedmiot</span><span class="p">,</span>
+            <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">edytowane_zdjecie</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie znaleziono grafiki do edycji lub nie masz do niej uprawnień.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Zdjecie</span><span class="p">()</span>
+
+    <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">validators</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">validators</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">FileRequired</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;GET&quot;</span><span class="p">:</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">tytul</span>
+        <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">opis</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">tytul</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">tytul</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">opis</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">opis</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+                <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">zdjecie_dane</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">mimetype</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">zdjecie_plik</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">mimetype</span>
+
+            <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">FLASH</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Grafika &#39;</span><span class="si">{</span><span class="n">edytowane_zdjecie</span><span class="o">.</span><span class="n">tytul</span><span class="si">}</span><span class="s2">&#39; została zaktualizowana.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span>
+                <span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID_Przedmiot</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Wystąpiły błędy w formularzu. Popraw dane i spróbuj ponownie.&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Kolekcja/Zdjęcie_Edycja.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Kolekcja_Zdjęcie_Usuń">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjęcie_Usuń">[dokumentacja]</a>
+<span class="nd">@Blueprint_3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span>
+    <span class="s2">&quot;/moja-kolekcja/&lt;int:ID_Przedmiot&gt;/grafiki/usun/&lt;int:ID_Grafika&gt;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Kolekcja_Zdjęcie_Usuń</span><span class="p">(</span><span class="n">ID_Przedmiot</span><span class="p">,</span> <span class="n">ID_Grafika</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obsługuje usunięcie zdjęcia.</span>
+
+<span class="sd">    Wymaga żądania POST. Sprawdza uprawnienia i usuwa zdjęcie z bazy danych.</span>
+
+<span class="sd">    :param ID_Przedmiot: ID przedmiotu nadrzędnego.</span>
+<span class="sd">    :type ID_Przedmiot: int</span>
+<span class="sd">    :param ID_Grafika: ID zdjęcia do usunięcia.</span>
+<span class="sd">    :type ID_Grafika: int</span>
+<span class="sd">    :raises Abort: 404, jeśli zdjęcie nie istnieje lub brak uprawnień.</span>
+<span class="sd">    :return: Przekierowanie do szczegółów przedmiotu.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Zdjecie_Do_Usuniecia</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="n">DB</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">Zdjecie</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">Przedmiot</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">Zdjecie</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">ID_Grafika</span><span class="p">,</span>
+            <span class="n">Zdjecie</span><span class="o">.</span><span class="n">id_przedmiot</span> <span class="o">==</span> <span class="n">ID_Przedmiot</span><span class="p">,</span>
+            <span class="n">Przedmiot</span><span class="o">.</span><span class="n">id_wlasciciel</span> <span class="o">==</span> <span class="n">CURRENT_USER</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">scalar_one_or_none</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Zdjecie_Do_Usuniecia</span><span class="p">:</span>
+        <span class="n">FLASH</span><span class="p">(</span>
+            <span class="s2">&quot;Nie można odnaleźć grafiki do usunięcia lub nie masz do niej uprawnień.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;danger&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ABORT</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+    <span class="n">tytul_zdjecia</span> <span class="o">=</span> <span class="n">Zdjecie_Do_Usuniecia</span><span class="o">.</span><span class="n">tytul</span>
+
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">Zdjecie_Do_Usuniecia</span><span class="p">)</span>
+    <span class="n">DB</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="n">FLASH</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grafika &#39;</span><span class="si">{</span><span class="n">tytul_zdjecia</span><span class="si">}</span><span class="s2">&#39; została pomyślnie usunięta.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_3.Widok_Kolekcja_Szczegóły&quot;</span><span class="p">,</span> <span class="n">ID</span><span class="o">=</span><span class="n">ID_Przedmiot</span><span class="p">))</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Kolekcja.Widoki</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>
