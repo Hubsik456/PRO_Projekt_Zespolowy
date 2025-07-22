@@ -125,23 +125,10 @@
                 <noscript class="alert alert-danger">Dla zapewnienia poprawnego działania systemu, ta strona <strong>musi</strong> mieć dostęp do skryptów JavaScript.</noscript>
             </div>
             {# Komunikaty (Flash) #}
-            {#{% with Komunikaty = get_flashed_messages() %}
-                {% if Komunikaty %}
-                    <div class="container">
-                        <div class="alert alert-info alert-dismissible fade show m-2" role="alert">
-                            {% for Komunikat in Komunikaty %}
-                                <p>{{ Komunikat }}</p>
-                            {% endfor %}
-                            <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endwith %}#}
             {{ Komunikaty() }}
             {# Treść #}
             <div class="container pb-4 pt-2">
                 {% block Treść %}{% endblock %}
-
             </div>
             {# Konta #}
             <div class="container border-2 border-top border-primary-subtle pb-2 pt-2">

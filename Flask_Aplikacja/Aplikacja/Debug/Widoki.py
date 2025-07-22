@@ -60,7 +60,6 @@ def Widok_Debug_Flash():
     :return: Wyrenderowany szablon HTML.
     :rtype: str
     """
-    FLASH("<h1 class='text-primary'>WIP| Lorem Ipsum</h1>", "primary")
     FLASH("WIP| Primary: Lorem Ipsum", "primary")
     FLASH("WIP| Secondary:  Lorem Ipsum", "secondary")
     FLASH("WIP| Success: Lorem Ipsum", "success")
@@ -72,17 +71,6 @@ def Widok_Debug_Flash():
     FLASH("WIP| Null: Lorem Ipsum")
 
     return RENDER_TEMPLATE("Debug/index.html")
-
-
-@Blueprint_0.route("/formularz/")  # TODO:
-def Widok_Test_1():
-    """Widok testowy dla formularzy.
-
-    :return: Wyrenderowany szablon HTML.
-    :rtype: str
-    """
-    return RENDER_TEMPLATE("Debug/index.html")
-
 
 @Blueprint_0.route("/blad/<int:ID>")
 def Widok_Debug_Generowanie_Błędu(ID):
