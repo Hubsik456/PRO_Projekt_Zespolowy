@@ -1,4 +1,8 @@
-"""Moduł formularza logowania."""
+"""Formularz logowania użytkownika.
+
+Moduł ten definiuje formularz używany przez użytkowników
+do zalogowania się na swoje konto w aplikacji.
+"""
 
 #! Zewnętrzne Importy
 from flask_wtf import FlaskForm as FLASK_FORM
@@ -12,20 +16,33 @@ from wtforms import (
 
 #! Main
 class Formularz_Logowanie(FLASK_FORM):
-    """Formularz logowania użytkownika.
+    """Formularz logowania do aplikacji.
 
-    :param Pole_Login: Pole na login użytkownika.
-    :type Pole_Login: wtforms.fields.StringField
-    :param Pole_Hasło: Pole na hasło użytkownika.
-    :type Pole_Hasło: wtforms.fields.PasswordField
-    :param Pole_Submit: Przycisk wysyłający formularz.
-    :type Pole_Submit: wtforms.fields.SubmitField
+    Zbiera od użytkownika login i hasło w celu autoryzacji.
+
+    :ivar Pole_Login: Pole do wprowadzenia loginu użytkownika.
+    :ivar Pole_Hasło: Pole do wprowadzenia hasła.
+    :ivar Pole_Submit: Przycisk do zatwierdzenia formularza.
     """
 
     Pole_Login = STRING_FIELD(
-        "Login", [VALIDATORS.DataRequired(), VALIDATORS.length(min=5, max=100)]
+        "Login",
+        validators=[
+            VALIDATORS.DataRequired(message="Pole z loginem nie może być puste."),
+            VALIDATORS.Length(
+                min=5, max=100, message="Login musi mieć od 5 do 100 znaków."
+            ),
+        ],
+        description="Wprowadź swój login użyty podczas rejestracji.",
     )
     Pole_Hasło = PASSWORD_FIELD(
-        "Hasło", [VALIDATORS.DataRequired(), VALIDATORS.length(min=8, max=100)]
+        "Hasło",
+        validators=[
+            VALIDATORS.DataRequired(message="Pole z hasłem nie może być puste."),
+            VALIDATORS.Length(
+                min=8, max=100, message="Hasło musi mieć minimum 8 znaków."
+            ),
+        ],
+        description="Wprowadź swoje hasło.",
     )
-    Pole_Submit = SUBMIT_FIELD("Wyślij")
+    Pole_Submit = SUBMIT_FIELD("Zaloguj się")

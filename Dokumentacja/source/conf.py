@@ -30,7 +30,7 @@ language = "pl"
 # -- Opcje dla wyjścia HTML --------------------------------------------------
 
 # Używamy popularnego motywu "Read the Docs"
-html_theme = "bizstyle"
+html_theme = "furo"
 # html_static_path = ["_static"]
 
 # Opcje dla autodoc

@@ -1,4 +1,8 @@
-"""Moduł formularza wyboru motywu."""
+"""Formularz wyboru motywu wizualnego aplikacji.
+
+Moduł ten definiuje formularz, który pozwala użytkownikowi
+na zmianę motywu kolorystycznego interfejsu.
+"""
 
 #! Zewnętrzne Importy
 from flask_wtf import FlaskForm as FLASK_FORM
@@ -13,14 +17,15 @@ from wtforms import (
 class Formularz_Wyboru_Motywu(FLASK_FORM):
     """Formularz do wyboru motywu kolorystycznego aplikacji.
 
-    :param Pole_Motyw: Pole wyboru jednego z dostępnych motywów.
-    :type Pole_Motyw: wtforms.fields.SelectField
-    :param Pole_Submit: Przycisk wysyłający formularz.
-    :type Pole_Submit: wtforms.fields.SubmitField
+    Umożliwia użytkownikowi wybór jednego z predefiniowanych
+    motywów wizualnych. Wybór jest zapisywany w ciasteczku.
+
+    :ivar Pole_Motyw: Pole wyboru (lista rozwijana) z dostępnymi motywami.
+    :ivar Pole_Submit: Przycisk do zatwierdzenia wyboru.
     """
 
     Pole_Motyw = SELECT_FIELD(
-        "Motyw",
+        "Wybierz Motyw",
         choices=[
             ("brite", "Brite"),
             ("pulse", "Pulse"),
@@ -28,6 +33,7 @@ class Formularz_Wyboru_Motywu(FLASK_FORM):
             ("zephyr", "Zephyr"),
             ("sketchy", "Sketchy"),
         ],
-        validators=[VALIDATORS.DataRequired()],
+        validators=[VALIDATORS.DataRequired(message="Musisz wybrać jeden z motywów.")],
+        description="Zmiana motywu odświeży wygląd całej aplikacji.",
     )
-    Pole_Submit = SUBMIT_FIELD("Wyślij")
+    Pole_Submit = SUBMIT_FIELD("Zmień Motyw")

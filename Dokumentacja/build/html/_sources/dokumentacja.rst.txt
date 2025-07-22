@@ -19,9 +19,6 @@ Konfiguracja i uruchomienie
 .. automodule:: Aplikacja.Rozszerzenia
    :members:
 
-.. automodule:: Aplikacja.CLI
-   :members:
-
 Moduł "Main" (Główne widoki)
 ============================
 
@@ -35,8 +32,6 @@ Widoki
 
 Formularze
 ----------
-.. automodule:: Aplikacja.Main.Formularze.Wybór_Języka
-   :members:
 .. automodule:: Aplikacja.Main.Formularze.Wybór_Motywu
    :members:
 
@@ -75,6 +70,19 @@ Widoki
 .. automodule:: Aplikacja.Kolekcja.Widoki
    :members:
 
+Formularze
+----------
+.. automodule:: Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu
+   :members:
+.. automodule:: Aplikacja.Kolekcja.Formularze.Notatka
+   :members:
+.. automodule:: Aplikacja.Kolekcja.Formularze.Pole_Własne
+   :members:
+.. automodule:: Aplikacja.Kolekcja.Formularze.Zdjęcie
+   :members:
+.. automodule:: Aplikacja.Kolekcja.Formularze.Usuniecie
+   :members:
+
 Moduł "Debug"
 =============
 
@@ -95,4 +103,18 @@ Modele Bazy Danych
 ==================
 
 .. automodule:: Aplikacja.Modele.Użytkownicy
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Przedmioty
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Kategorie
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Waluty
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Notatki
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Zdjęcia
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Pola_Własne
+   :members:
+.. automodule:: Aplikacja.Modele.Kolekcja_Pola_Własne_Rodzaje
    :members:

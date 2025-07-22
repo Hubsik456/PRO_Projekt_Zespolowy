@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikacja.Main.Widoki &#8212; Kurator Kolekcji 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/translations.js?v=2827c288"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Indeks" href="../../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" accesskey="U">Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Main.Widoki</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Kod źródłowy modułu Aplikacja.Main.Widoki</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Główne widoki (routes) dla Blueprintu #1 - Main.</span>
+
+<span class="sd">Ten moduł zawiera logikę i definicje URL dla głównych,</span>
+<span class="sd">ogólnodostępnych stron aplikacji, takich jak:</span>
+<span class="sd">- Strona główna</span>
+<span class="sd">- O programie</span>
+<span class="sd">- Polityka prywatności</span>
+<span class="sd">- Ustawienia języka i motywu</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#! Zewnętrzne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">flash</span> <span class="k">as</span> <span class="n">FLASH</span><span class="p">,</span>
+    <span class="n">make_response</span> <span class="k">as</span> <span class="n">MAKE_RESPONSE</span><span class="p">,</span>
+    <span class="n">redirect</span> <span class="k">as</span> <span class="n">REDIRECT</span><span class="p">,</span>
+    <span class="n">render_template</span> <span class="k">as</span> <span class="n">RENDER_TEMPLATE</span><span class="p">,</span>
+    <span class="n">request</span> <span class="k">as</span> <span class="n">REQUEST</span><span class="p">,</span>
+    <span class="n">url_for</span> <span class="k">as</span> <span class="n">URL_FOR</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1">#! Lokalne Importy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Main</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blueprint_1</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Aplikacja.Main.Formularze.Wybór_Motywu</span><span class="w"> </span><span class="kn">import</span> <span class="n">Formularz_Wyboru_Motywu</span>
+
+
+<span class="c1">#! Main</span>
+<div class="viewcode-block" id="Widok_Main_Index">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Main.Widoki.Widok_Main_Index">[dokumentacja]</a>
+<span class="nd">@Blueprint_1</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Main_Index</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę główną aplikacji.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony głównej.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Main/index.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Main_O_Programie">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Main.Widoki.Widok_Main_O_Programie">[dokumentacja]</a>
+<span class="nd">@Blueprint_1</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/o-programie/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Main_O_Programie</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę z informacjami o programie.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony &quot;O programie&quot;.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Main/O_Programie.html&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Widok_Main_Polityka_Prywatności">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Main.Widoki.Widok_Main_Polityka_Prywatności">[dokumentacja]</a>
+<span class="nd">@Blueprint_1</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/polityka-prywatnosci/&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Main_Polityka_Prywatności</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę z polityką prywatności.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML strony &quot;Polityka Prywatności&quot;.</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Main/Polityka_Prywatności.html&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># @Blueprint_1.route(&quot;/jezyk/&quot;, methods=[&quot;POST&quot;, &quot;GET&quot;])</span>
+<span class="c1"># def Widok_Main_Język():</span>
+<span class="c1">#     &quot;&quot;&quot;Renderuje stronę wyboru języka i obsługuje zmianę.</span>
+
+<span class="c1">#     Przy żądaniu GET wyświetla formularz.</span>
+<span class="c1">#     Przy żądaniu POST waliduje formularz, zapisuje wybrany</span>
+<span class="c1">#     język w ciasteczku i przekierowuje na stronę główną.</span>
+
+<span class="c1">#     :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="c1">#     :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Formularz = Formularz_Wyboru_Języka()</span>
+
+<span class="c1">#     if REQUEST.method == &quot;POST&quot;:</span>
+<span class="c1">#         if Formularz.validate_on_submit():</span>
+<span class="c1">#             FLASH(&quot;Zapisano wybór języka.&quot;, &quot;success&quot;)</span>
+
+<span class="c1">#             Wybrany_Język = Formularz.Pole_Język.data</span>
+<span class="c1">#             Odpowiedź = MAKE_RESPONSE(REDIRECT(URL_FOR(&quot;Blueprint_1.Widok_Main_Index&quot;)))</span>
+<span class="c1">#             Odpowiedź.set_cookie(</span>
+<span class="c1">#                 key=&quot;Jezyk&quot;, value=Wybrany_Język, max_age=(30 * 24 * 3600)</span>
+<span class="c1">#             )</span>
+
+<span class="c1">#             return Odpowiedź</span>
+
+<span class="c1">#         FLASH(&quot;Podano niepoprawne dane&quot;, &quot;danger&quot;)</span>
+
+<span class="c1">#     return RENDER_TEMPLATE(&quot;Main/Język.html&quot;, Formularz=Formularz)</span>
+
+
+<div class="viewcode-block" id="Widok_Main_Motyw">
+<a class="viewcode-back" href="../../../dokumentacja.html#Aplikacja.Main.Widoki.Widok_Main_Motyw">[dokumentacja]</a>
+<span class="nd">@Blueprint_1</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/motyw/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Widok_Main_Motyw</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Renderuje stronę wyboru motywu i obsługuje zmianę.</span>
+
+<span class="sd">    Przy żądaniu GET wyświetla formularz.</span>
+<span class="sd">    Przy żądaniu POST waliduje formularz, zapisuje wybrany</span>
+<span class="sd">    motyw w ciasteczku i przekierowuje na stronę główną.</span>
+
+<span class="sd">    :return: Wyrenderowany szablon HTML lub odpowiedź przekierowująca.</span>
+<span class="sd">    :rtype: str or werkzeug.wrappers.response.Response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Formularz</span> <span class="o">=</span> <span class="n">Formularz_Wyboru_Motywu</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">REQUEST</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">validate_on_submit</span><span class="p">():</span>
+            <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Zapisano wybór motywu.&quot;</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">)</span>
+
+            <span class="n">Wybrany_Motyw</span> <span class="o">=</span> <span class="n">Formularz</span><span class="o">.</span><span class="n">Pole_Motyw</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">Odpowiedź</span> <span class="o">=</span> <span class="n">MAKE_RESPONSE</span><span class="p">(</span><span class="n">REDIRECT</span><span class="p">(</span><span class="n">URL_FOR</span><span class="p">(</span><span class="s2">&quot;Blueprint_1.Widok_Main_Index&quot;</span><span class="p">)))</span>
+            <span class="n">Odpowiedź</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="s2">&quot;Motyw&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">Wybrany_Motyw</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">Odpowiedź</span>
+
+        <span class="n">FLASH</span><span class="p">(</span><span class="s2">&quot;Podano niepoprawne dane&quot;</span><span class="p">,</span> <span class="s2">&quot;danger&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RENDER_TEMPLATE</span><span class="p">(</span><span class="s2">&quot;Main/Motyw.html&quot;</span><span class="p">,</span> <span class="n">Formularz</span><span class="o">=</span><span class="n">Formularz</span><span class="p">)</span></div>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Szybkie wyszukiwanie</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Indeks modułów Pythona"
+             >moduły</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Kurator Kolekcji 1.0 - dokumentacja</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Kod modułu</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../Aplikacja.html" >Aplikacja</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Aplikacja.Main.Widoki</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2025, Hubert Michna, Patryk Pieniążek.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>
