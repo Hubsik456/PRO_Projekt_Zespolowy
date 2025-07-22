@@ -1,0 +1,58 @@
+@startuml
+' Stylizacja diagramu
+skinparam actorStyle awesome
+left to right direction
+
+' Definicja aktorów
+actor Gość
+actor "Użytkownik Zalogowany" as Uzytkownik
+
+' Dziedziczenie
+Gość <|-- Uzytkownik
+
+rectangle "System Kuratora Kolekcji" {
+  ' Przypadki użycia dla Gościa
+  usecase "Rejestracja" as UC_Rejestracja
+  usecase "Logowanie" as UC_Logowanie
+  usecase "Przeglądanie stron publicznych" as UC_Przegladanie
+  usecase "Przeglądaj publiczne kolekcje" as UC_PrzegladajPubliczneKolekcje
+
+  ' Przypadki użycia dla Użytkownika Zalogowanego
+  usecase "Zarządzaj kontem" as UC_ZarzadzajKontem
+  usecase "Zarządzaj swoją kolekcją" as UC_ZarzadzajKolekcja
+  usecase "Eksportuj dane" as UC_Eksport
+  usecase "Personalizuj interfejs" as UC_Personalizuj
+
+  ' Podrzędne przypadki użycia (include)
+  usecase "Edytuj profil" as UC_EdytujProfil
+  usecase "Zmień hasło" as UC_ZmienHaslo
+  usecase "Usuń konto" as UC_UsunKonto
+  
+  usecase "Dodaj/Edytuj przedmiot" as UC_ZarzadzajPrzedmiotem
+  usecase "Dodaj zdjęcie" as UC_DodajZdjecie
+  usecase "Dodaj notatkę" as UC_DodajNotatke
+  usecase "Dodaj pole własne" as UC_DodajPoleWlasne
+}
+
+' Powiązania aktorów z przypadkami użycia
+Gość --> UC_Rejestracja
+Gość --> UC_Logowanie
+Gość --> UC_Przegladanie
+Gość --> UC_PrzegladajPubliczneKolekcje
+
+Uzytkownik --> UC_ZarzadzajKontem
+Uzytkownik --> UC_ZarzadzajKolekcja
+Uzytkownik --> UC_Eksport
+Uzytkownik --> UC_Personalizuj
+
+' Relacje <<include>>
+UC_ZarzadzajKontem <.up. UC_EdytujProfil : <<include>>
+UC_ZarzadzajKontem <.up. UC_ZmienHaslo : <<include>>
+UC_ZarzadzajKontem <.up. UC_UsunKonto : <<include>>
+
+UC_ZarzadzajKolekcja <.down. UC_ZarzadzajPrzedmiotem : <<include>>
+UC_ZarzadzajPrzedmiotem <.down. UC_DodajZdjecie : <<include>>
+UC_ZarzadzajPrzedmiotem <.down. UC_DodajNotatke : <<include>>
+UC_ZarzadzajPrzedmiotem <.down. UC_DodajPoleWlasne : <<include>>
+
+@enduml
