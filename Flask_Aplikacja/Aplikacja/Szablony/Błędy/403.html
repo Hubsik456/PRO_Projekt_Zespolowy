@@ -1,12 +1,16 @@
 {% extends "Szablon.html" %}
+
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 
-{% block Tytuł %}
-    Błąd 403
-{% endblock %}
+{% block Tytuł %}Błąd 403{% endblock %}
 
 {% block Treść %}
-    <h2 class="text-center">Błąd: <span class="text-danger fw-bolder">403</span></h2>
-
-    {{ Lorem_Ipsum(5) }}
+    <div class="text-center">
+        <h1 class="display-4 fw-bold">Brak dostępu!</h1>
+        <p class="lead">Nie masz uprawnień do wyświetlenia tej strony.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+            <a href="{{ url_for('Blueprint_1.Widok_Main_Index') }}"
+               class="btn btn-primary btn-lg px-4">Wróć na stronę główną</a>
+        </div>
+    </div>
 {% endblock %}

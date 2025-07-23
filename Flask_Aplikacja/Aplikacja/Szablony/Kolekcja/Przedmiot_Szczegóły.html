@@ -1,14 +1,12 @@
 {% extends "Szablon.html" %}
+
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 {% from "Makra/Swiper.html" import Swiper %}
 
-{% block Tytuł %}
-    Szczegóły Przedmiotu
-{% endblock %}
+{% block Tytuł %}Szczegóły Przedmiotu{% endblock %}
 
 {% block Treść %}
     <h1>Szczegóły Przedmiotu</h1>
-
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
@@ -34,10 +32,8 @@
                 <td>
                     {% if Przedmiot.data_edycji %}
                         {{ Przedmiot.data_edycji }}
-
                     {% else %}
                         Brak
-
                     {% endif %}
                 </td>
             </tr>
@@ -62,12 +58,10 @@
                 <td>
                     {% if Przedmiot.czy_prywatne %}
                         Tak
-
                     {% else %}
                         Nie
                         <br>
-                        Link do przedmiotu: <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Przedmiot.id) }}">Link</a>
-
+                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Przedmiot.id) }}">Link publiczny</a>
                     {% endif %}
                 </td>
             </tr>
@@ -76,45 +70,44 @@
                 <td>
                     {% if Przedmiot.pola_wlasne %}
                         <ul class="mb-0">
-                        {% for Pole_Własne in Przedmiot.pola_wlasne %}
-                            <li>
-                                <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
-                                {{ Pole_Własne.wartosc}}
-                                <br>
-                                <span class="text-end d-block">
-                                    <a class="m-2" href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}">Edytuj</a>
-
-                                    <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Usuń', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}" method="POST">
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm(`Czy na pewno chcesz usunąć pole własne '{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: {{ Pole_Własne.wartosc }}'?`);">
-                                            Usuń
-                                        </button>
-                                    </form>
-                                </span>
-                            </li>
-                        {% endfor %}
+                            {% for Pole_Własne in Przedmiot.pola_wlasne %}
+                                <li>
+                                    <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
+                                    {{ Pole_Własne.wartosc }}
+                                    <br>
+                                    <span class="text-end d-block">
+                                        <a class="m-2"
+                                           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}">Edytuj</a>
+                                        <form class="m-2 d-inline-block"
+                                              action="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Usuń', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}"
+                                              method="POST">
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="return confirm(`Czy na pewno chcesz usunąć pole własne '{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: {{ Pole_Własne.wartosc }}'?`);">
+                                                Usuń
+                                            </button>
+                                        </form>
+                                    </span>
+                                </li>
+                            {% endfor %}
                         </ul>
-
                     {% else %}
                         Brak
-
                     {% endif %}
-
-                    <p class="mb-0 mt-2">Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nowe pole własne.</p>
+                    <p class="mb-0 mt-2">
+                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Dodaj', ID=Przedmiot.id) }}">Dodaj nowe pole własne</a>
+                    </p>
                 </td>
             </tr>
         </tbody>
     </table>
-
-    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a> aby edytować ten przedmiot.</p>
-
+    <p>
+        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}"
+           class="btn btn-primary">Edytuj ten przedmiot</a>
+    </p>
     <h2>Notatki</h2>
-
-    <p>Poniżej znajdują się notataki, w tym te oznaczone jako prywatne.</p>
-
     {% if Przedmiot.notatki %}
-        <p>Poniżej znajdują się notataki, wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
-
+        <p>Poniżej znajdują się notatki. Wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
         <ul>
             {% for Notatka in Przedmiot.notatki %}
                 <li class="mb-4">
@@ -127,10 +120,14 @@
                         <br>
                     {% endif %}
                     <span class="text-end d-block">
-                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}" class="m-2">Edytuj</a>
-
-                        <form class="m-2 d-inline-block" action="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Usuń', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}" method="POST">
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm(`Czy na pewno chcesz usunąć notatkę '{{ Notatka.tytul }}'?`);">
+                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
+                           class="m-2">Edytuj</a>
+                        <form class="m-2 d-inline-block"
+                              action="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Usuń', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
+                              method="POST">
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm(`Czy na pewno chcesz usunąć notatkę '{{ Notatka.tytul }}'?`);">
                                 Usuń
                             </button>
                         </form>
@@ -140,25 +137,20 @@
         </ul>
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych notatek.</p>
-
     {% endif %}
-
-    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową notatkę.</p>
-
+    <p>
+        <a class="btn btn-outline-primary"
+           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}">Dodaj nową notatkę</a>
+    </p>
     <h2>Zdjęcia</h2>
-
-
     {% if Zdjęcia %}
         <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
         {{ Swiper(Zdjęcia, True) }}
-
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
-
     {% endif %}
-
-
-    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">tutaj</a> aby dodać nową grafikę.</p>
-
-
+    <p>
+        <a class="btn btn-outline-primary"
+           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">Dodaj nowe zdjęcie</a>
+    </p>
 {% endblock %}

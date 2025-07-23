@@ -1,24 +1,20 @@
 {% extends "Szablon.html" %}
+
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 {% from "Makra/Swiper.html" import Swiper %}
 
-{% block Tytuł %}
-    Przedmiot
-{% endblock %}
+{% block Tytuł %}Przedmiot{% endblock %}
 
 {% block Treść %}
     <h1>Przedmiotu</h1>
-
     <p>Możesz tutaj zobaczyć przedmiot użytkownika '{{ Przedmiot.wlasciciel.login }}'.</p>
-
     {% if Przedmiot.id_wlasciciel == current_user.id %}
         <p>
-            <b>Jesteś właścielem tego przedmiotu. Możesz go edytować <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a>.</b>
+            <b>Jesteś właścicielem tego przedmiotu. Możesz go edytować <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a>.</b>
             <br>
             Widzisz ten przedmiot dokładnie tak jak widzą go inne osoby.
         </p>
     {% endif %}
-
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="table-primary">
@@ -44,10 +40,8 @@
                 <td>
                     {% if Przedmiot.data_edycji %}
                         {{ Przedmiot.data_edycji }}
-
                     {% else %}
                         Brak
-
                     {% endif %}
                 </td>
             </tr>
@@ -82,28 +76,23 @@
                 <td>
                     {% if Przedmiot.pola_wlasne %}
                         <ul class="mb-0">
-                        {% for Pole_Własne in Przedmiot.pola_wlasne %}
-                            <li>
-                                <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
-                                {{ Pole_Własne.wartosc}}
-                            </li>
-                        {% endfor %}
+                            {% for Pole_Własne in Przedmiot.pola_wlasne %}
+                                <li>
+                                    <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
+                                    {{ Pole_Własne.wartosc }}
+                                </li>
+                            {% endfor %}
                         </ul>
-
                     {% else %}
                         Brak
-
                     {% endif %}
                 </td>
             </tr>
         </tbody>
     </table>
-
     <h2>Notatki</h2>
-
     {% if Notatki %}
-        <p>Poniżej znajdują się notataki, wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
-
+        <p>Poniżej znajdują się notatki, wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
         <ul>
             {% for Notatka in Notatki %}
                 <li class="mb-4">
@@ -111,23 +100,16 @@
                     <br>
                     <span>{{ Notatka.opis }}</span>
                 </li>
-
             {% endfor %}
         </ul>
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych notatek.</p>
-
     {% endif %}
-
     <h2>Zdjęcia</h2>
-
     {% if Zdjęcia %}
         <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
         {{ Swiper(Zdjęcia) }}
-
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
-
     {% endif %}
-
 {% endblock %}

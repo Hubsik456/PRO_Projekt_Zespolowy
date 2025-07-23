@@ -47,6 +47,7 @@ def Widok_Kolekcja_Index():
     """
     return RENDER_TEMPLATE("Kolekcja/index.html")
 
+
 @Blueprint_3.route("/<int:ID>/")
 @LOGIN_REQUIRED
 def Widok_Kolekcja_Kolekcja(ID):
@@ -136,7 +137,7 @@ def Widok_Kolekcja_Dodaj():
 
         FLASH("Podano niepoprawne dane.", "danger")
 
-    return RENDER_TEMPLATE("Kolekcja/Dodaj.html", Formularz=Formularz)
+    return RENDER_TEMPLATE("Kolekcja/Przedmiot_Dodanie.html", Formularz=Formularz)
 
 
 @Blueprint_3.route("/moja-kolekcja/szczegoly/<int:ID>/")
@@ -183,7 +184,7 @@ def Widok_Kolekcja_Szczegóły(ID):
                 "tytul": zdjecie.tytul,
                 "opis": zdjecie.opis,
                 "data_uri": data_uri,
-                "id_przedmiot": zdjecie.przedmiot.id
+                "id_przedmiot": zdjecie.przedmiot.id,
             }
         )
 
@@ -781,6 +782,7 @@ def Widok_Kolekcja_Zdjęcie_Usuń(ID_Przedmiot, ID_Grafika):
     FLASH(f"Grafika '{tytul_zdjecia}' została pomyślnie usunięta.", "success")
     return REDIRECT(URL_FOR("Blueprint_3.Widok_Kolekcja_Szczegóły", ID=ID_Przedmiot))
 
+
 @Blueprint_3.route("/przedmiot/<int:ID>/")
 def Widok_Kolekcja_Przedmiot(ID):
     przedmiot = DB.session.execute(
@@ -794,7 +796,15 @@ def Widok_Kolekcja_Przedmiot(ID):
         if CURRENT_USER.id == przedmiot.id_wlasciciel:
             FLASH("Jesteś właścielem tego przedmiotu", "info")
 
-    Notatki_Publiczne = DB.session.execute(DB.select(Notatka).filter(Notatka.id_przedmiot == przedmiot.id, Notatka.czy_prywatne == False)).scalars().all()
+    Notatki_Publiczne = (
+        DB.session.execute(
+            DB.select(Notatka).filter(
+                Notatka.id_przedmiot == przedmiot.id, Notatka.czy_prywatne == False
+            )
+        )
+        .scalars()
+        .all()
+    )
 
     zdjecia_do_szablonu = []
     for zdjecie in przedmiot.zdjecia:
@@ -813,4 +823,9 @@ def Widok_Kolekcja_Przedmiot(ID):
             }
         )
 
-    return RENDER_TEMPLATE("Kolekcja/Przedmiot.html", Przedmiot=przedmiot, Notatki=Notatki_Publiczne, Zdjęcia=zdjecia_do_szablonu)
+    return RENDER_TEMPLATE(
+        "Kolekcja/Przedmiot.html",
+        Przedmiot=przedmiot,
+        Notatki=Notatki_Publiczne,
+        Zdjęcia=zdjecia_do_szablonu,
+    )

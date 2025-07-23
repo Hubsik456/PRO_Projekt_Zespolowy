@@ -1,16 +1,15 @@
 {% extends "Szablon.html" %}
+
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 
-{% block Tytuł %}
-    Moja Kolekcja
-{% endblock %}
+{% block Tytuł %}Moja Kolekcja{% endblock %}
 
 {% block Treść %}
     <h1>Moja Kolekcja</h1>
-
     {% if Kolekcja %}
-    <div class="mb-2">
-            <p>Widoczność kolumn:
+        <div class="mb-2">
+            <p>
+                Widoczność kolumn:
                 <a href="#" class="toggle-vis" data-Kolumna="0">#</a>
                 <a href="#" class="toggle-vis" data-Kolumna="1">Nazwa</a>
                 <a href="#" class="toggle-vis" data-Kolumna="2">Data Dodania</a>
@@ -20,7 +19,6 @@
                 <a href="#" class="toggle-vis" data-Kolumna="6">Czy Prywatne</a>
                 <a href="#" class="toggle-vis" data-Kolumna="7">Linki</a>
             </p>
-
             <table id="DataTable" class="table table-bordered table-striped">
                 <thead>
                     <tr class="table-primary">
@@ -51,11 +49,18 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Szczegóły', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Szczegóły</a><br>
-                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id )}}" class="pb-2 d-inline-block">Edytuj</a><br>
-                                <a href="#" class="pb-2 d-inline-block">Zdjęcia</a><br>
-                                <form action="{{ url_for('Blueprint_3.Widok_Kolekcja_Usuń', ID=Przedmiot.id) }}" method="POST">
-                                    <button type="submit" class="btn btn-danger btn-sm"
+                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Szczegóły', ID=Przedmiot.id) }}"
+                                   class="pb-2 d-inline-block">Szczegóły</a>
+                                <br>
+                                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}"
+                                   class="pb-2 d-inline-block">Edytuj</a>
+                                <br>
+                                <a href="#" class="pb-2 d-inline-block">Zdjęcia</a>
+                                <br>
+                                <form action="{{ url_for('Blueprint_3.Widok_Kolekcja_Usuń', ID=Przedmiot.id) }}"
+                                      method="POST">
+                                    <button type="submit"
+                                            class="btn btn-danger btn-sm"
                                             onclick="return confirm(`Czy na pewno chcesz usunąć przedmiot '{{ Przedmiot.nazwa }}'?`);">
                                         Usuń
                                     </button>
@@ -66,9 +71,8 @@
                 </tbody>
             </table>
         </div>
-
-        <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}">tutaj</a> aby dodać nowy przedmiot do Twojej kolekcji.</p>
-
+        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}"
+           class="btn btn-primary my-3">Dodaj nowy przedmiot</a>
         <script>
             var Tabela = new DataTable("#DataTable", {
                 layout: {
@@ -94,9 +98,8 @@
                 },
             });
 
-            document.querySelectorAll('a.toggle-vis').forEach((el) =>
-            {
-                el.addEventListener('click', function (e) {
+            document.querySelectorAll('a.toggle-vis').forEach((el) => {
+                el.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.target.classList.toggle('text-decoration-line-through');
                     e.target.classList.toggle('text-secondary');
@@ -109,5 +112,4 @@
             });
         </script>
     {% endif %}
-
 {% endblock %}
