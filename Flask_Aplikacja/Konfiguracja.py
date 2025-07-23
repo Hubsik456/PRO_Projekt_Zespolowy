@@ -39,3 +39,9 @@ class Konfiguracja:
         "DATABASE_URI"
     ) or "sqlite:///" + OS.path.join(Ścieżka_Root, "Baza_Danych.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = OS.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
+
+
+class KonfiguracjaTestowa(Konfiguracja):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"  # Baza danych w pamięci
+    WTF_CSRF_ENABLED = False  # Wyłączenie CSRF w testach formularzy
