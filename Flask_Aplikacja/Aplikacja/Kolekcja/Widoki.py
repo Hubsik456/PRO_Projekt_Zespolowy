@@ -44,6 +44,9 @@ def Widok_Kolekcja_Index():
     """Renderuje stronę główną modułu Kolekcja.
 
     :return: Wyrenderowany szablon HTML strony głównej kolekcji.
+    Do którego przekazywane są przedmioty wraz z pierwszym dodanym
+    do nich zdjęciem, jeśli takie istnieje
+
     :rtype: str
     """
 
@@ -53,10 +56,6 @@ def Widok_Kolekcja_Index():
         .filter(Przedmiot.czy_prywatne == False) # Zwróci tylko publiczne
         .order_by(Przedmiot.data_dodania.desc()) # Od najnowszych do najstarszych
         .options(
-            # Używamy selectinload, aby pobrać wszystkie zdjęcia dla znalezionych przedmiotów.
-            # Ważne: to załaduje CAŁE dane binarne zdjęć do pamięci dla każdego przedmiotu!
-            # Jeśli masz bardzo dużo zdjęć lub są one bardzo duże, rozważ wyświetlanie miniatur
-            # lub lazy loading dla pojedynczych zdjęć na żądanie.
             SELECTINLOAD(Przedmiot.zdjecia)
         )
     ).scalars().all()
@@ -65,27 +64,17 @@ def Widok_Kolekcja_Index():
     Przedmioty_Z_Grafikami = []
     for przedmiot in Przedmioty:
         pierwsza_grafika_data_uri = None
-        pierwsza_grafika_tytul = None # Dodajemy tytuł, żeby można było go wyświetlić
-        pierwsza_grafika_opis = None # Dodajemy opis
 
         if przedmiot.zdjecia:
-            # Zakładamy, że zdjęcia są posortowane w relacji ORM,
-            # lub po prostu bierzemy pierwsze z listy
             pierwsze_zdjecie = przedmiot.zdjecia[0]
 
             if pierwsze_zdjecie.zdjecie_dane and pierwsze_zdjecie.mimetype:
-                # Konwersja danych binarnych na Base64 Data URI
                 encoded_image = BASE64.b64encode(pierwsze_zdjecie.zdjecie_dane).decode("utf-8")
                 pierwsza_grafika_data_uri = f"data:{pierwsze_zdjecie.mimetype};base64,{encoded_image}"
-                pierwsza_grafika_tytul = pierwsze_zdjecie.tytul
-                pierwsza_grafika_opis = pierwsze_zdjecie.opis
-            # Else: jesli dane zdjecia lub mimetype sa None, data_uri pozostaje None
 
         Przedmioty_Z_Grafikami.append({
             'przedmiot': przedmiot,
-            'pierwsza_grafika_data_uri': pierwsza_grafika_data_uri, # Zmieniamy nazwę na bardziej adekwatną
-            'pierwsza_grafika_tytul': pierwsza_grafika_tytul,
-            'pierwsza_grafika_opis': pierwsza_grafika_opis
+            'pierwsza_grafika_data_uri': pierwsza_grafika_data_uri,
         })
 
     return RENDER_TEMPLATE("Kolekcja/index.html", Przedmioty=Przedmioty_Z_Grafikami)
