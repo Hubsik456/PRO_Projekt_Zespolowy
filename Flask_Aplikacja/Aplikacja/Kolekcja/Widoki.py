@@ -18,6 +18,7 @@ from flask import (
 from flask_login import current_user as CURRENT_USER, login_required as LOGIN_REQUIRED
 from flask_wtf.file import FileRequired
 from sqlalchemy.sql import func as FUNC
+from sqlalchemy.orm import selectinload as SELECTINLOAD
 
 #! Lokalne importy
 from Aplikacja.Kolekcja import Blueprint_3
@@ -45,8 +46,49 @@ def Widok_Kolekcja_Index():
     :return: Wyrenderowany szablon HTML strony głównej kolekcji.
     :rtype: str
     """
-    return RENDER_TEMPLATE("Kolekcja/index.html")
 
+    # ? Wyciągnięcie przedmiotów
+    Przedmioty = DB.session.execute(
+        DB.select(Przedmiot)
+        .filter(Przedmiot.czy_prywatne == False) # Zwróci tylko publiczne
+        .order_by(Przedmiot.data_dodania.desc()) # Od najnowszych do najstarszych
+        .options(
+            # Używamy selectinload, aby pobrać wszystkie zdjęcia dla znalezionych przedmiotów.
+            # Ważne: to załaduje CAŁE dane binarne zdjęć do pamięci dla każdego przedmiotu!
+            # Jeśli masz bardzo dużo zdjęć lub są one bardzo duże, rozważ wyświetlanie miniatur
+            # lub lazy loading dla pojedynczych zdjęć na żądanie.
+            SELECTINLOAD(Przedmiot.zdjecia)
+        )
+    ).scalars().all()
+
+    # ? Lista z przedmiotami i zdjęciem (jako data_uri) do przekazania do szablonu
+    Przedmioty_Z_Grafikami = []
+    for przedmiot in Przedmioty:
+        pierwsza_grafika_data_uri = None
+        pierwsza_grafika_tytul = None # Dodajemy tytuł, żeby można było go wyświetlić
+        pierwsza_grafika_opis = None # Dodajemy opis
+
+        if przedmiot.zdjecia:
+            # Zakładamy, że zdjęcia są posortowane w relacji ORM,
+            # lub po prostu bierzemy pierwsze z listy
+            pierwsze_zdjecie = przedmiot.zdjecia[0]
+
+            if pierwsze_zdjecie.zdjecie_dane and pierwsze_zdjecie.mimetype:
+                # Konwersja danych binarnych na Base64 Data URI
+                encoded_image = BASE64.b64encode(pierwsze_zdjecie.zdjecie_dane).decode("utf-8")
+                pierwsza_grafika_data_uri = f"data:{pierwsze_zdjecie.mimetype};base64,{encoded_image}"
+                pierwsza_grafika_tytul = pierwsze_zdjecie.tytul
+                pierwsza_grafika_opis = pierwsze_zdjecie.opis
+            # Else: jesli dane zdjecia lub mimetype sa None, data_uri pozostaje None
+
+        Przedmioty_Z_Grafikami.append({
+            'przedmiot': przedmiot,
+            'pierwsza_grafika_data_uri': pierwsza_grafika_data_uri, # Zmieniamy nazwę na bardziej adekwatną
+            'pierwsza_grafika_tytul': pierwsza_grafika_tytul,
+            'pierwsza_grafika_opis': pierwsza_grafika_opis
+        })
+
+    return RENDER_TEMPLATE("Kolekcja/index.html", Przedmioty=Przedmioty_Z_Grafikami)
 
 @Blueprint_3.route("/<int:ID>/")
 @LOGIN_REQUIRED

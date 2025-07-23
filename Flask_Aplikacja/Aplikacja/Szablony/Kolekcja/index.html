@@ -1,5 +1,8 @@
 {% extends "Szablon.html" %}
+
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
+{% from "Makra/Swiper_2.html" import Swiper_2 %}
+
 
 {% block Tytuł %}
     Kolekcja
@@ -33,6 +36,12 @@
     {% endif %}
 
 
-    {{ Lorem_Ipsum(5) }}
+    <hr>
+
+    <h2>Zobacz Przedmioty Innych Użytkowników</h2>
+
+    <p>Poniżej znajduje się kilkanaście przedmiotów innych użytkowników.</p>
+
+    {{ Swiper_2(Przedmioty) }}
 
 {% endblock %}

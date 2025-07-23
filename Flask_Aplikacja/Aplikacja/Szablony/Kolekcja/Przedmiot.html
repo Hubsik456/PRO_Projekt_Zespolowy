@@ -1,7 +1,7 @@
 {% extends "Szablon.html" %}
 
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
-{% from "Makra/Swiper.html" import Swiper %}
+{% from "Makra/Swiper_1.html" import Swiper_1 %}
 
 {% block Tytuł %}Przedmiot{% endblock %}
 
@@ -12,7 +12,7 @@
         <p>
             <b>Jesteś właścicielem tego przedmiotu. Możesz go edytować <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a>.</b>
             <br>
-            Widzisz ten przedmiot dokładnie tak jak widzą go inne osoby.
+            Widzisz ten przedmiot dokładnie tak jak widzą go inne osoby. Dodatkowe opcje, takie edytowanie, usuwanie i prywatne notatki są tutaj niedostępne.
         </p>
     {% endif %}
     <table class="table table-bordered table-striped">
@@ -108,7 +108,7 @@
     <h2>Zdjęcia</h2>
     {% if Zdjęcia %}
         <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
-        {{ Swiper(Zdjęcia) }}
+        {{ Swiper_1(Zdjęcia) }}
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
     {% endif %}

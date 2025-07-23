@@ -1,7 +1,7 @@
 {% extends "Szablon.html" %}
 
 {% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
-{% from "Makra/Swiper.html" import Swiper %}
+{% from "Makra/Swiper_1.html" import Swiper_1 %}
 
 {% block Tytuł %}Szczegóły Przedmiotu{% endblock %}
 
@@ -145,12 +145,12 @@
     <h2>Zdjęcia</h2>
     {% if Zdjęcia %}
         <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
-        {{ Swiper(Zdjęcia, True) }}
+        {{ Swiper_1(Zdjęcia, True) }}
     {% else %}
         <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
     {% endif %}
     <p>
-        <a class="btn btn-outline-primary"
+        <a class="btn btn-outline-primary mt-4"
            href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">Dodaj nowe zdjęcie</a>
     </p>
 {% endblock %}
