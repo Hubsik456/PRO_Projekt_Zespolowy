@@ -1,47 +1,43 @@
 {% extends "Szablon.html" %}
 
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 {% from "Makra/Swiper_2.html" import Swiper_2 %}
 
-
-{% block Tytuł %}
-    Kolekcja
-{% endblock %}
+{% block Tytuł %}Kolekcje Społeczności{% endblock %}
 
 {% block Treść %}
-    <h1>Kolekcja</h1>
-
-    <p>Kurator Kolekcji pozwala Ci na przechowywanie informacji o swoich przedmiotach. Aby dodać nowy przedmiot musisz:</p>
-    <ol>
-        <li>Zapoznać się z <a href="{{ url_for('Blueprint_1.Widok_Main_Polityka_Prywatności') }}">polityką prywatności</a></li>
-        <li><a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}">Zalogować</a> / <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}">Zarejestrować się</a></li>
-        <li>Wypełnić <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}">formularz</a></li>
-    </ol>
-
-    <p>Po dodaniu swojego przedmiotu, możesz dodać do niego własne notatki i ewnetualne zdjęcia lub skany. Twoja kolekcja będzie widoczna dla innych użytkowników.</p>
-
-    <p>Dodane przedmioty i notatki możesz oznaczyćjako "Prywatne", wtedy tylko Ty będziesz miał do nich dostęp.</p>
-
-
-    {% if current_user.is_authenticated %}
-        <p>Całą Swoją kolekcje możesz przeglądać <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Moja_Kolekcja') }}">tutaj</a>.</p>
-
-        <div class="text-center">
-            <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}" class="btn btn-primary mt-2 mb-2">Dodaj nowy przedmiot</a>
+    {# Połączono dwa bloki w jeden dla lepszej spójności #}
+    <div class="p-4 border rounded-3">
+        {# Sekcja wprowadzająca #}
+        <h1 class="display-5 fw-bold">Odkrywaj Kolekcje Społeczności</h1>
+        <p class="col-md-8 fs-4">
+            Zobacz, co pasjonuje innych! Poniżej znajdziesz najnowsze przedmioty dodane przez użytkowników naszej platformy.
+        </p>
+        {# Linia oddzielająca wprowadzenie od galerii #}
+        <hr class="my-4">
+        {# Galeria Swiper #}
+        <h3 class="mb-4">Najnowsze w kolekcji publicznej</h3>
+        {{ Swiper_2(Przedmioty) }}
+    </div>
+    {# Sekcja Call to Action - bez zmian #}
+    {% if not current_user.is_authenticated %}
+        <div class="p-4 mt-4 border rounded-3 text-center">
+            <h2 class="fw-bold">Masz własną kolekcję?</h2>
+            <p class="fs-5">
+                Dołącz do naszej społeczności! Zarejestruj się, aby zacząć katalogować swoje przedmioty, dzielić się nimi z innymi i odkrywać nowe pasje.
+            </p>
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}"
+               class="btn btn-primary btn-lg me-2">Zarejestruj się</a>
+            <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}"
+               class="btn btn-outline-primary btn-lg">Zaloguj się</a>
         </div>
-
     {% else %}
-        <p>Aby dodać własne przedmioty do kolekcji musisz się <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}">zalogować</a>. Jeśli nie masz jeszcze konta, możesz się <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}">zarejestrować</a>.</p>
-
+        <div class="p-4 mt-4 border rounded-3 text-center">
+            <h2 class="fw-bold">Pochwal się swoimi skarbami!</h2>
+            <p class="fs-5">
+                Twoja kolekcja czeka! Dodaj nowy przedmiot, aby podzielić się nim ze społecznością lub po prostu uporządkować swoje zbiory.
+            </p>
+            <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}"
+               class="btn btn-outline-primary btn-lg">Dodaj nowy przedmiot do swojej kolekcji</a>
+        </div>
     {% endif %}
-
-
-    <hr>
-
-    <h2>Zobacz Przedmioty Innych Użytkowników</h2>
-
-    <p>Poniżej znajduje się kilkanaście przedmiotów innych użytkowników.</p>
-
-    {{ Swiper_2(Przedmioty) }}
-
 {% endblock %}

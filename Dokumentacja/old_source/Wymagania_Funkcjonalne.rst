@@ -1,4 +1,0 @@
-Wymaganie Funkcjonalne
-======================
-
-WIP

@@ -1,156 +1,175 @@
 {% extends "Szablon.html" %}
 
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 {% from "Makra/Swiper_1.html" import Swiper_1 %}
 
-{% block Tytuł %}Szczegóły Przedmiotu{% endblock %}
+{% block Tytuł %}Szczegóły: {{ Przedmiot.nazwa }}{% endblock %}
 
 {% block Treść %}
-    <h1>Szczegóły Przedmiotu</h1>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="table-primary">
-                <th scope="col">Pole</th>
-                <th scope="col">Wartość</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ID</td>
-                <td>{{ Przedmiot.id }}</td>
-            </tr>
-            <tr>
-                <td>Nazwa</td>
-                <td>{{ Przedmiot.nazwa }}</td>
-            </tr>
-            <tr>
-                <td>Data Dodania</td>
-                <td>{{ Przedmiot.data_dodania }}</td>
-            </tr>
-            <tr>
-                <td>Data Edycji</td>
-                <td>
-                    {% if Przedmiot.data_edycji %}
-                        {{ Przedmiot.data_edycji }}
+    {# Nagłówek i główne akcje #}
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h1 class="display-5 fw-bold">{{ Przedmiot.nazwa }}</h1>
+            <p class="fs-5 text-muted mb-0">
+                Szczegółowy widok przedmiotu.
+                {% if not Przedmiot.czy_prywatne %}
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Przedmiot.id) }}"
+                       class="small">(Zobacz widok publiczny)</a>
+                {% endif %}
+            </p>
+        </div>
+        <div class="btn-group" role="group" aria-label="Główne akcje">
+            <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}"
+               class="btn btn-primary">
+                <i class="bi bi-pencil-square me-1"></i> Edytuj przedmiot
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row g-4">
+        {# Główna kolumna z informacjami #}
+        <div class="col-lg-7">
+            {# Karta z podstawowymi informacjami #}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Podstawowe informacje</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Kategoria <span>{{ Przedmiot.kategoria.nazwa }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Data dodania <span>{{ Przedmiot.data_dodania.strftime("%Y-%m-%d %H:%M") }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Ostatnia edycja
+                        <span>
+                            {% if Przedmiot.data_edycji %}
+                                {{ Przedmiot.data_edycji.strftime("%Y-%m-%d %H:%M") }}
+                            {% else %}
+                                <span class="text-muted">Brak</span>
+                            {% endif %}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Status
+                        <span>
+                            {% if Przedmiot.czy_prywatne %}
+                                <span class="badge bg-secondary">Prywatny</span>
+                            {% else %}
+                                <span class="badge bg-success">Publiczny</span>
+                            {% endif %}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            {# Karta z informacjami finansowymi #}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Informacje finansowe</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Cena zakupu <span>{{ "%.2f"|format(Przedmiot.cena_zakupu) }} {{ Przedmiot.waluta_zakupu.skrot }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Wartość rynkowa <span>{{ "%.2f"|format(Przedmiot.wartosc_rynkowa) }} {{ Przedmiot.waluta_rynkowa.skrot }}</span>
+                    </li>
+                </ul>
+            </div>
+            {# Karta z polami własnymi #}
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Pola własne</h5>
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Dodaj', ID=Przedmiot.id) }}"
+                       class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-circle me-1"></i> Dodaj pole</a>
+                </div>
+                {% if Przedmiot.pola_wlasne %}
+                    <ul class="list-group list-group-flush">
+                        {% for Pole_Własne in Przedmiot.pola_wlasne %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}:</strong>
+                                    <span class="ms-2">{{ Pole_Własne.wartosc }}</span>
+                                </div>
+                                <div class="btn-group">
+                                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}"
+                                       class="btn btn-sm btn-outline-secondary"
+                                       title="Edytuj"><i class="bi bi-pencil"></i></a>
+                                    <form action="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Usuń', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}"
+                                          method="POST"
+                                          class="d-inline">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Usuń"
+                                                onclick="return confirm(`Czy na pewno chcesz usunąć pole \'{{ Pole_Własne.typ_pola_wlasnego.nazwa }}\'?`);">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="card-body text-center text-muted">Brak pól własnych.</div>
+                {% endif %}
+            </div>
+            {# Sekcja z notatkami #}
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="mb-0">Notatki</h3>
+                <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}"
+                   class="btn btn-outline-primary"><i class="bi bi-plus-circle me-1"></i> Dodaj notatkę</a>
+            </div>
+            {% if Przedmiot.notatki %}
+                {% for Notatka in Przedmiot.notatki %}
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ Notatka.tytul }}</h5>
+                            <div>
+                                {% if Notatka.czy_prywatne %}<span class="badge bg-secondary me-2">Prywatna</span>{% endif %}
+                                <div class="btn-group">
+                                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
+                                       class="btn btn-sm btn-outline-secondary"
+                                       title="Edytuj"><i class="bi bi-pencil"></i></a>
+                                    <form action="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Usuń', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
+                                          method="POST"
+                                          class="d-inline">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Usuń"
+                                                onclick="return confirm(`Czy na pewno chcesz usunąć notatkę \'{{ Notatka.tytul }}\'?`);">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ Notatka.opis | safe }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card card-body text-center text-muted">Brak notatek do tego przedmiotu.</div>
+            {% endif %}
+        </div>
+        {# Boczna kolumna ze zdjęciami #}
+        <div class="col-lg-5">
+            <div class="card sticky-top" style="top: 2rem;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Galeria zdjęć</h5>
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}"
+                       class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-circle me-1"></i> Dodaj zdjęcie</a>
+                </div>
+                <div class="card-body">
+                    {% if Zdjęcia %}
+                        {{ Swiper_1(Zdjęcia, True) }}
                     {% else %}
-                        Brak
+                        <div class="text-center text-muted py-4">
+                            <p>Brak zdjęć do tego przedmiotu.</p>
+                        </div>
                     {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>Właściciel</td>
-                <td>{{ Przedmiot.wlasciciel.login }}</td>
-            </tr>
-            <tr>
-                <td>Cena Zakupu</td>
-                <td>{{ Przedmiot.cena_zakupu }} {{ Przedmiot.waluta_zakupu.skrot }}</td>
-            </tr>
-            <tr>
-                <td>Wartość Rynkowa</td>
-                <td>{{ Przedmiot.wartosc_rynkowa }} {{ Przedmiot.waluta_rynkowa.skrot }}</td>
-            </tr>
-            <tr>
-                <td>Kategoria</td>
-                <td>{{ Przedmiot.kategoria.nazwa }}</td>
-            </tr>
-            <tr>
-                <td>Czy Prywatne</td>
-                <td>
-                    {% if Przedmiot.czy_prywatne %}
-                        Tak
-                    {% else %}
-                        Nie
-                        <br>
-                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Przedmiot.id) }}">Link publiczny</a>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>Pola Własne</td>
-                <td>
-                    {% if Przedmiot.pola_wlasne %}
-                        <ul class="mb-0">
-                            {% for Pole_Własne in Przedmiot.pola_wlasne %}
-                                <li>
-                                    <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
-                                    {{ Pole_Własne.wartosc }}
-                                    <br>
-                                    <span class="text-end d-block">
-                                        <a class="m-2"
-                                           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}">Edytuj</a>
-                                        <form class="m-2 d-inline-block"
-                                              action="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Usuń', ID_Przedmiot=Przedmiot.id, ID_Pole_Wlasne=Pole_Własne.id) }}"
-                                              method="POST">
-                                            <button type="submit"
-                                                    class="btn btn-sm btn-danger"
-                                                    onclick="return confirm(`Czy na pewno chcesz usunąć pole własne '{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: {{ Pole_Własne.wartosc }}'?`);">
-                                                Usuń
-                                            </button>
-                                        </form>
-                                    </span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        Brak
-                    {% endif %}
-                    <p class="mb-0 mt-2">
-                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Pole_Własne_Dodaj', ID=Przedmiot.id) }}">Dodaj nowe pole własne</a>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <p>
-        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}"
-           class="btn btn-primary">Edytuj ten przedmiot</a>
-    </p>
-    <h2>Notatki</h2>
-    {% if Przedmiot.notatki %}
-        <p>Poniżej znajdują się notatki. Wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
-        <ul>
-            {% for Notatka in Przedmiot.notatki %}
-                <li class="mb-4">
-                    <b>{{ Notatka.tytul }}</b>
-                    <br>
-                    <span>{{ Notatka.opis }}</span>
-                    <br>
-                    {% if Notatka.czy_prywatne %}
-                        <span class="small fw-light fst-italic">Notatka Prywatna</span>
-                        <br>
-                    {% endif %}
-                    <span class="text-end d-block">
-                        <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Edytuj', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
-                           class="m-2">Edytuj</a>
-                        <form class="m-2 d-inline-block"
-                              action="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Usuń', ID_Przedmiot=Przedmiot.id, ID_Notatka=Notatka.id) }}"
-                              method="POST">
-                            <button type="submit"
-                                    class="btn btn-sm btn-danger"
-                                    onclick="return confirm(`Czy na pewno chcesz usunąć notatkę '{{ Notatka.tytul }}'?`);">
-                                Usuń
-                            </button>
-                        </form>
-                    </span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Do tego przedmiotu nie dołączono żadnych notatek.</p>
-    {% endif %}
-    <p>
-        <a class="btn btn-outline-primary"
-           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Notatka_Dodaj', ID=Przedmiot.id) }}">Dodaj nową notatkę</a>
-    </p>
-    <h2>Zdjęcia</h2>
-    {% if Zdjęcia %}
-        <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
-        {{ Swiper_1(Zdjęcia, True) }}
-    {% else %}
-        <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
-    {% endif %}
-    <p>
-        <a class="btn btn-outline-primary mt-4"
-           href="{{ url_for('Blueprint_3.Widok_Kolekcja_Zdjęcie_Dodaj', ID=Przedmiot.id) }}">Dodaj nowe zdjęcie</a>
-    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

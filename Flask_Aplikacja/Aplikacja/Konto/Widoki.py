@@ -33,9 +33,8 @@ from Aplikacja.Konto.Formularze.Logowanie import Formularz_Logowanie
 from Aplikacja.Konto.Formularze.Rejestracja import Formularz_Rejestracja
 from Aplikacja.Konto.Formularze.Usuń_Konto import Formularz_Usuń_Konto
 from Aplikacja.Konto.Formularze.Zmiana_Hasła import Formularz_Zmiana_Hasła
-#from Aplikacja.Modele.Użytkownicy import Uzytkownik
 
-
+# from Aplikacja.Modele.Użytkownicy import Uzytkownik
 from Aplikacja.Modele.Użytkownicy import Uzytkownik
 
 #! Lokalne Importy
@@ -84,7 +83,7 @@ def Widok_Konto_Logowanie():
             FLASH(f"Zalogowano jako: '{Użytkownik.login}'.", "success")
             LOGIN_USER(Użytkownik)
 
-            return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
+            return REDIRECT(URL_FOR("Blueprint_1.Widok_Main_Index"))
 
         FLASH("Podano niepoprawne dane.", "danger")
 
@@ -127,7 +126,7 @@ def Widok_Konto_Rejestracja():
             LOGIN_USER(Nowy_Użytkownik)
             FLASH("Rejestracja zakońoczna pomyślnie.", "success")
 
-            return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
+            return REDIRECT(URL_FOR("Blueprint_1.Widok_Main_Index"))
 
         FLASH("Podano niepoprawne dane.", "danger")
 
@@ -247,4 +246,4 @@ def Widok_Konto_Wyloguj():
     FLASH("Wylogowano.", "info")
     LOGOUT_USER()
 
-    return REDIRECT(URL_FOR("Blueprint_2.Widok_Konto_Index"))
+    return REDIRECT(URL_FOR("Blueprint_1.Widok_Main_Index"))

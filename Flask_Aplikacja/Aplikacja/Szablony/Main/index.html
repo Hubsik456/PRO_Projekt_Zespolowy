@@ -1,10 +1,81 @@
 {% extends "Szablon.html" %}
 
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
-
 {% block Tytuł %}Strona Główna{% endblock %}
 
 {% block Treść %}
-    <h1>Kurator Kolekcji</h1>
-    {{ Lorem_Ipsum(10) }}
+    {# Uproszczona i czystsza sekcja powitalna #}
+    <div class="container-fluid py-4">
+        <h1 class="display-5 fw-bold">Witaj w Kuratorze Kolekcji!</h1>
+        <p class="col-md-8 fs-4">
+            Twoje miejsce do zarządzania i dzielenia się swoimi kolekcjami. Kataloguj przedmioty, dodawaj notatki,
+            zdjęcia i decyduj, co chcesz pokazać innym.
+        </p>
+    </div>
+    <hr class="mb-4">
+    <div class="row align-items-md-stretch">
+        {% if current_user.is_authenticated %}
+            <div class="col-md-6 mb-4">
+                {# Użycie GŁÓWNEGO koloru motywu do wyróżnienia #}
+                <div class="h-100 p-4 border rounded-3">
+                    <h2>Twoja Kolekcja</h2>
+                    <p>
+                        Zarządzaj swoimi skarbami. Dodawaj nowe przedmioty, edytuj istniejące i przeglądaj całą swoją
+                        kolekcję w jednym miejscu.
+                    </p>
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Moja_Kolekcja') }}"
+                       class="btn btn-outline-secondary me-2">Przeglądaj swoją kolekcję</a>
+                    {# Przycisk zmieniony na 'light' dla lepszego kontrastu #}
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Dodaj') }}"
+                       class="btn btn-outline-primary">Dodaj nowy przedmiot</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                {# Czystszy wygląd z samym obramowaniem #}
+                <div class="h-100 p-4 border rounded-3">
+                    <h2>Kolekcje Innych</h2>
+                    <p>Zobacz, co kolekcjonują inni użytkownicy. Zainspiruj się i odkryj nowe, fascynujące przedmioty.</p>
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Index') }}"
+                       class="btn btn-outline-primary">Zobacz publiczną kolekcję</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-6 mb-4">
+                {# Główne wezwanie do akcji dla nowych użytkowników, używające koloru motywu #}
+                <div class="h-100 p-4 text-bg-primary rounded-3">
+                    <h2>Dołącz do nas!</h2>
+                    <p>Załóż darmowe konto, aby zacząć budować własną kolekcję. Rejestracja jest szybka i prosta.</p>
+                    {# Przyciski zmienione dla kontrastu #}
+                    <a href="{{ url_for('Blueprint_2.Widok_Konto_Rejestracja') }}"
+                       class="btn btn-light me-2">Zarejestruj się</a>
+                    <a href="{{ url_for('Blueprint_2.Widok_Konto_Logowanie') }}"
+                       class="btn btn-outline-light">Zaloguj się</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                {# Czystszy wygląd z samym obramowaniem #}
+                <div class="h-100 p-4 border rounded-3">
+                    <h2>Odkrywaj</h2>
+                    <p>
+                        Przeglądaj publiczne kolekcje innych użytkowników. Zobacz, jakie skarby kryją się w naszej
+                        społeczności.
+                    </p>
+                    <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Index') }}"
+                       class="btn btn-outline-primary">Zobacz publiczną kolekcję</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <hr class="my-4">
+    <div>
+        <h2>Jak to działa?</h2>
+        <p>
+            Kurator Kolekcji pozwala Ci na przechowywanie informacji o swoich przedmiotach. Po dodaniu swojego
+            przedmiotu, możesz dodać do niego własne notatki i ewentualne zdjęcia lub skany. Twoja kolekcja będzie
+            widoczna dla innych użytkowników, chyba że oznaczysz przedmioty jako "Prywatne" - wtedy tylko Ty będziesz
+            miał do nich dostęp.
+        </p>
+        <p>
+            Przed rozpoczęciem korzystania z serwisu, zapoznaj się z naszą <a href="{{ url_for('Blueprint_1.Widok_Main_Polityka_Prywatności') }}">polityką prywatności</a>.
+        </p>
+    </div>
 {% endblock %}
