@@ -1,46 +1,43 @@
 {% macro Swiper_2(Elementy) %}
     {#<p><code>{{ Elementy }}</code></p>#}
-
     {# Zewnętrzny Kontener #}
     <div class="swiper overflow-hidden">
         {# Wewnętrzny Kontener #}
         <div class="swiper-wrapper">
-
             {# Slides #}
             {% for Slajd in Elementy %}
-            <div class="swiper-slide position-relative">
-                <div class="p-2 d-flex flex-column">
-                    <h3 class="mb-1">{{ Slajd.przedmiot.nazwa }}</h3>
-
-                    {% if Slajd.pierwsza_grafika_data_uri %}
-                        <hr>
-                        <img src="{{ Slajd.pierwsza_grafika_data_uri }}"
-                             alt="{{ Slajd.przedmiot.nazwa }}"
-                             class="img-fluid">
-                    {% else %}
-                    {% endif %}
-
-                    <hr class="w-100">
-
-                    <p class="mb-1">
-                        <b>Opis</b>:
-                        {{ Slajd.przedmiot.opis }}
-                    </p>
-
-                    <p class="mb-0">
-                        <b>Wartość Rynkowa</b>:
-                        {{ Slajd.przedmiot.wartosc_rynkowa }} {{ Slajd.przedmiot.waluta_rynkowa.skrot }}
-                    </p>
-
-                    <p>Kliknij <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Slajd.przedmiot.id) }}">tutaj</a> aby zobaczyć szczegóły.</p>
+                <div class="swiper-slide position-relative">
+                    {# Dodano ramkę, tło i zaokrąglenia dla lepszego wyglądu #}
+                    <div class="p-3 d-flex flex-column border rounded-3 bg-body-tertiary h-100">
+                        <h5 class="mb-2">{{ Slajd.przedmiot.nazwa }}</h5>
+                        {% if Slajd.pierwsza_grafika_data_uri %}
+                            <img src="{{ Slajd.pierwsza_grafika_data_uri }}"
+                                 alt="{{ Slajd.przedmiot.nazwa }}"
+                                 class="img-fluid rounded-2 my-2"
+                                 style="height: 300px;
+                                        object-fit: scale-down">
+                        {% endif %}
+                        <p class="mb-1 small">
+                            <b>Opis</b>:
+                            {{ Slajd.przedmiot.opis }}
+                        </p>
+                        <p class="mb-2 small">
+                            <b>Wartość Rynkowa</b>:
+                            {{ Slajd.przedmiot.wartosc_rynkowa }} {{ Slajd.przedmiot.waluta_rynkowa.skrot }}
+                        </p>
+                        {# Przycisk jest teraz wyrównany do dołu i ma lepszy wygląd #}
+                        <div class="mt-auto pt-3 text-end">
+                            <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Przedmiot', ID=Slajd.przedmiot.id) }}"
+                               class="btn btn-sm btn-primary">Zobacz szczegóły</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>
-
+    {# Skrypt pozostał nietknięty #}
     <script>
-        document.addEventListener("DOMContentLoaded", function(){
+        document.addEventListener("DOMContentLoaded", function() {
             var Swipery = new Swiper(".swiper", {
                 slidesPerView: 2.2,
                 grabCursor: true,

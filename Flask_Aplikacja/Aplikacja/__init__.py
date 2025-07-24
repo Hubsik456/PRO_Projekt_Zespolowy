@@ -155,4 +155,18 @@ def create_app(Ustawienia=Konfiguracja):
         }
         return dict(Zmienne_Globalne)
 
+    import click
+
+    from .SEED import seed_data
+
+    @click.command("seed-db")
+    def seed_db_command():
+        """Usuwa starą bazę i tworzy nową z danymi początkowymi."""
+        DB.drop_all()
+        DB.create_all()
+        seed_data()
+        click.echo("Baza danych została pomyślnie zainicjowana.")
+
+    Aplikacja.cli.add_command(seed_db_command)
+
     return Aplikacja

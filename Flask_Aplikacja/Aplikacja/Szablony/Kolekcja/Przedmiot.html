@@ -1,115 +1,120 @@
 {% extends "Szablon.html" %}
 
-{% from "Makra/Lorem_Ipsum.html" import Lorem_Ipsum %}
 {% from "Makra/Swiper_1.html" import Swiper_1 %}
 
-{% block Tytuł %}Przedmiot{% endblock %}
+{% block Tytuł %}{{ Przedmiot.nazwa }} - Kolekcja {{ Przedmiot.wlasciciel.login }}{% endblock %}
 
 {% block Treść %}
-    <h1>Przedmiotu</h1>
-    <p>Możesz tutaj zobaczyć przedmiot użytkownika '{{ Przedmiot.wlasciciel.login }}'.</p>
-    {% if Przedmiot.id_wlasciciel == current_user.id %}
-        <p>
-            <b>Jesteś właścicielem tego przedmiotu. Możesz go edytować <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Edytuj', ID=Przedmiot.id) }}">tutaj</a>.</b>
-            <br>
-            Widzisz ten przedmiot dokładnie tak jak widzą go inne osoby. Dodatkowe opcje, takie edytowanie, usuwanie i prywatne notatki są tutaj niedostępne.
-        </p>
+    {# Nagłówek i informacja o właścicielu #}
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h1 class="display-5 fw-bold">{{ Przedmiot.nazwa }}</h1>
+            <p class="fs-5 text-muted mb-0">Przedmiot z kolekcji użytkownika {{ Przedmiot.wlasciciel.login }}.</p>
+        </div>
+    </div>
+    {% if current_user.is_authenticated and Przedmiot.id_wlasciciel == current_user.id %}
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">Jesteś właścicielem tego przedmiotu!</h4>
+            <p>
+                To jest widok publiczny, który widzą inni użytkownicy. Opcje edycji, usuwania oraz prywatne notatki i pola nie są tutaj widoczne.
+            </p>
+            <hr>
+            <p class="mb-0">
+                Aby zarządzać tym przedmiotem, przejdź do <a href="{{ url_for('Blueprint_3.Widok_Kolekcja_Szczegóły', ID=Przedmiot.id) }}"
+    class="alert-link">widoku szczegółowego</a>.
+            </p>
+        </div>
     {% endif %}
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="table-primary">
-                <th scope="col">Pole</th>
-                <th scope="col">Wartość</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ID</td>
-                <td>{{ Przedmiot.id }}</td>
-            </tr>
-            <tr>
-                <td>Nazwa</td>
-                <td>{{ Przedmiot.nazwa }}</td>
-            </tr>
-            <tr>
-                <td>Data Dodania</td>
-                <td>{{ Przedmiot.data_dodania }}</td>
-            </tr>
-            <tr>
-                <td>Data Edycji</td>
-                <td>
-                    {% if Przedmiot.data_edycji %}
-                        {{ Przedmiot.data_edycji }}
+    <hr>
+    <div class="row g-4">
+        {# Główna kolumna z informacjami #}
+        <div class="col-lg-7">
+            {# Karta z podstawowymi informacjami #}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Podstawowe informacje</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Kategoria <span>{{ Przedmiot.kategoria.nazwa }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Data dodania <span>{{ Przedmiot.data_dodania.strftime("%Y-%m-%d %H:%M") }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Ostatnia edycja
+                        <span>
+                            {% if Przedmiot.data_edycji %}
+                                {{ Przedmiot.data_edycji.strftime("%Y-%m-%d %H:%M") }}
+                            {% else %}
+                                <span class="text-muted">Brak</span>
+                            {% endif %}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            {# Karta z informacjami finansowymi #}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Informacje finansowe</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Wartość rynkowa <span>{{ "%.2f"|format(Przedmiot.wartosc_rynkowa) }} {{ Przedmiot.waluta_rynkowa.skrot }}</span>
+                    </li>
+                </ul>
+            </div>
+            {# Karta z polami własnymi #}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Pola własne</h5>
+                </div>
+                {% if Przedmiot.pola_wlasne %}
+                    <ul class="list-group list-group-flush">
+                        {% for Pole_Własne in Przedmiot.pola_wlasne %}
+                            <li class="list-group-item">
+                                <strong>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}:</strong>
+                                <span class="ms-2">{{ Pole_Własne.wartosc }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="card-body text-center text-muted">Brak publicznych pól własnych.</div>
+                {% endif %}
+            </div>
+            {# Sekcja z notatkami #}
+            <h3 class="mb-3">Notatki publiczne</h3>
+            {% if Notatki %}
+                {% for Notatka in Notatki %}
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">{{ Notatka.tytul }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ Notatka.opis | safe }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card card-body text-center text-muted">Właściciel nie dodał żadnych publicznych notatek.</div>
+            {% endif %}
+        </div>
+        {# Boczna kolumna ze zdjęciami #}
+        <div class="col-lg-5">
+            <div class="card sticky-top" style="top: 2rem;">
+                <div class="card-header">
+                    <h5 class="mb-0">Galeria zdjęć</h5>
+                </div>
+                <div class="card-body">
+                    {% if Zdjęcia %}
+                        {{ Swiper_1(Zdjęcia, False) }}
                     {% else %}
-                        Brak
+                        <div class="text-center text-muted py-4">
+                            <p>Brak zdjęć do tego przedmiotu.</p>
+                        </div>
                     {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>Właściciel</td>
-                <td>{{ Przedmiot.wlasciciel.login }}</td>
-            </tr>
-            <tr>
-                <td>Cena Zakupu</td>
-                <td>{{ Przedmiot.cena_zakupu }} {{ Przedmiot.waluta_zakupu.skrot }}</td>
-            </tr>
-            <tr>
-                <td>Wartość Rynkowa</td>
-                <td>{{ Przedmiot.wartosc_rynkowa }} {{ Przedmiot.waluta_rynkowa.skrot }}</td>
-            </tr>
-            <tr>
-                <td>Kategoria</td>
-                <td>{{ Przedmiot.kategoria.nazwa }}</td>
-            </tr>
-            <tr>
-                <td>Czy Prywatne</td>
-                <td>
-                    {% if Przedmiot.czy_prywatne %}
-                        Tak
-                    {% else %}
-                        Nie
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>Pola Własne</td>
-                <td>
-                    {% if Przedmiot.pola_wlasne %}
-                        <ul class="mb-0">
-                            {% for Pole_Własne in Przedmiot.pola_wlasne %}
-                                <li>
-                                    <b>{{ Pole_Własne.typ_pola_wlasnego.nazwa }}: </b>
-                                    {{ Pole_Własne.wartosc }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        Brak
-                    {% endif %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <h2>Notatki</h2>
-    {% if Notatki %}
-        <p>Poniżej znajdują się notatki, wyświetlane są tylko te które zostały oznaczone przez autora jak publiczne.</p>
-        <ul>
-            {% for Notatka in Notatki %}
-                <li class="mb-4">
-                    <b>{{ Notatka.tytul }}</b>
-                    <br>
-                    <span>{{ Notatka.opis }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Do tego przedmiotu nie dołączono żadnych notatek.</p>
-    {% endif %}
-    <h2>Zdjęcia</h2>
-    {% if Zdjęcia %}
-        <p>Poniżej znajdują się zdjęcia i/lub skany tego przedmiotu.</p>
-        {{ Swiper_1(Zdjęcia) }}
-    {% else %}
-        <p>Do tego przedmiotu nie dołączono żadnych zdjęć/skanów.</p>
-    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

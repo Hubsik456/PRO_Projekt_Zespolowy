@@ -261,21 +261,9 @@ związanych z zarządzaniem kolekcjami użytkowników.</p>
 <dd><p>Renderuje stronę główną modułu Kolekcja.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Zwraca<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej kolekcji.</p>
-</dd>
-<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie">
-<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Podsumowanie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Podsumowanie"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie" title="Link to this definition">¶</a></dt>
-<dd><p>Renderuje stronę z podsumowaniem kolekcji.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Wyrenderowany szablon HTML strony podsumowania.</p>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML strony głównej kolekcji.
+Do którego przekazywane są przedmioty wraz z pierwszym dodanym
+do nich zdjęciem, jeśli takie istnieje.</p>
 </dd>
 <dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
@@ -614,6 +602,31 @@ Dla POST aktualizuje tytuł/opis i opcjonalnie sam plik zdjęcia.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Przedmiot">
+<span class="sig-prename descclassname"><span class="pre">Aplikacja.Kolekcja.Widoki.</span></span><span class="sig-name descname"><span class="pre">Widok_Kolekcja_Przedmiot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Aplikacja/Kolekcja/Widoki.html#Widok_Kolekcja_Przedmiot"><span class="viewcode-link"><span class="pre">[źródło]</span></span></a><a class="headerlink" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Przedmiot" title="Link to this definition">¶</a></dt>
+<dd><p>Wyświetla publiczną stronę pojedynczego przedmiotu.</p>
+<p>Pobiera z bazy danych przedmiot o podanym ID, jego publiczne notatki
+oraz wszystkie powiązane z nim zdjęcia. Jeśli zalogowany użytkownik
+jest właścicielem przedmiotu, wyświetla stosowny komunikat.</p>
+<p>Zdjęcia są przetwarzane do formatu Data URI, aby mogły być bezpośrednio
+wyświetlone w szablonie HTML.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parametry<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ID</strong> (<em>int</em>) – Identyfikator przedmiotu do wyświetlenia.</p>
+</dd>
+<dt class="field-even">Wyrzuca<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Abort</strong> – 404, jeśli przedmiot o podanym ID nie istnieje.</p>
+</dd>
+<dt class="field-odd">Zwraca<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wyrenderowany szablon HTML ze szczegółami przedmiotu.</p>
+</dd>
+<dt class="field-even">Typ zwracany<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu">
 <span id="formularze"></span><h2>Formularze<a class="headerlink" href="#module-Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu" title="Link to this heading">¶</a></h2>
@@ -727,7 +740,6 @@ tytułem i opisem.</p>
 <li><a class="reference internal" href="#">Moduł „Kolekcja”</a><ul>
 <li><a class="reference internal" href="#module-Aplikacja.Kolekcja.Widoki">Widoki</a><ul>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Index"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Index()</span></code></a></li>
-<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Podsumowanie"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Podsumowanie()</span></code></a></li>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Kolekcja"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Kolekcja()</span></code></a></li>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Moja_Kolekcja"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Moja_Kolekcja()</span></code></a></li>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Dodaj()</span></code></a></li>
@@ -743,6 +755,7 @@ tytułem i opisem.</p>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Dodaj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Dodaj()</span></code></a></li>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Edytuj"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Edytuj()</span></code></a></li>
 <li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Zdjecie_Usun"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Zdjęcie_Usuń()</span></code></a></li>
+<li><a class="reference internal" href="#Aplikacja.Kolekcja.Widoki.Widok_Kolekcja_Przedmiot"><code class="docutils literal notranslate"><span class="pre">Widok_Kolekcja_Przedmiot()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-Aplikacja.Kolekcja.Formularze.Dodanie_Przedmiotu">Formularze</a><ul>

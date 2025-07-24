@@ -17,8 +17,8 @@ from flask import (
 )
 from flask_login import current_user as CURRENT_USER, login_required as LOGIN_REQUIRED
 from flask_wtf.file import FileRequired
-from sqlalchemy.sql import func as FUNC
 from sqlalchemy.orm import selectinload as SELECTINLOAD
+from sqlalchemy.sql import func as FUNC
 
 #! Lokalne importy
 from Aplikacja.Kolekcja import Blueprint_3
@@ -44,21 +44,22 @@ def Widok_Kolekcja_Index():
     """Renderuje stronę główną modułu Kolekcja.
 
     :return: Wyrenderowany szablon HTML strony głównej kolekcji.
-    Do którego przekazywane są przedmioty wraz z pierwszym dodanym
-    do nich zdjęciem, jeśli takie istnieje
-
+        Do którego przekazywane są przedmioty wraz z pierwszym dodanym
+        do nich zdjęciem, jeśli takie istnieje.
     :rtype: str
     """
 
     # ? Wyciągnięcie przedmiotów
-    Przedmioty = DB.session.execute(
-        DB.select(Przedmiot)
-        .filter(Przedmiot.czy_prywatne == False) # Zwróci tylko publiczne
-        .order_by(Przedmiot.data_dodania.desc()) # Od najnowszych do najstarszych
-        .options(
-            SELECTINLOAD(Przedmiot.zdjecia)
+    Przedmioty = (
+        DB.session.execute(
+            DB.select(Przedmiot)
+            .filter(Przedmiot.czy_prywatne == False)  # Zwróci tylko publiczne
+            .order_by(Przedmiot.data_dodania.desc())  # Od najnowszych do najstarszych
+            .options(SELECTINLOAD(Przedmiot.zdjecia))
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
 
     # ? Lista z przedmiotami i zdjęciem (jako data_uri) do przekazania do szablonu
     Przedmioty_Z_Grafikami = []
@@ -69,15 +70,22 @@ def Widok_Kolekcja_Index():
             pierwsze_zdjecie = przedmiot.zdjecia[0]
 
             if pierwsze_zdjecie.zdjecie_dane and pierwsze_zdjecie.mimetype:
-                encoded_image = BASE64.b64encode(pierwsze_zdjecie.zdjecie_dane).decode("utf-8")
-                pierwsza_grafika_data_uri = f"data:{pierwsze_zdjecie.mimetype};base64,{encoded_image}"
+                encoded_image = BASE64.b64encode(pierwsze_zdjecie.zdjecie_dane).decode(
+                    "utf-8"
+                )
+                pierwsza_grafika_data_uri = (
+                    f"data:{pierwsze_zdjecie.mimetype};base64,{encoded_image}"
+                )
 
-        Przedmioty_Z_Grafikami.append({
-            'przedmiot': przedmiot,
-            'pierwsza_grafika_data_uri': pierwsza_grafika_data_uri,
-        })
+        Przedmioty_Z_Grafikami.append(
+            {
+                "przedmiot": przedmiot,
+                "pierwsza_grafika_data_uri": pierwsza_grafika_data_uri,
+            }
+        )
 
     return RENDER_TEMPLATE("Kolekcja/index.html", Przedmioty=Przedmioty_Z_Grafikami)
+
 
 @Blueprint_3.route("/<int:ID>/")
 @LOGIN_REQUIRED
@@ -816,6 +824,21 @@ def Widok_Kolekcja_Zdjęcie_Usuń(ID_Przedmiot, ID_Grafika):
 
 @Blueprint_3.route("/przedmiot/<int:ID>/")
 def Widok_Kolekcja_Przedmiot(ID):
+    """Wyświetla publiczną stronę pojedynczego przedmiotu.
+
+    Pobiera z bazy danych przedmiot o podanym ID, jego publiczne notatki
+    oraz wszystkie powiązane z nim zdjęcia. Jeśli zalogowany użytkownik
+    jest właścicielem przedmiotu, wyświetla stosowny komunikat.
+
+    Zdjęcia są przetwarzane do formatu Data URI, aby mogły być bezpośrednio
+    wyświetlone w szablonie HTML.
+
+    :param ID: Identyfikator przedmiotu do wyświetlenia.
+    :type ID: int
+    :raises Abort: 404, jeśli przedmiot o podanym ID nie istnieje.
+    :return: Wyrenderowany szablon HTML ze szczegółami przedmiotu.
+    :rtype: str
+    """
     przedmiot = DB.session.execute(
         DB.select(Przedmiot).filter_by(id=ID)
     ).scalar_one_or_none()
